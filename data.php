@@ -5,18 +5,26 @@ require('db.php');
 //Check authorization here
 
 function postMessage($content, $author, $timestamp) {
-	//Insert code here
 	mysql_query("INSERT INTO message (content, author, timestamp)
 	VALUES ('$content', '$author', '$timestamp')") or die(mysql_error());
-
 }
+
 function getMessages($lastReceivedId) {
-	//Insert code here
+	$newMessages = mysql_query("SELECT * FROM message WHERE message .id > $lastReceivedId");
+	$array = array();
+	while ($message = mysql_fetch_assoc($newMessages)) {
+		$array[] = $message;
+	}
+	echo json_encode($array);
 }
 
-
-function getOnlineUsers(){
-	//Insert code here
+function getOnlineUsers() {
+	$onlineUsers = mysql_query("SELECT id, status FROM user WHERE status != 0");
+	$array = array();
+	while ($user = mysql_fetch_assoc($onlineUsers)) {
+		$array[] = $user;
+	}
+	echo json_encode($array);
 }
 
 function setStatus($user, $status) {
@@ -27,11 +35,10 @@ function getAllUsers() {
 	//Insert code here
 }
 
-function editMessage($message, $content) {
-	//Insert code here
+function editMessage($messageId, $content) {
 	mysql_query("UPDATE message
 		SET content='$content', edit=1
-		WHERE id='$message'");
+		WHERE id='$messageId'");
 }
 
 //Handle actions
