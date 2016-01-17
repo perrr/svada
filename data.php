@@ -29,6 +29,9 @@ function getAllUsers() {
 
 function editMessage($message, $content) {
 	//Insert code here
+	mysql_query("UPDATE message
+		SET content='$content', edit=1
+		WHERE id='$message'");
 }
 
 //Handle actions
