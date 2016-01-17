@@ -6,13 +6,14 @@ require('db.php');
 
 function postMessage($content, $author, $timestamp) {
 	//Insert code here
-	//mysql_query("INSERT INTO message (content, author)
-	//VALUES ('Hei!', 1)") or die(mysql_error());
-}
+	mysql_query("INSERT INTO message (content, author, timestamp)
+	VALUES ('$content', '$author', '$timestamp')") or die(mysql_error());
 
+}
 function getMessages($lastReceivedId) {
 	//Insert code here
 }
+
 
 function getOnlineUsers(){
 	//Insert code here
