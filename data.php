@@ -19,7 +19,6 @@ function getOnlineUsers() {
 	$onlineUsers = mysql_query("SELECT id, status FROM user WHERE status != 0");
 	echo sqlToJson($onlineUsers);
 }
-
 function setProfilePicture($userid, $imageid){
 	mysql_query("UPDATE user
 		SET image='$imageid'
