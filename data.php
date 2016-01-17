@@ -20,13 +20,17 @@ function getOnlineUsers() {
 	echo sqlToJson($onlineUsers);
 }
 
-
+function setProfilePicture($userid, $imageid){
+	mysql_query("UPDATE user
+		SET image='$imageid'
+		WHERE id='$userid'");
+}
 
 function setStatusMessage($userid, $status_message){
 	mysql_query("UPDATE user 
 	SET status_message='$status_message'
 	WHERE id='$userid'");
-
+}
 function setStatus($userId, $status) {
 	mysql_query("UPDATE user SET status = $status WHERE id = $userId");
 }
