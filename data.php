@@ -12,14 +12,19 @@ function postMessage($content, $author, $timestamp) {
 function getMessages($lastReceivedId) {
 	$newMessages = mysql_query("SELECT * FROM message WHERE message .id > $lastReceivedId");
 	$array = array();
-	while ($message = mysql_fetch_array($newMessages)) {
+	while ($message = mysql_fetch_assoc($newMessages)) {
 		$array[] = $message;
 	}
 	echo json_encode($array);
 }
 
-function getOnlineUsers(){
-	//Insert code here
+function getOnlineUsers() {
+	$onlineUsers = mysql_query("SELECT id, status FROM user WHERE status != 0");
+	$array = array();
+	while ($user = mysql_fetch_assoc($onlineUsers)) {
+		$array[] = $user;
+	}
+	echo json_encode($array);
 }
 
 function setStatus($user, $status) {
