@@ -1,13 +1,14 @@
-function ajaxRequest(url) {
-   //Insert code here
-}
-
 function getUserArray() {
 	//Insert code here
 }
 
 function getNewMessages(lastReceivedId) {
-	//Insert code here
+	$.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), success: function(result){
+        var json = JSON.parse(result);
+		for(var i = 0; i < json.length; i++) {
+			displayMessage(json[i]);
+		}
+    }});
 }
 
 function fetchNews() {

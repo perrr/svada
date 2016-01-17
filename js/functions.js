@@ -26,3 +26,7 @@ function timestampToTimeOfDay(timestamp) {
   	var time =  hour + ':' + min;
   	return time;
   }
+
+function getFormattedDataURL(parameters) {
+	return "data.php?" + parameters.join("&");
+}
