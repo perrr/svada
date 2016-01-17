@@ -25,7 +25,8 @@ function setStatus($user, $status) {
 }
 
 function getAllUsers() {
-	//Insert code here
+	$users = mysql_query("SELECT id, username, display_name, status, image FROM user");
+	echo sqlToJson($users);
 }
 
 function editMessage($messageId, $content) {
