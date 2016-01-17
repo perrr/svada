@@ -1,6 +1,7 @@
 <?php
 //Connect to database
 require('db.php');
+require('util.php');
 
 //Check authorization here
 
@@ -11,20 +12,12 @@ function postMessage($content, $author, $timestamp) {
 
 function getMessages($lastReceivedId) {
 	$newMessages = mysql_query("SELECT * FROM message WHERE message .id > $lastReceivedId");
-	$array = array();
-	while ($message = mysql_fetch_assoc($newMessages)) {
-		$array[] = $message;
-	}
-	echo json_encode($array);
+	echo sqlToJson($newMessages);
 }
 
 function getOnlineUsers() {
 	$onlineUsers = mysql_query("SELECT id, status FROM user WHERE status != 0");
-	$array = array();
-	while ($user = mysql_fetch_assoc($onlineUsers)) {
-		$array[] = $user;
-	}
-	echo json_encode($array);
+	echo sqlToJson($onlineUsers);
 }
 
 function setStatus($user, $status) {
