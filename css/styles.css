@@ -1,0 +1,12 @@
+body {
+	padding-top: 50px;
+	background-color: #EDF9FC;
+}
+
+.login-wrapper {
+	max-width: 600px;
+}
+
+.error-message {
+	color: red;
+}

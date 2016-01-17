@@ -20,13 +20,50 @@ if(isset($_POST['username'])){
 	}
 	
 	//Store error message if login was unsuccessful
-	$message = 'Incorrect username or password.';
+	$message = '<span class="error-message">Incorrect username or password.</span>';
 }
 ?>
-
-<form action="" method="post">
-	Username <input type="text" name="username"><br>
-	Password <input type="password" name="password"><br>
-	<input type="submit" value="Log in">
-</form>
-<?php echo $message; ?>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Svada Chat Client</title>
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<link href="css/styles.css" rel="stylesheet">
+	</head>
+	<body>
+		
+		<div class="container login-wrapper">
+			<div class="panel panel-primary">
+				  <div class="panel-heading login-header"><h3>Log in to Svada</h3></div>
+				  <div class="panel-body">
+				  
+					<form action="" method="post">
+						<div class="form-group">
+							<label for="username">Username</label>
+							<input type="text" name="username" class="form-control" id="username">
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" name="password" class="form-control" id="password">
+						</div>
+						<div class="form-group">
+						<?php echo $message; ?></span>
+						</div>
+						<input type="submit" class="btn btn-primary btn-block" value="Log in">
+					</form>
+				  </div>
+			</div>
+		</div>
+		
+		<!-- Scripts -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+	</body>
+</html>
