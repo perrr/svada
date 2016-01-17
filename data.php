@@ -20,8 +20,16 @@ function getOnlineUsers() {
 	echo sqlToJson($onlineUsers);
 }
 
-function setStatus($user, $status) {
-	//Insert code here
+function setStatus($userid, $status) {
+	mysql_query("UPDATE user 
+		SET status='$status'
+		WHERE id='$userid'");
+}
+
+function setStatusMessage($userid, $status_message){
+	mysql_query("UPDATE user 
+	SET status_message='$status_message'
+	WHERE id='$userid'");
 }
 
 function getAllUsers() {
