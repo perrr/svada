@@ -16,5 +16,15 @@ function statusIdToText(id) {
 document.write( statusIsToText(2) )
 
 function timestampToTimeOfDay(timestamp) {
-	//Insert code here
+	var a = new Date(UNIX_timestamp * 1000);
+  var hour = a.getHours();
+  if(hour<10){
+  hour= '0'+hour;
+  }
+  var min = a.getMinutes();
+  if(min<10){
+  min= '0'+min;
+  }
+  var time =  hour + ':' + min;
+  return time
 }
