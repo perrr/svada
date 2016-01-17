@@ -13,8 +13,6 @@ function statusIdToText(id) {
    	return 'Occupied';
    }
 }
-document.write( statusIsToText(2) )
-
 function timestampToTimeOfDay(timestamp) {
 	var a = new Date(UNIX_timestamp * 1000);
   var hour = a.getHours();
