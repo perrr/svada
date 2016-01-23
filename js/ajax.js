@@ -2,6 +2,10 @@ function getUserArray() {
 	//Insert code here
 }
 
+function getEmoticonArray() {
+	//Insert code here
+}
+
 function getNewMessages(lastReceivedId) {
 	$.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), success: function(result){
         var json = JSON.parse(result);
@@ -17,4 +21,12 @@ function fetchNews() {
 
 function displayMessage(message) {
 	//Insert code here	
+}
+
+function postMessage(content, userId) {
+	//Insert code here
+}
+
+function setPassword(newPassword, oldPassword, userId) {
+	//Insert code here
 }

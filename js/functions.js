@@ -13,6 +13,10 @@ function statusIdToText(id) {
    	}
 }
 
+function getCurrentTimestamp(){
+	//Insert code here
+}
+
 function timestampToTimeOfDay(timestamp) {
 	var a = new Date(UNIX_timestamp * 1000);
   	var hour = a.getHours();
@@ -25,7 +29,7 @@ function timestampToTimeOfDay(timestamp) {
   	}
   	var time =  hour + ':' + min;
   	return time;
-  }
+}
 
 function getFormattedDataURL(parameters) {
 	return "data.php?" + parameters.join("&");

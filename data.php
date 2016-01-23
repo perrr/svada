@@ -15,12 +15,16 @@ function getMessages($lastReceivedId) {
 	echo sqlToJson($newMessages);
 }
 
+function getMessagesNewerThan($timeLimit) {
+	//Insert code here
+}
+
 function getOnlineUsers() {
 	$onlineUsers = mysql_query("SELECT id, status FROM user WHERE status != 0");
 	echo sqlToJson($onlineUsers);
 }
 
-function setProfilePicture($userid, $imageid){
+function setProfilePicture($userid, $imageid) {
 	mysql_query("UPDATE user
 		SET image='$imageid'
 		WHERE id='$userid'");
@@ -31,6 +35,7 @@ function setStatusMessage($userid, $status_message){
 	SET status_message='$status_message'
 	WHERE id='$userid'");
 }
+
 function setStatus($userId, $status) {
 	mysql_query("UPDATE user SET status = $status WHERE id = $userId");
 }
@@ -44,6 +49,14 @@ function editMessage($messageId, $content) {
 	mysql_query("UPDATE message
 		SET content='$content', edit=1
 		WHERE id='$messageId'");
+}
+
+function setPassword($userId, $newPassword, $oldPassword) {
+	//Insert code here
+}
+
+function getAllEmoticons() {
+	//Insert code here
 }
 
 //Handle actions
@@ -61,4 +74,10 @@ elseif($_GET['action'] == 'getAllUsers') {
 }
 elseif($_GET['action'] == 'editMessage') {
 	editMessage($_GET['message'], $_GET['content']);
+}
+elseif($_GET['action'] == 'setPassword') {
+	setPassword($_GET['user'], $_GET['newPassword'], $_GET['oldPassword']);
+}
+elseif($_GET['action'] == 'getAllEmoticons') {
+	getAllEmoticons();
 }
