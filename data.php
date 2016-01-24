@@ -30,9 +30,9 @@ function setProfilePicture($userid, $imageid) {
 		WHERE id='$userid'");
 }
 
-function setStatusMessage($userid, $status_message){
+function setStatusMessage($userid, $statusMessage){
 	mysql_query("UPDATE user 
-	SET status_message='$status_message'
+	SET status_message='$statusMessage'
 	WHERE id='$userid'");
 }
 
@@ -81,5 +81,13 @@ elseif($_GET['action'] == 'setPassword') {
 elseif($_GET['action'] == 'getAllEmoticons') {
 	getAllEmoticons();
 }
-
+elseif($_GET['action'] == 'getOnlineUsers') {
+	getOnlineUsers();
+}
+elseif($_GET['action'] == 'setProfilePicture') {
+	setProfilePicture($_GET['user'], $_GET['image']);
+}
+elseif($_GET['action'] == 'setStatusMessage') {
+	setStatusMessage($_GET['user'], $_GET['statusMessage']);
+}
 ?>
