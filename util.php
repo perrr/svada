@@ -20,9 +20,15 @@ function escapeArray($array){
 	 return $array;
 }
 
-function query($query) {
+function getQuery($query) {
 	global $connection;
-	return mysqli_query($connection, $query);
+	$sql = mysqli_query($connection, $query) or die(mysql_error());
+	return $sql;
+}
+
+function setQuery($query) {
+	global $connection;
+	mysqli_query($connection, $query) or die(mysql_error());
 }
 
 ?>

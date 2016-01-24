@@ -1,8 +1,7 @@
 <?php
 
 session_start();
-//Connect to database
-require('db.php');
+
 require('util.php');
 
 //Check authorization here
