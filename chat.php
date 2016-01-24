@@ -12,12 +12,6 @@ require('db.php');
 
 //For convenience, store session in a variable with a shorter name
 $user = $_SESSION['user'];
-
-//Preload some messages. We should probably set a date cap or something?
-$messages = mysql_query("SELECT * FROM message, user WHERE message.author = user.id");
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -35,11 +29,8 @@ $messages = mysql_query("SELECT * FROM message, user WHERE message.author = user
 		<link href="css/styles.css" rel="stylesheet">
 	</head>
 	<body>
-		<?php
-		while ($message = mysql_fetch_array($messages)) {
-			echo $message['display_name'].': '.$message['content'].' ('.date('H:i:s', $message['timestamp']).')<br>';
-		}
-		?>
+		
+		<div id="messages"></div>
 		
 		<!-- Scripts -->
 		<script src="js/jquery.min.js"></script>

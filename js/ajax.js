@@ -20,7 +20,8 @@ function fetchNews() {
 }
 
 function displayMessage(message) {
-	//Insert code here	
+	var messageHTML = '<div class="message"><span class="message-author">'+ message["author"] + '</span><span class="message-content">'+ message["content"] + '</span><span class="message-timestamp">' + timestampToTimeOfDay(message["timestamp"]) + '</div>';
+	$("#messages").append(messageHTML);
 }
 
 function postMessage(content, userId) {
