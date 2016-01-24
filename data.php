@@ -20,12 +20,11 @@ function getOnlineUsers() {
 	echo sqlToJson($onlineUsers);
 }
 
-
-
 function setStatusMessage($userid, $status_message){
 	mysql_query("UPDATE user 
 	SET status_message='$status_message'
 	WHERE id='$userid'");
+}
 
 function setStatus($userId, $status) {
 	mysql_query("UPDATE user SET status = $status WHERE id = $userId");
@@ -58,3 +57,5 @@ elseif($_GET['action'] == 'getAllUsers') {
 elseif($_GET['action'] == 'editMessage') {
 	editMessage($_GET['message'], $_GET['content']);
 }
+
+?>
