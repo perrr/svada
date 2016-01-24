@@ -53,7 +53,20 @@ function editMessage($messageId, $content) {
 }
 
 function setPassword($userId, $newPassword, $oldPassword) {
-	//Insert code here
+	$correctPassword = mysql_result(mysql_query("SELECT password 
+		FROM user 
+		WHERE id ='$userId'"), 0);
+	if(md5($oldPassword) == $correctPassword){
+		echo "correctPassword";
+		$hashedNewPassword = md5($newPassword);
+		mysql_query(("UPDATE user
+		SET password = '$hashedNewPassword'
+		WHERE id='$userId'"));
+		return "";
+	}
+	else{
+		return '{"error": "Incorrect old password."}';
+	}
 }
 
 function getAllEmoticons() {
