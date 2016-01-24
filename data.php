@@ -16,7 +16,8 @@ function getMessages($lastReceivedId) {
 }
 
 function getMessagesNewerThan($timeLimit) {
-	//Insert code here
+	$limitMessages = mysql_query("SELECT * FROM message WHERE message .timestamp > $timeLimit");
+	echo sqlToJson($limitMessages)
 }
 
 function getOnlineUsers() {
@@ -56,7 +57,8 @@ function setPassword($userId, $newPassword, $oldPassword) {
 }
 
 function getAllEmoticons() {
-	//Insert code here
+	$emotes = mysql_query("SELECT * FROM emoticon");
+	echo sqlToJson($users);
 }
 
 //Handle actions
