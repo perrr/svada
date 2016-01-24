@@ -13,18 +13,22 @@ function statusIdToText(id) {
    	}
 }
 
+function getCurrentTimestamp(){
+	//Insert code here
+}
+
 function timestampToTimeOfDay(timestamp) {
-	var a = new Date(UNIX_timestamp * 1000);
-  	var hour = a.getHours();
-  	if(hour<10){
-  		hour= '0'+hour;
-  	}
-  	var min = a.getMinutes();
-  	if(min<10){
-  		min= '0'+min;
-  	}
-  	var time =  hour + ':' + min;
-  	return time;
+    var a = new Date(timestamp * 1000);
+    var hour = a.getHours();
+    if(hour<10){
+      hour= '0'+hour;
+    }
+    var min = a.getMinutes();
+    if(min<10){
+      min= '0'+min;
+    }
+    var time =  hour + ':' + min;
+    return time;
   }
 
 function getFormattedDataURL(parameters) {

@@ -8,4 +8,8 @@ function sqlToJson($sql) {
 	echo json_encode($json, JSON_NUMERIC_CHECK);
 }
 
+function escapeArray($array){
+	//Insert code here
+}
+
 ?>
