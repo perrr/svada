@@ -25,7 +25,8 @@ function displayMessage(message) {
 }
 
 function postMessage(content, userId) {
-	//Insert code here
+	$.ajax({url: getFormattedDataURL(["action=postMessage", "content="+content, "user="+userId, "timestamp="+getCurrentTimestamp()]), success: function(result){
+	}});
 }
 
 function setPassword(newPassword, oldPassword, userId) {
