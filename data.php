@@ -17,7 +17,7 @@ function getMessages($lastReceivedId) {
 
 function getMessagesNewerThan($timeLimit) {
 	$limitMessages = mysql_query("SELECT * FROM message WHERE message .timestamp > $timeLimit");
-	echo sqlToJson($limitMessages)
+	echo sqlToJson($limitMessages);
 }
 
 function getOnlineUsers() {

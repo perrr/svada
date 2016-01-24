@@ -1,5 +1,12 @@
+var userArray = [];
+
 function getUserArray() {
-	//Insert code here
+	$.ajax({url: getFormattedDataURL(["action=getAllUsers"]), success: function(result){
+		var json = JSON.parse(result);
+		for(var i = 0; i < json.length; i++) {
+			userArray[json[i]["id"]] = {username:json[i]["username"], displayName:json[i]["display_name"], status:json[i]["status"], image:json[i]["image"]};
+		}
+	}});
 }
 
 function getEmoticonArray() {
