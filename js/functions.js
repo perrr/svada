@@ -14,7 +14,7 @@ function statusIdToText(id) {
 }
 
 function getCurrentTimestamp(){
-	return Math.floor(Date.now();
+	return Date.now();
 }
 
 function timestampToTimeOfDay(timestamp) {
