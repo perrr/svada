@@ -1,4 +1,6 @@
 <?php
+
+session_start();
 //Connect to database
 require('db.php');
 require('util.php');
@@ -77,7 +79,10 @@ function getAllEmoticons() {
 $_GET = escapeArray($_GET);
 
 //Handle actions
-if($_GET['action'] == 'postMessage') {
+if($user != $_SESSION['user']['id']){
+	echo '{"error": "Invalid action."}';
+}
+elseif($_GET['action'] == 'postMessage') {
 	postMessage($_GET['content'], $_GET['user'], $_GET['timestamp']);
 }
 elseif($_GET['action'] == 'getMessages') {
