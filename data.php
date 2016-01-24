@@ -81,3 +81,5 @@ elseif($_GET['action'] == 'setPassword') {
 elseif($_GET['action'] == 'getAllEmoticons') {
 	getAllEmoticons();
 }
+
+?>
