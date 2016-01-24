@@ -9,7 +9,11 @@ function sqlToJson($sql) {
 }
 
 function escapeArray($array){
-	//Insert code here
+	$keys = array_keys($array);
+	foreach ($keys as  $key) {
+	 	$array[$key] = mysql_real_escape_string($array[$key]);
+	 }
+	 return $array;
 }
 
 ?>

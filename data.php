@@ -60,6 +60,8 @@ function getAllEmoticons() {
 	$emotes = mysql_query("SELECT * FROM emoticon");
 	echo sqlToJson($users);
 }
+//Escape all input
+$_GET = escapeArray($_GET);
 
 //Handle actions
 if($_GET['action'] == 'postMessage') {
