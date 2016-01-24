@@ -1,9 +1,20 @@
+var emoticonArray = {};
+
+
 function getUserArray() {
 	//Insert code here
 }
 
 function getEmoticonArray() {
-	//Insert code here
+	$.ajax({url: getFormattedDataURL(["action=getAllEmoticons"]), success: function(result){
+        var json = JSON.parse(result);
+		for(var i = 0; i<json.length; i++) {
+			var allShortcuts = json[i]["shortcut"].split(" ");
+			for(var d = 0; d<allShortcuts.length; d++){
+				emoticonArray[allShortcuts[d]]= {path:json[i]["path"], name:json[i]["name"]};
+			}
+		}
+	}});
 }
 
 function getNewMessages(lastReceivedId) {
@@ -29,6 +40,8 @@ function postMessage(content, userId) {
 	}});
 }
 
-function setPassword(newPassword, oldPassword, userId) {
-	//Insert code here
-}
+//function setPassword(newPassword, oldPassword, userId) {
+	//$.ajax({url: getFormattedDataURL(["action=setPassword", "$userId"=userId, "$newPassword"=newPassword, "$oldPassword"=oldPassword]), success: function(result){
+		//var json = JSON.parse(result)
+		//Insert code here. json is either empty (success)/successmessage or has an errormessage
+//}

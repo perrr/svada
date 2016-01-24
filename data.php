@@ -58,7 +58,7 @@ function setPassword($userId, $newPassword, $oldPassword) {
 
 function getAllEmoticons() {
 	$emotes = mysql_query("SELECT * FROM emoticon");
-	echo sqlToJson($users);
+	echo sqlToJson($emotes);
 }
 
 //Handle actions
