@@ -22,21 +22,39 @@ function getEmoticonArray() {
 	}});
 }
 
-function getNewMessages(lastReceivedId) {
+var lastReceivedId = 0;
+var messages = [];
+
+function getNewMessages() {
 	$.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), success: function(result){
-        var json = JSON.parse(result);
+		var json = JSON.parse(result);
 		for(var i = 0; i < json.length; i++) {
-			displayMessage(json[i]);
+			var id = json[i]['id'];
+			
+			//Update lastReceivedId if necessary
+			if (id > lastReceivedId)
+				lastReceivedId = json[i]['id'];
+			
+			//If the message is previously unrecieved, add it to array and display it
+			if (!(id in messages)) {
+				messages[id] = json[i];
+				displayMessage(json[i]);
+			}
 		}
     }});
 }
 
 function fetchNews() {
-	//Insert code here
+	window.setInterval(function(){
+		getNewMessages();
+	}, 1000);
 }
 
+fetchNews();
+getUserArray();
+
 function displayMessage(message) {
-	var messageHTML = '<div class="message"><span class="message-author">'+ message["author"] + '</span><span class="message-content">'+ message["content"] + '</span><span class="message-timestamp">' + timestampToTimeOfDay(message["timestamp"]) + '</div>';
+	var messageHTML = '<div class="message"><span class="message-author">'+ userArray[message["author"]].displayName + '</span><span class="message-content">'+ message["content"] + '</span><span class="message-timestamp">' + timestampToTimeOfDay(message["timestamp"]) + '</div>';
 	$("#messages").append(messageHTML);
 }
 
