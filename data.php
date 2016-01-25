@@ -78,7 +78,7 @@ function getAllEmoticons() {
 $_GET = escapeArray($_GET);
 
 //Handle actions
-if($user != $_SESSION['user']['id']){
+if(isset($_GET['user']) && $_GET['user'] != $_SESSION['user']['id']){
 	echo '{"error": "Invalid action."}';
 }
 elseif($_GET['action'] == 'postMessage') {
