@@ -53,6 +53,18 @@ function editMessage($messageId, $content) {
 		WHERE id='$messageId'");
 }
 
+function setHighPriorityUserInformation($userId, $status, $isTyping) {
+	//Insert code here
+}
+
+function setLowPriorityUserInformation($userId, $statusMessage, $imageId) {
+	//Insert code here
+}
+
+function searchMessages($string, $caseSensitive, $userId) {
+	//Insert code here
+}
+
 function setPassword($userId, $newPassword, $oldPassword) {
 	$correctPassword = mysql_result(mysql_query("SELECT password 
 		FROM user 
@@ -74,6 +86,12 @@ function getAllEmoticons() {
 	$emotes = mysql_query("SELECT * FROM emoticon");
 	echo sqlToJson($emotes);
 }
+
+
+function setTopic($topic, $userId) {
+	//Insert code here
+}
+
 //Escape all input
 $_GET = escapeArray($_GET);
 

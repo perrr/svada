@@ -31,6 +31,25 @@ function timestampToTimeOfDay(timestamp) {
   	return time;
 }
 
+function timestampToDateAndTime(timestamp, monthDayYear) {
+	//Insert code here
+}
+
 function getFormattedDataURL(parameters) {
 	return "data.php?" + parameters.join("&");
+}
+
+function getEmoticonHTML(emoticon){
+	//Insert code here
+}
+
+function parseMessage(message) {
+	//Replace emoticon shortcuts with HTML image
+	//Insert code here
+	
+	//Make URL's clickable with HTML
+	//Insert code here
+	
+	//Return parsed message
+	return message;
 }

@@ -31,4 +31,8 @@ function setQuery($query) {
 	mysqli_query($connection, $query) or die(mysql_error());
 }
 
+function printJson($json) {
+	//Insert code here
+}
+
 ?>
