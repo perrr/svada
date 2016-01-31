@@ -37,4 +37,8 @@ function printJson($json) {
 	 echo $json;
 }
 
+function printColumn($sql, $column) {
+
+}
+
 ?>

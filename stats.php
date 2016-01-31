@@ -7,14 +7,41 @@ if(!isset($_SESSION['user'])){
 	die();
 }
 
-//Connect to database
-require('db.php');
+require('util.php');
 
 //For convenience, store session in a variable with a shorter name
 $user = $_SESSION['user'];
 
+function printPercentage($number, $total) {
+	$perc =($number / $total) * 100;
+	echo ' ('.round($perc, 2).' %)';
+}
+
 //Database queries
-//Insert code here
+$messages = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message"))['COUNT(*)'];
+echo 'Number of messages: ';
+echo $messages;
+$users = getQuery("SELECT id, username FROM user");
+echo '<br><br>';
+foreach ($users as $user) {
+	$id = $user['id'];
+	$userMessages = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE author = $id"))['COUNT(*)'];
+	echo $user['username'].': ';
+	echo $userMessages;
+	printPercentage($userMessages, $messages);
+	echo '<br>';
+}
+echo '<br>';
+echo 'Messages from Skype: ';
+$skype = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE skype = 1"))['COUNT(*)'];
+echo $skype;
+printPercentage($skype, $messages);
+echo '<br>';
+echo 'Messages not from Skype: ';
+$notSkype = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE skype = 0"))['COUNT(*)'];
+echo $notSkype;
+printPercentage($notSkype, $messages);
+
 ?>
 
 <!DOCTYPE html>
