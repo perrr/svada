@@ -17,6 +17,10 @@ function getEmoticonArray() {
 	}});
 }
 
+function getImageArray() {
+	//Insert code here
+}
+
 function getNewMessages() {
 	$.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), success: function(json){
 		for(var i = 0; i < json.length; i++) {

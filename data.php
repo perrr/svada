@@ -63,6 +63,7 @@ function setLowPriorityUserInformation($userId, $statusMessage, $imageId) {
 		SET status_message = '$statusMessage', image = '$imageId'
 		WHERE id='$userId'");
 }
+
 function searchMessages($string, $caseSensitive, $userId) {
 	if($userId==0){
 		if($caseSensitive){
@@ -113,6 +114,9 @@ function getAllEmoticons() {
 	printJson(sqlToJson($emotes));
 }
 
+function getAllImages() {
+	//Insert code here	
+}
 
 function setTopic($topic, $userId) {
 	setQuery("UPDATE chat
@@ -122,7 +126,19 @@ function setTopic($topic, $userId) {
 		VALUES ('$content', 0)
 		");
 }
-setTopic("Tidene forandrer seg", 1);
+
+function getTopic() {
+	//Insert code here
+}
+
+function setChatImage($image, $userId) {
+	//Insert code here
+}
+
+function getChatImage() {
+	//Insert code here
+}
+
 //Escape all input
 $_GET = escapeArray($_GET);
 
