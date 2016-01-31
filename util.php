@@ -23,13 +23,13 @@ function escapeArray($array){
 
 function getQuery($query) {
 	global $connection;
-	$sql = mysqli_query($connection, $query) or die(mysqli_error());
+	$sql = mysqli_query($connection, $query) or die(mysqli_error($connection));
 	return $sql;
 }
 
 function setQuery($query) {
 	global $connection;
-	mysqli_query($connection, $query) or die(mysqli_error());
+	mysqli_query($connection, $query) or die(mysqli_error($connection));
 }
 
 function printJson($json) {
