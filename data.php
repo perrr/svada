@@ -12,7 +12,7 @@ function postMessage($content, $author, $timestamp) {
 
 function getMessages($lastReceivedId) {
 	$newMessages = getQuery("SELECT * FROM message WHERE message .id > $lastReceivedId");
-	echo sqlToJson($newMessages);
+	printJson(sqlToJson($newMessages));
 }
 
 function getMessagesNewerThan($timeLimit) {
@@ -22,7 +22,6 @@ function getMessagesNewerThan($timeLimit) {
 
 function getOnlineUsers() {
 	$onlineUsers = getQuery("SELECT id, status FROM user WHERE status != 0");
-	echo sqlToJson($onlineUsers);
 	printJson(sqlToJson($newMessages));
 }
 
