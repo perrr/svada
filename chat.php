@@ -35,6 +35,7 @@ $user = $_SESSION['user'];
 		<!-- Scripts -->
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
+		<script src="js/global.js"></script>
 		<script src="js/functions.js"></script>
 		<script src="js/ajax.js"></script>
 	</body>

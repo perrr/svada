@@ -1,9 +1,5 @@
-var emoticonArray = {};
-var userArray = [];
-
 function getUserArray() {
-	$.ajax({url: getFormattedDataURL(["action=getAllUsers"]), success: function(result){
-		var json = JSON.parse(result);
+	$.ajax({url: getFormattedDataURL(["action=getAllUsers"]), success: function(json){
 		for(var i = 0; i < json.length; i++) {
 			userArray[json[i]["id"]] = {username:json[i]["username"], displayName:json[i]["display_name"], status:json[i]["status"], image:json[i]["image"]};
 		}
@@ -11,8 +7,7 @@ function getUserArray() {
 }
 
 function getEmoticonArray() {
-	$.ajax({url: getFormattedDataURL(["action=getAllEmoticons"]), success: function(result){
-        var json = JSON.parse(result);
+	$.ajax({url: getFormattedDataURL(["action=getAllEmoticons"]), success: function(json){
 		for(var i = 0; i<json.length; i++) {
 			var allShortcuts = json[i]["shortcut"].split(" ");
 			for(var d = 0; d<allShortcuts.length; d++){
@@ -22,12 +17,8 @@ function getEmoticonArray() {
 	}});
 }
 
-var lastReceivedId = 0;
-var messages = [];
-
 function getNewMessages() {
-	$.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), success: function(result){
-		var json = JSON.parse(result);
+	$.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), success: function(json){
 		for(var i = 0; i < json.length; i++) {
 			var id = json[i]['id'];
 			
