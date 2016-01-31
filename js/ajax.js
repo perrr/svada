@@ -63,8 +63,11 @@ function postMessage(content, userId) {
 	}});
 }
 
-//function setPassword(newPassword, oldPassword, userId) {
-	//$.ajax({url: getFormattedDataURL(["action=setPassword", "$userId"=userId, "$newPassword"=newPassword, "$oldPassword"=oldPassword]), success: function(result){
-		//var json = JSON.parse(result)
-		//Insert code here. json is either empty (success)/successmessage or has an errormessage
-//}
+function setPassword(newPassword, oldPassword, userId) {
+	$.ajax({url: getFormattedDataURL(["action=setPassword", "$userId"=userId, "$newPassword"=newPassword, "$oldPassword"=oldPassword]), success: function(result){
+		var json = JSON.parse(result)
+		if (json == "")
+			//Insert code herefor empty result(success)
+		else
+			//Insert code here for errormessage
+}

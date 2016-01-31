@@ -40,16 +40,34 @@ function getFormattedDataURL(parameters) {
 }
 
 function getEmoticonHTML(emoticon){
-	//Insert code here
+	var path = emoticon[0];
+	var name = emoticon[1];
+	var html = '<img class="message-smiley" src="'+path+'" title="'+name+'">' 
+	//alert(html)
+	return html
 }
+//getEmoticonHTML({"haha.png","funny"});
 
 function parseMessage(message) {
 	//Replace emoticon shortcuts with HTML image
 	//Insert code here
+	var newmessage = ""
+	var shortcuts = Object.keys(emoticonArray);
+	var allWords = message.split(" ");
+	for (var word in allWords){
+		if (shortcuts.indexOf(word) != -1){
+			newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
+		}
+		else{
+			newmessage = newmessage + " " + word
+		}
+	}
+		
+	
 	
 	//Make URL's clickable with HTML
 	//Insert code here
 	
 	//Return parsed message
-	return message;
+	return newmessage;
 }
