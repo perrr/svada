@@ -64,10 +64,14 @@ function postMessage(content, userId) {
 }
 
 function setPassword(newPassword, oldPassword, userId) {
-	$.ajax({url: getFormattedDataURL(["action=setPassword", "$userId"=userId, "$newPassword"=newPassword, "$oldPassword"=oldPassword]), success: function(result){
-		var json = JSON.parse(result)
-		if (json == "")
+	$.ajax({url: getFormattedDataURL(["action=setPassword", "user="+userId, "newPassword="+newPassword, "oldPassword="+oldPassword]), success: function(result){
+		if (Object.keys(json).length ==0){
+			continue;
 			//Insert code herefor empty result(success)
-		else
+		}
+		else {
+			continue;
 			//Insert code here for errormessage
+		}
+	}});
 }

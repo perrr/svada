@@ -58,13 +58,11 @@ function getFormattedDataURL(parameters) {
 }
 
 function getEmoticonHTML(emoticon){
-	var path = emoticon[0];
-	var name = emoticon[1];
+	var path = emoticon["path"];
+	var name = emoticon["name"];
 	var html = '<img class="message-smiley" src="'+path+'" title="'+name+'">' 
-	//alert(html)
 	return html
 }
-//getEmoticonHTML({"haha.png","funny"});
 
 function parseMessage(message) {
 	var newmessage = ""
@@ -88,3 +86,4 @@ function parseMessage(message) {
 	//Return parsed message
 	return newmessage;
 }
+
