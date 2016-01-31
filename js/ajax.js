@@ -43,9 +43,10 @@ function fetchNews() {
 
 fetchNews();
 getUserArray();
+getEmoticonArray();
 
 function displayMessage(message) {
-	var messageHTML = '<div class="message"><span class="message-author">'+ userArray[message["author"]].displayName + '</span><span class="message-content">'+ message["content"] + '</span><span class="message-timestamp">' + timestampToTimeOfDay(message["timestamp"]) + '</div>';
+	var messageHTML = '<div class="message"><span class="message-author">'+ userArray[message["author"]].displayName + '</span><span class="message-content">'+ parseMessage(message["content"]) + '</span><span class="message-timestamp">' + timestampToTimeOfDay(message["timestamp"]) + '</div>';
 	$("#messages").append(messageHTML);
 }
 
