@@ -3,14 +3,14 @@ session_start();
 $message = '';
 
 if(isset($_POST['username'])){
-	require('db.php');
+	require('util.php');
 	
 	//Preprocess username and password
 	$username = strtolower(mysql_real_escape_string($_POST['username']));
 	$password = md5(mysql_real_escape_string($_POST['password']));
 	
 	//Look for matching users
-	$user = mysql_fetch_array(mysql_query("SELECT * FROM user WHERE username = '$username' AND password = '$password'"));
+	$user = mysqli_fetch_array(getQuery("SELECT * FROM user WHERE username = '$username' AND password = '$password'"));
 	
 	//If a matching user was found, redirect to chat
 	if(!empty($user)){
