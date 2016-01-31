@@ -15,20 +15,20 @@ function sqlToJson($sql) {
 function escapeArray($array){
 	$keys = array_keys($array);
 	foreach ($keys as  $key) {
-	 	$array[$key] = mysql_real_escape_string($array[$key]);
+	 	$array[$key] = mysqli_real_escape_string($array[$key]);
 	 }
 	 return $array;
 }
 
 function getQuery($query) {
 	global $connection;
-	$sql = mysqli_query($connection, $query) or die(mysql_error());
+	$sql = mysqli_query($connection, $query) or die(mysqli_error());
 	return $sql;
 }
 
 function setQuery($query) {
 	global $connection;
-	mysqli_query($connection, $query) or die(mysql_error());
+	mysqli_query($connection, $query) or die(mysqli_error());
 }
 
 function printJson($json) {

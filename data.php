@@ -71,7 +71,8 @@ function setPassword($userId, $newPassword, $oldPassword) {
 	$correctPassword = $row['password'];
 	if (md5($oldPassword) == $correctPassword) {
 		echo "correctPassword";
-	if(md5($oldPassword) == $correctPassword){
+	}
+	if (md5($oldPassword) == $correctPassword){
 		$hashedNewPassword = md5($newPassword);
 		setQuery("UPDATE user
 		SET password = '$hashedNewPassword'
