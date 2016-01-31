@@ -31,6 +31,7 @@ $user = $_SESSION['user'];
 	<body>
 		
 		<div id="messages"></div>
+		<textarea id="message-text-field"></textarea> 
 		
 		<!-- Scripts -->
 		<script src="js/jquery.min.js"></script>
@@ -38,5 +39,6 @@ $user = $_SESSION['user'];
 		<script src="js/global.js"></script>
 		<script src="js/functions.js"></script>
 		<script src="js/ajax.js"></script>
+		<script src="js/listeners.js"></script>
 	</body>
 </html>

@@ -69,7 +69,6 @@ function parseMessage(message) {
 	var shortcuts = Object.keys(emoticonArray);
 	var allWords = message.split(" ");
 	var urlPattern = new RegExp("(http|ftp|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?");
-	alert(allWords);
 	for (var wordindex in allWords){
 		var word = allWords[wordindex];
 		//Make URL's clickable with HTML
