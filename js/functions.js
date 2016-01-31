@@ -61,18 +61,23 @@ function getEmoticonHTML(emoticon){
 	var path = emoticon["path"];
 	var name = emoticon["name"];
 	var html = '<img class="message-smiley" src="'+path+'" title="'+name+'">' 
-	return html
+	return html;
 }
+
+function isUrl(string) {
+	var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+	var regex = new RegExp(expression);
+	return string.match(regex);
+ }
 
 function parseMessage(message) {
 	var newmessage = "";
 	var shortcuts = Object.keys(emoticonArray);
 	var allWords = message.split(" ");
-	var urlPattern = new RegExp("(http|ftp|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?");
 	for (var wordindex in allWords){
 		var word = allWords[wordindex];
 		//Make URL's clickable with HTML
-		if (urlPattern.test(word)){
+		if (isUrl(word)){
 			newmessage = newmessage + " " + '<a href="' + word + '" target="_blank">' + word + '</a>';
 		}
 		//Replace emoticon shortcuts with HTML image
