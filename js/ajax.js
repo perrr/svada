@@ -43,9 +43,10 @@ function fetchNews() {
 
 fetchNews();
 getUserArray();
+getEmoticonArray();
 
 function displayMessage(message) {
-	var messageHTML = '<div class="message"><span class="message-author">'+ userArray[message["author"]].displayName + '</span><span class="message-content">'+ message["content"] + '</span><span class="message-timestamp">' + timestampToTimeOfDay(message["timestamp"]) + '</div>';
+	var messageHTML = '<div class="message"><span class="message-author">'+ userArray[message["author"]].displayName + '</span><span class="message-content">'+ parseMessage(message["content"]) + '</span><span class="message-timestamp">' + timestampToTimeOfDay(message["timestamp"]) + '</div>';
 	$("#messages").append(messageHTML);
 }
 
@@ -54,8 +55,15 @@ function postMessage(content, userId) {
 	}});
 }
 
-//function setPassword(newPassword, oldPassword, userId) {
-	//$.ajax({url: getFormattedDataURL(["action=setPassword", "$userId"=userId, "$newPassword"=newPassword, "$oldPassword"=oldPassword]), success: function(result){
-		//var json = JSON.parse(result)
-		//Insert code here. json is either empty (success)/successmessage or has an errormessage
-//}
+function setPassword(newPassword, oldPassword, userId) {
+	$.ajax({url: getFormattedDataURL(["action=setPassword", "user="+userId, "newPassword="+newPassword, "oldPassword="+oldPassword]), success: function(result){
+		if (Object.keys(json).length ==0){
+			continue;
+			//Insert code herefor empty result(success)
+		}
+		else {
+			continue;
+			//Insert code here for errormessage
+		}
+	}});
+}

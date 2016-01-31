@@ -58,16 +58,34 @@ function getFormattedDataURL(parameters) {
 }
 
 function getEmoticonHTML(emoticon){
-	//Insert code here
+	var path = emoticon["path"];
+	var name = emoticon["name"];
+	var html = '<img class="message-smiley" src="'+path+'" title="'+name+'">' 
+	return html
 }
 
 function parseMessage(message) {
-	//Replace emoticon shortcuts with HTML image
-	//Insert code here
-	
-	//Make URL's clickable with HTML
-	//Insert code here
+	var newmessage = "";
+	var shortcuts = Object.keys(emoticonArray);
+	var allWords = message.split(" ");
+	var urlPattern = new RegExp("(http|ftp|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?");
+	alert(allWords);
+	for (var wordindex in allWords){
+		var word = allWords[wordindex];
+		//Make URL's clickable with HTML
+		if (urlPattern.test(word)){
+			newmessage = newmessage + " " + '<a href="' + word + '" target="_blank">' + word + '</a>';
+		}
+		//Replace emoticon shortcuts with HTML image
+		else if (shortcuts.indexOf(word) != -1){
+			newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
+		}
+		else{
+			newmessage = newmessage + " " + word;
+		}
+	}
 	
 	//Return parsed message
-	return message;
+	return newmessage;
 }
+
