@@ -3,7 +3,7 @@ session_start();
 $message = '';
 
 if(isset($_POST['username'])){
-	require('db.php');
+	require('util.php');
 	
 	//Preprocess username and password
 	$username = strtolower(mysql_real_escape_string($_POST['username']));
