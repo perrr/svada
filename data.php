@@ -3,7 +3,6 @@
 session_start();
 
 require('util.php');
-
 //Check authorization here
 
 function postMessage($content, $author, $timestamp) {
@@ -18,12 +17,13 @@ function getMessages($lastReceivedId) {
 
 function getMessagesNewerThan($timeLimit) {
 	$limitMessages = getQuery("SELECT * FROM message WHERE message .timestamp > $timeLimit");
-	echo sqlToJson($limitMessages);
+	printJson(sqlToJson($limitMessages));
 }
 
 function getOnlineUsers() {
 	$onlineUsers = getQuery("SELECT id, status FROM user WHERE status != 0");
 	echo sqlToJson($onlineUsers);
+	printJson(sqlToJson($newMessages));
 }
 
 function setProfilePicture($userid, $imageid) {
@@ -44,13 +44,25 @@ function setStatus($userId, $status) {
 
 function getAllUsers() {
 	$users = getQuery("SELECT id, username, display_name, status, image FROM user");
-	echo sqlToJson($users);
+	printJson(sqlToJson($users));
 }
 
 function editMessage($messageId, $content) {
 	setQuery("UPDATE message
 		SET content='$content', edit=1
 		WHERE id='$messageId'");
+}
+
+function setHighPriorityUserInformation($userId, $status, $isTyping) {
+	//Insert code here
+}
+
+function setLowPriorityUserInformation($userId, $statusMessage, $imageId) {
+	//Insert code here
+}
+
+function searchMessages($string, $caseSensitive, $userId) {
+	//Insert code here
 }
 
 function setPassword($userId, $newPassword, $oldPassword) {
@@ -60,6 +72,7 @@ function setPassword($userId, $newPassword, $oldPassword) {
 	$correctPassword = $row['password'];
 	if (md5($oldPassword) == $correctPassword) {
 		echo "correctPassword";
+	if(md5($oldPassword) == $correctPassword){
 		$hashedNewPassword = md5($newPassword);
 		setQuery("UPDATE user
 		SET password = '$hashedNewPassword'
@@ -73,14 +86,20 @@ function setPassword($userId, $newPassword, $oldPassword) {
 
 function getAllEmoticons() {
 	$emotes = getQuery("SELECT * FROM emoticon");
-	echo sqlToJson($emotes);
+	printJson(sqlToJson($emotes));
 }
+
+
+function setTopic($topic, $userId) {
+	//Insert code here
+}
+
 //Escape all input
 $_GET = escapeArray($_GET);
 
 //Handle actions
-if($user != $_SESSION['user']['id']) {
-	echo '{"error": "Invalid action."}';
+if(isset($_GET['user']) && $_GET['user'] != $_SESSION['user']['id']){
+	printJson('{"error": "Invalid action."}');
 }
 elseif($_GET['action'] == 'postMessage') {
 	postMessage($_GET['content'], $_GET['user'], $_GET['timestamp']);

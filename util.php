@@ -31,4 +31,9 @@ function setQuery($query) {
 	mysqli_query($connection, $query) or die(mysql_error());
 }
 
+function printJson($json) {
+	 header("Content-Type: application/json");
+	 echo $json;
+}
+
 ?>
