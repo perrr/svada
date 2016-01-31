@@ -64,7 +64,31 @@ function setLowPriorityUserInformation($userId, $statusMessage, $imageId) {
 		WHERE id='$userId'");
 }
 function searchMessages($string, $caseSensitive, $userId) {
-	//Insert code here
+	if($userId==0){
+		if($caseSensitive){
+			$messages = getQuery("SELECT *
+				FROM message
+				WHERE BINARY content LIKE '%".$string."%'");
+		}
+		else{
+			$messages = getQuery("SELECT *
+				FROM message
+				WHERE content LIKE '%".$string."%'");
+		}
+	}
+	else{
+		if($caseSensitive){
+			$messages = getQuery("SELECT *
+				FROM message
+				WHERE author ='$userId' AND  BINARY content LIKE '%".$string."%'");
+		}
+		else{
+			$messages = getQuery("SELECT *
+				FROM message
+				WHERE author ='$userId' AND content LIKE '%".$string."%'");
+		}
+	}
+	printJson(sqlToJson($messages));
 }
 
 function setPassword($userId, $newPassword, $oldPassword) {
@@ -72,9 +96,6 @@ function setPassword($userId, $newPassword, $oldPassword) {
 		FROM user 
 		WHERE id ='$userId'"));
 	$correctPassword = $row['password'];
-	if (md5($oldPassword) == $correctPassword) {
-		echo "correctPassword";
-	}
 	if (md5($oldPassword) == $correctPassword){
 		$hashedNewPassword = md5($newPassword);
 		setQuery("UPDATE user
@@ -139,5 +160,8 @@ elseif($_GET['action'] == 'setHighPriorityUserInformation') {
 }
 elseif($_GET['action'] == 'setLowPriorityUserInformation') {
 	setLowPriorityUserInformation($_GET['user'], $_GET['statusMessage'], $_GET['imageId']);
+}
+elseif($_GET['action'] == 'searchMessages') {
+	searchMessages($_GET['string'], $_GET['caseSensitive'], (int) $_GET['userId']);
 }
 ?>
