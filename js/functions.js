@@ -31,8 +31,26 @@ function timestampToTimeOfDay(timestamp) {
   	return time;
 }
 
-function timestampToDateAndTime(timestamp, monthDayYear) {
-	//Insert code here
+function timestampToDateAndTime(timestamp) {
+	var a = new Date(timestamp);
+  var sec = a.getSeconds();
+  if(sec<10){
+   sec='0'+sec
+  }
+  var min = a.getMinutes();
+  if(min<10){
+    min= '0'+min;
+  }
+  var hour = a.getHours();
+  if(hour<10){
+    hour= '0'+hour;
+  }
+  var day = a.getDay();
+  var month = a.getMonth();
+  var year = a.getYear();
+  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var time =  day+'. '+ months[month]+ ' ' +year+ ', '+ hour + ':' + min+ ':' +sec;
+  return time;
 }
 
 function getFormattedDataURL(parameters) {

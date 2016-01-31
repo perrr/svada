@@ -13,11 +13,12 @@ function sqlToJson($sql) {
 }
 
 function escapeArray($array){
+	global $connection;
 	$keys = array_keys($array);
 	foreach ($keys as  $key) {
-	 	$array[$key] = mysqli_real_escape_string($array[$key]);
-	 }
-	 return $array;
+	 	$array[$key] = $connection->real_escape_string($array[$key]);
+	}
+	return $array;
 }
 
 function getQuery($query) {
