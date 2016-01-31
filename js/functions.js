@@ -18,7 +18,7 @@ function getCurrentTimestamp(){
 }
 
 function timestampToTimeOfDay(timestamp) {
-	var a = new Date(timestamp);
+	var a = new Date(timestamp*1000);
   	var hour = a.getHours();
   	if(hour<10){
   		hour= '0'+hour;
@@ -32,7 +32,7 @@ function timestampToTimeOfDay(timestamp) {
 }
 
 function timestampToDateAndTime(timestamp) {
-	var a = new Date(timestamp);
+	var a = new Date(timestamp*1000);
   var sec = a.getSeconds();
   if(sec<10){
    sec='0'+sec
@@ -45,9 +45,9 @@ function timestampToDateAndTime(timestamp) {
   if(hour<10){
     hour= '0'+hour;
   }
-  var day = a.getDay();
+  var day = a.getDate();
   var month = a.getMonth();
-  var year = a.getYear();
+  var year = a.getFullYear();
   var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   var time =  day+'. '+ months[month]+ ' ' +year+ ', '+ hour + ':' + min+ ':' +sec;
   return time;
