@@ -7,78 +7,79 @@ require('util.php');
 //Check authorization here
 
 function postMessage($content, $author, $timestamp) {
-	mysql_query("INSERT INTO message (content, author, timestamp)
-	VALUES ('$content', '$author', '$timestamp')") or die(mysql_error());
+	setQuery("INSERT INTO message (content, author, timestamp)
+	VALUES ('$content', '$author', '$timestamp')");
 }
 
 function getMessages($lastReceivedId) {
-	$newMessages = mysql_query("SELECT * FROM message WHERE message .id > $lastReceivedId");
+	$newMessages = getQuery("SELECT * FROM message WHERE message .id > $lastReceivedId");
 	echo sqlToJson($newMessages);
 }
 
 function getMessagesNewerThan($timeLimit) {
-	$limitMessages = mysql_query("SELECT * FROM message WHERE message .timestamp > $timeLimit");
+	$limitMessages = getQuery("SELECT * FROM message WHERE message .timestamp > $timeLimit");
 	echo sqlToJson($limitMessages);
 }
 
 function getOnlineUsers() {
-	$onlineUsers = mysql_query("SELECT id, status FROM user WHERE status != 0");
+	$onlineUsers = getQuery("SELECT id, status FROM user WHERE status != 0");
 	echo sqlToJson($onlineUsers);
 }
 
 function setProfilePicture($userid, $imageid) {
-	mysql_query("UPDATE user
+	setQuery("UPDATE user
 		SET image='$imageid'
 		WHERE id='$userid'");
 }
 
-function setStatusMessage($userid, $statusMessage){
-	mysql_query("UPDATE user 
+function setStatusMessage($userid, $statusMessage) {
+	setQuery("UPDATE user 
 	SET status_message='$statusMessage'
 	WHERE id='$userid'");
 }
 
 function setStatus($userId, $status) {
-	mysql_query("UPDATE user SET status = $status WHERE id = $userId");
+	setQuery("UPDATE user SET status = $status WHERE id = $userId");
 }
 
 function getAllUsers() {
-	$users = mysql_query("SELECT id, username, display_name, status, image FROM user");
+	$users = getQuery("SELECT id, username, display_name, status, image FROM user");
 	echo sqlToJson($users);
 }
 
 function editMessage($messageId, $content) {
-	mysql_query("UPDATE message
+	setQuery("UPDATE message
 		SET content='$content', edit=1
 		WHERE id='$messageId'");
 }
 
 function setPassword($userId, $newPassword, $oldPassword) {
-	$correctPassword = mysql_result(mysql_query("SELECT password 
+	$row = mysqli_fetch_assoc(getQuery("SELECT password 
 		FROM user 
-		WHERE id ='$userId'"), 0);
-	if(md5($oldPassword) == $correctPassword){
+		WHERE id ='$userId'"));
+	$correctPassword = $row['password'];
+	if (md5($oldPassword) == $correctPassword) {
 		echo "correctPassword";
 		$hashedNewPassword = md5($newPassword);
-		mysql_query(("UPDATE user
+		setQuery("UPDATE user
 		SET password = '$hashedNewPassword'
-		WHERE id='$userId'"));
+		WHERE id='$userId'");
 		return "";
 	}
-	else{
+	else {
 		return '{"error": "Incorrect old password."}';
 	}
 }
 
 function getAllEmoticons() {
-	$emotes = mysql_query("SELECT * FROM emoticon");
+	$emotes = getQuery("SELECT * FROM emoticon");
 	echo sqlToJson($emotes);
 }
 //Escape all input
 $_GET = escapeArray($_GET);
 
 //Handle actions
-if($user != $_SESSION['user']['id']){
+if($user != $_SESSION['user']['id']) {
 	echo '{"error": "Invalid action."}';
 }
 elseif($_GET['action'] == 'postMessage') {
