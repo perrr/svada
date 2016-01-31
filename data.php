@@ -115,9 +115,14 @@ function getAllEmoticons() {
 
 
 function setTopic($topic, $userId) {
-	//Insert code here
+	setQuery("UPDATE chat
+		SET topic = '$topic'");
+	$content='<'. $userId.'> changed the topic of this conversation to  <span class="message-strong">' . $topic . '</span>'; 
+	setQuery("INSERT INTO message (content, author)
+		VALUES ('$content', 0)
+		");
 }
-
+setTopic("Tidene forandrer seg", 1);
 //Escape all input
 $_GET = escapeArray($_GET);
 
@@ -163,5 +168,8 @@ elseif($_GET['action'] == 'setLowPriorityUserInformation') {
 }
 elseif($_GET['action'] == 'searchMessages') {
 	searchMessages($_GET['string'], $_GET['caseSensitive'], (int) $_GET['userId']);
+}
+elseif($_GET['action'] == 'setTopic') {
+	setTopic($_GET['topic'], $_GET['userId']);
 }
 ?>

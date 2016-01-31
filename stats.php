@@ -32,15 +32,27 @@ foreach ($users as $user) {
 	echo '<br>';
 }
 echo '<br>';
-echo 'Messages from Skype: ';
 $skype = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE skype = 1"))['COUNT(*)'];
+echo 'Messages from Skype: ';
 echo $skype;
 printPercentage($skype, $messages);
 echo '<br>';
-echo 'Messages not from Skype: ';
 $notSkype = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE skype = 0"))['COUNT(*)'];
+echo 'Messages not from Skype: ';
 echo $notSkype;
 printPercentage($notSkype, $messages);
+echo '<br><br>';
+$length = mysqli_fetch_assoc(getQuery("SELECT AVG(LENGTH(content)) FROM message"))['AVG(LENGTH(content))'];
+echo 'Average message length: ';
+echo round($length, 2);
+echo '<br><br>';
+foreach ($users as $user) {
+	$id = $user['id'];
+	$userLength = mysqli_fetch_assoc(getQuery("SELECT AVG(LENGTH(content)) FROM message WHERE author = $id"))['AVG(LENGTH(content))'];
+	echo $user['username'].': ';
+	echo round($userLength, 2);
+	echo '<br>';
+}
 
 ?>
 
