@@ -53,13 +53,16 @@ function editMessage($messageId, $content) {
 }
 
 function setHighPriorityUserInformation($userId, $status, $isTyping) {
-	//Insert code here
+	setQuery("UPDATE user
+		SET status = '$status', is_typing = '$isTyping'
+		WHERE id='$userId'");
 }
 
 function setLowPriorityUserInformation($userId, $statusMessage, $imageId) {
-	//Insert code here
+	setQuery("UPDATE user
+		SET status_message = '$statusMessage', image = '$imageId'
+		WHERE id='$userId'");
 }
-
 function searchMessages($string, $caseSensitive, $userId) {
 	//Insert code here
 }
@@ -130,5 +133,11 @@ elseif($_GET['action'] == 'setProfilePicture') {
 }
 elseif($_GET['action'] == 'setStatusMessage') {
 	setStatusMessage($_GET['user'], $_GET['statusMessage']);
+}
+elseif($_GET['action'] == 'setHighPriorityUserInformation') {
+	setHighPriorityUserInformation($_GET['user'], $_GET['status'], $_GET['isTyping']);
+}
+elseif($_GET['action'] == 'setLowPriorityUserInformation') {
+	setLowPriorityUserInformation($_GET['user'], $_GET['statusMessage'], $_GET['imageId']);
 }
 ?>
