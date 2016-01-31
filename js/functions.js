@@ -49,24 +49,23 @@ function getEmoticonHTML(emoticon){
 //getEmoticonHTML({"haha.png","funny"});
 
 function parseMessage(message) {
-	//Replace emoticon shortcuts with HTML image
-	//Insert code here
 	var newmessage = ""
 	var shortcuts = Object.keys(emoticonArray);
 	var allWords = message.split(" ");
+	var urlPattern = new RegExp("(http|ftp|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?")
 	for (var word in allWords){
-		if (shortcuts.indexOf(word) != -1){
+		//Make URL's clickable with HTML
+		if (urlPattern.test(word)){
+			newmessage = newmessage + " " + '<a href="' + url + '">' + url + '</a>';
+		}
+		//Replace emoticon shortcuts with HTML image
+		else if (shortcuts.indexOf(word) != -1){
 			newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
 		}
 		else{
 			newmessage = newmessage + " " + word
 		}
 	}
-		
-	
-	
-	//Make URL's clickable with HTML
-	//Insert code here
 	
 	//Return parsed message
 	return newmessage;
