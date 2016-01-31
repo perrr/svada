@@ -3,7 +3,6 @@
 session_start();
 
 require('util.php');
-
 //Check authorization here
 
 function postMessage($content, $author, $timestamp) {
@@ -13,17 +12,17 @@ function postMessage($content, $author, $timestamp) {
 
 function getMessages($lastReceivedId) {
 	$newMessages = mysql_query("SELECT * FROM message WHERE message .id > $lastReceivedId");
-	echo sqlToJson($newMessages);
+	printJson(sqlToJson($newMessages));
 }
 
 function getMessagesNewerThan($timeLimit) {
 	$limitMessages = mysql_query("SELECT * FROM message WHERE message .timestamp > $timeLimit");
-	echo sqlToJson($limitMessages);
+	printJson(sqlToJson($limitMessages));
 }
 
 function getOnlineUsers() {
 	$onlineUsers = mysql_query("SELECT id, status FROM user WHERE status != 0");
-	echo sqlToJson($onlineUsers);
+	printJson(sqlToJson($onlineUsers));
 }
 
 function setProfilePicture($userid, $imageid) {
@@ -44,7 +43,7 @@ function setStatus($userId, $status) {
 
 function getAllUsers() {
 	$users = mysql_query("SELECT id, username, display_name, status, image FROM user");
-	echo sqlToJson($users);
+	printJson(sqlToJson($users));
 }
 
 function editMessage($messageId, $content) {
@@ -70,7 +69,6 @@ function setPassword($userId, $newPassword, $oldPassword) {
 		FROM user 
 		WHERE id ='$userId'"), 0);
 	if(md5($oldPassword) == $correctPassword){
-		echo "correctPassword";
 		$hashedNewPassword = md5($newPassword);
 		mysql_query(("UPDATE user
 		SET password = '$hashedNewPassword'
@@ -84,7 +82,7 @@ function setPassword($userId, $newPassword, $oldPassword) {
 
 function getAllEmoticons() {
 	$emotes = mysql_query("SELECT * FROM emoticon");
-	echo sqlToJson($emotes);
+	printJson(sqlToJson($emotes));
 }
 
 
@@ -97,7 +95,7 @@ $_GET = escapeArray($_GET);
 
 //Handle actions
 if(isset($_GET['user']) && $_GET['user'] != $_SESSION['user']['id']){
-	echo '{"error": "Invalid action."}';
+	printJson('{"error": "Invalid action."}');
 }
 elseif($_GET['action'] == 'postMessage') {
 	postMessage($_GET['content'], $_GET['user'], $_GET['timestamp']);

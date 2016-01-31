@@ -32,7 +32,8 @@ function setQuery($query) {
 }
 
 function printJson($json) {
-	//Insert code here
+	 header("Content-Type: application/json");
+	 echo $json;
 }
 
 ?>
