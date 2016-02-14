@@ -105,12 +105,12 @@ function getWhoIsTypingAsText(users) {
 	var nrPeopleTyping = users.length;
 	var typingMessage = "";
 	for (var i=0; i<nrPeopleTyping-1;i++){
-		typingMessage += userArray[users[i]]["displayName"] + ", ";
+		typingMessage += userArray[users[i]]["display_name"] + ", ";
 	}
 	if (nrPeopleTyping >1){
 		typingMessage += "and ";
 	}
-	typingMessage += userArray[users[nrPeopleTyping-1]]["displayName"] + " is typing."
+	typingMessage += userArray[users[nrPeopleTyping-1]]["display_name"] + " is typing."
 	return typingMessage;
 }
 
