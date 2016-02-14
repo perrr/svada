@@ -102,7 +102,16 @@ function parseMessage(message) {
 }
 
 function getWhoIsTypingAsText(users) {
-	//Insert code here
+	var nrPeopleTyping = users.length;
+	var typingMessage = "";
+	for (var i=0; i<nrPeopleTyping-1;i++){
+		typingMessage += userArray[users[i]]["displayName"] + ", ";
+	}
+	if (nrPeopleTyping >1){
+		typingMessage += "and ";
+	}
+	typingMessage += userArray[users[nrPeopleTyping-1]]["displayName"] + " is typing."
+	return typingMessage;
 }
 
 function getUserChanges(oldUsers, newUsers) {
