@@ -1,8 +1,15 @@
 function getUserArray() {
 	$.ajax({url: getFormattedDataURL(["action=getAllUsers"]), success: function(json){
-		for(var i = 0; i < json.length; i++) {
-			userArray[json[i]["id"]] = {username:json[i]["username"], displayName:json[i]["display_name"], status:json[i]["status"], image:json[i]["image"]};
+		
+		for(var i = 0; i < Object.keys(json).length; i++) {
+			var user = {};
+			var keys = Object.keys(json[i]);
+			for(var j = 0; j < keys.length; j++) {
+				user[keys[j]] = json[i][keys[j]];
+			}
+			userArray[i] = user;
 		}
+		
 	}});
 }
 
@@ -40,7 +47,7 @@ function getNewMessages() {
 }
 
 function displayMessage(message) {
-	var messageHTML = '<div class="message"><span class="message-author">'+ userArray[message["author"]].displayName + '</span><span class="message-content">'+ parseMessage(message["content"]) + '</span><span class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>';
+	var messageHTML = '<div class="message"><span class="message-author">'+ userArray[message["author"]].display_name + '</span><span class="message-content">'+ parseMessage(message["content"]) + '</span><span class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>';
 	$("#messages").append(messageHTML);
 }
 

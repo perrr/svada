@@ -1,5 +1,5 @@
 function getLoggedInUserId() {
-	//Insert code here
+	return userArray[0]['id'];
 }
 
 function statusIdToText(id) {
