@@ -19,3 +19,4 @@ messageTextField.keyup(function(e) {
 fetchNews();
 getUserArray();
 getEmoticonArray();
+getImageArray();
