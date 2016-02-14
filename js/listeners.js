@@ -10,7 +10,7 @@ var messageTextField = $('#message-text-field');
 messageTextField.keyup(function(e) {
 	//Post message if Enter is pressed
     if (e.keyCode === 13 && $.trim(messageTextField.val()) != "") {
-        postMessage(messageTextField.val(), 1);
+        postMessage(messageTextField.val(), getLoggedInUserId());
 		messageTextField.val("");
     }
 });
