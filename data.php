@@ -42,8 +42,14 @@ function setStatus($userId, $status) {
 }
 
 function getAllUsers() {
-	$users = getQuery("SELECT id, username, display_name, status, image FROM user");
-	printJson(sqlToJson($users));
+	$userQuery =getQuery("SELECT id, username, display_name, status, status_message, image, is_typing FROM user");
+	$users = array();
+	$i=1;
+	while ($row = mysqli_fetch_assoc($userQuery)) {
+		$users[$i++] = $row;
+	}
+	$users[0] = $users[$_SESSION['user']['id']];
+	printJson(json_encode($users, JSON_NUMERIC_CHECK));
 }
 
 function editMessage($messageId, $content) {
@@ -188,4 +194,6 @@ elseif($_GET['action'] == 'searchMessages') {
 elseif($_GET['action'] == 'setTopic') {
 	setTopic($_GET['topic'], $_GET['userId']);
 }
+
+close();
 ?>

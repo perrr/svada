@@ -18,41 +18,49 @@ function printPercentage($number, $total) {
 }
 
 //Database queries
-$messages = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message"))['COUNT(*)'];
+$messagesTable = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message"));
+$messages = $messagesTable['COUNT(*)'];
 echo 'Number of messages: ';
 echo $messages;
 $users = getQuery("SELECT id, username FROM user");
 echo '<br><br>';
 foreach ($users as $user) {
 	$id = $user['id'];
-	$userMessages = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE author = $id"))['COUNT(*)'];
+	$userMessagesTable = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE author = $id"));
+	$userMessages = $userMessagesTable['COUNT(*)'];
 	echo $user['username'].': ';
 	echo $userMessages;
 	printPercentage($userMessages, $messages);
 	echo '<br>';
 }
 echo '<br>';
-$skype = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE skype = 1"))['COUNT(*)'];
+$skypeTable = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE skype = 1"));
+$skype = $skypeTable['COUNT(*)'];
 echo 'Messages from Skype: ';
 echo $skype;
 printPercentage($skype, $messages);
 echo '<br>';
-$notSkype = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE skype = 0"))['COUNT(*)'];
+$notSkypeTable = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE skype = 0"));
+$notSkype = $notSkypeTable['COUNT(*)'];
 echo 'Messages not from Skype: ';
 echo $notSkype;
 printPercentage($notSkype, $messages);
 echo '<br><br>';
-$length = mysqli_fetch_assoc(getQuery("SELECT AVG(LENGTH(content)) FROM message"))['AVG(LENGTH(content))'];
+$lengthTable = mysqli_fetch_assoc(getQuery("SELECT AVG(LENGTH(content)) FROM message"));
+$length = $lengthTable['AVG(LENGTH(content))'];
 echo 'Average message length: ';
 echo round($length, 2);
 echo '<br><br>';
 foreach ($users as $user) {
 	$id = $user['id'];
-	$userLength = mysqli_fetch_assoc(getQuery("SELECT AVG(LENGTH(content)) FROM message WHERE author = $id"))['AVG(LENGTH(content))'];
+	$userLengthTable = mysqli_fetch_assoc(getQuery("SELECT AVG(LENGTH(content)) FROM message WHERE author = $id"));
+	$userLength = $userLengthTable['AVG(LENGTH(content))'];
 	echo $user['username'].': ';
 	echo round($userLength, 2);
 	echo '<br>';
 }
+
+close();
 
 ?>
 
