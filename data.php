@@ -136,7 +136,8 @@ function setTopic($topic, $userId) {
 }
 
 function getTopic() {
-	//Insert code here
+	$topic = getQuery("SELECT topic FROM chat");
+	printJson(sqlToJson($topic));
 }
 
 function setChatImage($image, $userId) {
@@ -177,6 +178,9 @@ elseif($_GET['action'] == 'getAllEmoticons') {
 }
 elseif($_GET['action'] == 'getAllImages') {
 	getAllImages();
+}
+elseif($_GET['action'] == 'getTopic') {
+	getTopic();
 }
 elseif($_GET['action'] == 'getOnlineUsers') {
 	getOnlineUsers();
