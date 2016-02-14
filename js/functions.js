@@ -100,8 +100,10 @@ function parseMessage(message) {
 		var word = allWords[wordindex];
 		//Make URL's clickable with HTML
 		if (isUrl(word)){
+			//Checks if the link do or do not start with http, https or ftp
 			var pattern = /^((http|https|ftp):\/\/)/;
 			if(!pattern.test(word)) {
+				//if not then add // to href to not link locally
 				newmessage = newmessage + " " + '<a href="//' + word + '" target="_blank">' + word + '</a>';
 			}
 			else{
@@ -128,6 +130,7 @@ function getWhoIsTypingAsText(users) {
 	for (var i=0; i<nrPeopleTyping-1;i++){
 		typingMessage += userArray[users[i]]["display_name"] + ", ";
 	}
+	//checks if the sentence need to add "and".
 	if (nrPeopleTyping >1){
 		typingMessage += "and ";
 	}
@@ -139,6 +142,7 @@ function getUserChanges(oldUsers, newUsers) {
 	var changes =[];
 	changes[0] =[];
 	changes[1] = [];
+	//go over all users and check if something has changed.
 	for (var i in oldUsers){
 		changes[0][i]= [];
 		if (oldUsers[i]["status_message"]!=newUsers[i]["status_message"]){
