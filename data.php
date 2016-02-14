@@ -5,7 +5,8 @@ session_start();
 require('util.php');
 //Check authorization here
 
-function postMessage($content, $author, $timestamp) {
+function postMessage($content, $author) {
+	$timestamp = time();
 	setQuery("INSERT INTO message (content, author, timestamp)
 	VALUES ('$content', '$author', '$timestamp')");
 }
@@ -121,7 +122,8 @@ function getAllEmoticons() {
 }
 
 function getAllImages() {
-	//Insert code here	
+	$images = getQuery("SELECT * FROM image");
+	printJson(sqlToJson($images));
 }
 
 function setTopic($topic, $userId) {
@@ -134,15 +136,18 @@ function setTopic($topic, $userId) {
 }
 
 function getTopic() {
-	//Insert code here
+	$topic = getQuery("SELECT topic FROM chat");
+	printJson(sqlToJson($topic));
 }
 
 function setChatImage($image, $userId) {
-	//Insert code here
+	setQuery("UPDATE chat
+		SET image = '$image'");
 }
 
 function getChatImage() {
-	//Insert code here
+	$image = getQuery("SELECT image FROM chat");
+	printJson(sqlToJson($image));
 }
 
 //Escape all input
@@ -153,7 +158,7 @@ if(isset($_GET['user']) && $_GET['user'] != $_SESSION['user']['id']){
 	printJson('{"error": "Invalid action."}');
 }
 elseif($_GET['action'] == 'postMessage') {
-	postMessage($_GET['content'], $_GET['user'], $_GET['timestamp']);
+	postMessage($_GET['content'], $_GET['user']);
 }
 elseif($_GET['action'] == 'getMessages') {
 	getMessages($_GET['lastReceivedId']);
@@ -172,6 +177,12 @@ elseif($_GET['action'] == 'setPassword') {
 }
 elseif($_GET['action'] == 'getAllEmoticons') {
 	getAllEmoticons();
+}
+elseif($_GET['action'] == 'getAllImages') {
+	getAllImages();
+}
+elseif($_GET['action'] == 'getTopic') {
+	getTopic();
 }
 elseif($_GET['action'] == 'getOnlineUsers') {
 	getOnlineUsers();
@@ -193,6 +204,12 @@ elseif($_GET['action'] == 'searchMessages') {
 }
 elseif($_GET['action'] == 'setTopic') {
 	setTopic($_GET['topic'], $_GET['userId']);
+}
+elseif($_GET['action'] == 'setChatImage') {
+	setChatImage($_GET['image'], $_GET['userId']);
+}
+elseif($_GET['action'] == 'getChatImage') {
+	getChatImage();
 }
 
 close();
