@@ -29,9 +29,20 @@ $user = $_SESSION['user'];
 		<link href="css/styles.css" rel="stylesheet">
 	</head>
 	<body>
-		
-		<div id="messages"></div>
-		<textarea id="message-text-field"></textarea> 
+		<div class="container" id="chat-top">
+		  -topic-
+		</div>
+		<div class="container" id="chat-bottom">
+			<div class="row">
+				<div class="col-sm-2" id="sidebar">
+					-users-
+				</div>
+				<div class="col-sm-10" id="mainbar">
+					<div id="messages"></div>
+					<textarea id="message-text-field"></textarea> 
+				</div>
+			</div>
+		</div>
 		
 		<!-- Scripts -->
 		<script src="js/jquery.min.js"></script>

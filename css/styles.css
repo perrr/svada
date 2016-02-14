@@ -1,5 +1,4 @@
 body {
-	padding-top: 50px;
 	background-color: #EDF9FC;
 }
 
@@ -9,4 +8,38 @@ body {
 
 .error-message {
 	color: red;
+}
+
+#sidebar {
+	height: 100%;
+}
+
+#mainbar {
+	background-color: white;
+	padding: 0;
+}
+
+#messages{
+	overflow-y: scroll;
+	background-color: white;
+}
+
+#message-text-field {
+	width: 100%;
+	border-top: 1px solid black;
+}
+
+#chat-top{
+	background-color: green;
+	width: 100%;
+	position: absolute;
+	height: 10%;
+}
+
+#chat-bottom{
+	background-color: red;
+	width: 100%;
+	position: absolute;
+	height: 90%;
+	top: 10%;
 }

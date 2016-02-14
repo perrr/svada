@@ -15,8 +15,12 @@ messageTextField.keyup(function(e) {
     }
 });
 
+//If window is resized, call resize function
+$(window).resize(resizeWindow());
+
 //Run functions
 fetchNews();
 getUserArray();
 getEmoticonArray();
 getImageArray();
+resizeWindow();

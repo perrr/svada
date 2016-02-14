@@ -182,3 +182,7 @@ function getAllEmoticonsAsHtml() {
 	return allEmoticonsHtml;
 }
 
+function resizeWindow() {
+	$('#messages').css({'height':($('#chat-bottom').height()/100*85)-1});
+	$('#message-text-field').css({'height':($('#chat-bottom').height()/100*15)-1});	
+}
