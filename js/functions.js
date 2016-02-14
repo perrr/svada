@@ -106,8 +106,38 @@ function getWhoIsTypingAsText(users) {
 }
 
 function getUserChanges(oldUsers, newUsers) {
+	var changes =[];
+	changes[0] =[];
+	changes[1] = [];
+	for (var i in oldUsers){
+		changes[0][i]= [];
+		if (oldUsers[i]["status_message"]!=newUsers[i]["status_message"]){
+			changes[0][i]["newStatusMessage"] =newUsers[i]["status_message"];
+			alert("new message")
+		}
+		if (oldUsers[i]["image"]!=newUsers[i]["image"]){
+			changes[0][i]["newImage"] =newUsers[i]["image"];
+			alert("new picture")
+		}
+		if (oldUsers[i]["status"]!=newUsers[i]["status"]){
+			changes[0][i]["oldStatus"] =oldUsers[i]["status"];
+			changes[0][i]["newStatus"] =newUsers[i]["status"];
+			alert("new status")
+		}
+		if (i != getLoggedInUserId() && newUsers[i]["is_typing"]==1){
+			changes[1].push(i);
+			alert("is typing")
+		}
+	}
 	//Insert code here
 }
+var bb = []
+var aa = []
+aa[0] = {username:"per", displayname:"ppp", status_message:"im so sad", status:"online", image:"haha.gif", is_typing:1};
+aa[3] = {username:"ezw", displayname:"eirik", status_message:"im so cool", status:"online", image:"gege.gif", is_typing:1};
+bb[0] = {username:"per", displayname:"ppp", status_message:"im so coy", status:"offline", image:"haha.gif", is_typing:0};
+bb[3] = {username:"ezw", displayname:"eirik", status_message:"im so weak", status:"online", image:"gee.gif", is_typing:0};
+getUserChanges(aa,bb);
 
 function getAllEmoticonsAsHtml() {
 	//Insert code here
