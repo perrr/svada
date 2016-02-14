@@ -36,7 +36,21 @@ function timestampToTimeOfDay(timestamp) {
 }
 
 function timestampToPreciseTimeOfDay(timestamp) {
-	//Insert code here
+	var a = new Date(timestamp*1000);
+	var sec = a.getSeconds();
+	if(sec < 10) {
+		sec='0' + sec;
+	}
+	var min = a.getMinutes();
+	if(min < 10){
+		min = '0' + min;
+	}
+	var hour = a.getHours();
+	if(hour < 10){
+		hour = '0' + hour;
+	}
+	var time =  hour + ':' + min + ':' + sec;
+  	return time;
 }
 
 function timestampToDateAndTime(timestamp) {
@@ -86,7 +100,16 @@ function parseMessage(message) {
 		var word = allWords[wordindex];
 		//Make URL's clickable with HTML
 		if (isUrl(word)){
-			newmessage = newmessage + " " + '<a href="' + word + '" target="_blank">' + word + '</a>';
+			//Checks if the link do or do not start with http, https or ftp
+			var pattern = /^((http|https|ftp):\/\/)/;
+			if(!pattern.test(word)) {
+				//if not then add // to href to not link locally
+				newmessage = newmessage + " " + '<a href="//' + word + '" target="_blank">' + word + '</a>';
+			}
+			else{
+				newmessage = newmessage + " " + '<a href="' + word + '" target="_blank">' + word + '</a>';
+			}
+			
 		}
 		//Replace emoticon shortcuts with HTML image
 		else if (shortcuts.indexOf(word) != -1){
@@ -102,14 +125,60 @@ function parseMessage(message) {
 }
 
 function getWhoIsTypingAsText(users) {
-	//Insert code here
+	var nrPeopleTyping = users.length;
+	var typingMessage = "";
+	for (var i=0; i<nrPeopleTyping-1;i++){
+		typingMessage += userArray[users[i]]["display_name"] + ", ";
+	}
+	//checks if the sentence need to add "and".
+	if (nrPeopleTyping >1){
+		typingMessage += "and ";
+	}
+	typingMessage += userArray[users[nrPeopleTyping-1]]["display_name"] + " is typing."
+	return typingMessage;
 }
 
 function getUserChanges(oldUsers, newUsers) {
+	var changes =[];
+	changes[0] =[];
+	changes[1] = [];
+	//go over all users and check if something has changed.
+	for (var i in oldUsers){
+		changes[0][i]= [];
+		if (oldUsers[i]["status_message"]!=newUsers[i]["status_message"]){
+			changes[0][i]["newStatusMessage"] =newUsers[i]["status_message"];
+		}
+		if (oldUsers[i]["image"]!=newUsers[i]["image"]){
+			changes[0][i]["newImage"] =newUsers[i]["image"];
+		}
+		if (oldUsers[i]["status"]!=newUsers[i]["status"]){
+			changes[0][i]["oldStatus"] =oldUsers[i]["status"];
+			changes[0][i]["newStatus"] =newUsers[i]["status"];
+		}
+		if (i != getLoggedInUserId() && newUsers[i]["is_typing"]==1){
+			changes[1].push(i);
+		}
+	}
+}
+
+function insertEmoticon(i){
 	//Insert code here
 }
 
 function getAllEmoticonsAsHtml() {
-	//Insert code here
+	var allEmoticonsHtml = ""
+	var tempEmoticonHtml = ""
+	var lastEmoteName= ""
+	for (var i in emoticonArray){
+		//check so that a emote with multiple shortcuts only show once
+		if(emoticonArray[i]["name"]!=lastEmoteName){
+			lastEmoteName=emoticonArray[i]["name"];
+			tempEmoticonHtml = getEmoticonHTML(emoticonArray[i]);
+			tempEmoticonHtml=tempEmoticonHtml.slice(0,-1);
+			tempEmoticonHtml += ' onclick="insertEmoticon('+i+')">';
+			allEmoticonsHtml+= tempEmoticonHtml;
+		}
+	}
+	return allEmoticonsHtml;
 }
 

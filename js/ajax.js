@@ -25,7 +25,18 @@ function getEmoticonArray() {
 }
 
 function getImageArray() {
-	//Insert code here
+	$.ajax({url: getFormattedDataURL(["action=getAllImages"]), success: function(json){
+		
+		for(var i = 0; i < Object.keys(json).length; i++) {
+			var img = {};
+			var keys = Object.keys(json[i]);
+			for(var j = 0; j < keys.length; j++) {
+				img[keys[j]] = json[i][keys[j]];
+			}
+			imgArray[i] = img;
+		}
+		
+	}});
 }
 
 function getNewMessages() {
