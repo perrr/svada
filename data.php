@@ -130,9 +130,7 @@ function setTopic($topic, $userId) {
 	setQuery("UPDATE chat
 		SET topic = '$topic'");
 	$content='<'. $userId.'> changed the topic of this conversation to  <span class="message-strong">' . $topic . '</span>'; 
-	setQuery("INSERT INTO message (content, author)
-		VALUES ('$content', 0)
-		");
+	postMessage($content, $userId);
 }
 
 function getTopic() {
@@ -143,11 +141,14 @@ function getTopic() {
 function setChatImage($image, $userId) {
 	setQuery("UPDATE chat
 		SET image = '$image'");
+	$content='<'. $userId.'> changed the group image of this conversation'; 
+	postMessage($content, $userId);
 }
 
 function getChatImage() {
 	$image = getQuery("SELECT image FROM chat");
 	printJson(sqlToJson($image));
+
 }
 
 //Escape all input
