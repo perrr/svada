@@ -49,7 +49,7 @@ function timestampToPreciseTimeOfDay(timestamp) {
 	if(hour < 10){
 		hour = '0' + hour;
 	}
-	var time =  hour + ':' + min + ':' sec;
+	var time =  hour + ':' + min + ':' + sec;
   	return time;
 }
 
@@ -100,7 +100,14 @@ function parseMessage(message) {
 		var word = allWords[wordindex];
 		//Make URL's clickable with HTML
 		if (isUrl(word)){
-			newmessage = newmessage + " " + '<a href="' + word + '" target="_blank">' + word + '</a>';
+			var pattern = /^((http|https|ftp):\/\/)/;
+			if(!pattern.test(word)) {
+				newmessage = newmessage + " " + '<a href="//' + word + '" target="_blank">' + word + '</a>';
+			}
+			else{
+				newmessage = newmessage + " " + '<a href="' + word + '" target="_blank">' + word + '</a>';
+			}
+			
 		}
 		//Replace emoticon shortcuts with HTML image
 		else if (shortcuts.indexOf(word) != -1){
