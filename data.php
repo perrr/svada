@@ -188,4 +188,6 @@ elseif($_GET['action'] == 'searchMessages') {
 elseif($_GET['action'] == 'setTopic') {
 	setTopic($_GET['topic'], $_GET['userId']);
 }
+
+close();
 ?>

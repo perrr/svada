@@ -54,6 +54,8 @@ foreach ($users as $user) {
 	echo '<br>';
 }
 
+close();
+
 ?>
 
 <!DOCTYPE html>

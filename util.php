@@ -37,8 +37,9 @@ function printJson($json) {
 	 echo $json;
 }
 
-function printColumn($sql, $column) {
-
+function close() {
+	global $connection;
+	closeConnection($connection);
 }
 
 ?>
