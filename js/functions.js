@@ -36,7 +36,21 @@ function timestampToTimeOfDay(timestamp) {
 }
 
 function timestampToPreciseTimeOfDay(timestamp) {
-	//Insert code here
+	var a = new Date(timestamp*1000);
+	var sec = a.getSeconds();
+	if(sec < 10) {
+		sec='0' + sec;
+	}
+	var min = a.getMinutes();
+	if(min < 10){
+		min = '0' + min;
+	}
+	var hour = a.getHours();
+	if(hour < 10){
+		hour = '0' + hour;
+	}
+	var time =  hour + ':' + min + ':' sec;
+  	return time;
 }
 
 function timestampToDateAndTime(timestamp) {
