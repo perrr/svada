@@ -7,9 +7,6 @@ if(!isset($_SESSION['user'])){
 	die();
 }
 
-//Connect to database
-require('db.php');
-
 //For convenience, store session in a variable with a shorter name
 $user = $_SESSION['user'];
 ?>

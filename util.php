@@ -37,9 +37,4 @@ function printJson($json) {
 	 echo $json;
 }
 
-function close() {
-	global $connection;
-	closeConnection($connection);
-}
-
 ?>

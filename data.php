@@ -213,5 +213,7 @@ elseif($_GET['action'] == 'getChatImage') {
 	getChatImage();
 }
 
-close();
+//Close connection to database
+mysqli_close($connection);
+
 ?>

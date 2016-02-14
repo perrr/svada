@@ -7,8 +7,4 @@ function getConnection() {
 	return $connection;
 }
 
-function closeConnection($connection) {
-	mysqli_close($connection);
-}
-
 ?>

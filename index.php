@@ -12,6 +12,9 @@ if(isset($_POST['username'])){
 	//Look for matching users
 	$user = mysqli_fetch_array(getQuery("SELECT * FROM user WHERE username = '$username' AND password = '$password'"));
 	
+	//Close connection to database
+	mysqli_close($connection);
+	
 	//If a matching user was found, redirect to chat
 	if(!empty($user)){
 		$_SESSION['user'] = $user;
@@ -21,8 +24,6 @@ if(isset($_POST['username'])){
 	
 	//Store error message if login was unsuccessful
 	$message = '<span class="error-message">Incorrect username or password.</span>';
-
-	close();
 }
 ?>
 <!DOCTYPE html>

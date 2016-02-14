@@ -129,7 +129,8 @@ foreach ($users as $user) {
 	printWordList($relWords, true);
 }
 
-close();
+//Close connection to database
+mysqli_close($connection);
 
 ?>
 
