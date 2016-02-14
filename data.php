@@ -5,7 +5,8 @@ session_start();
 require('util.php');
 //Check authorization here
 
-function postMessage($content, $author, $timestamp) {
+function postMessage($content, $author) {
+	$timestamp = time();
 	setQuery("INSERT INTO message (content, author, timestamp)
 	VALUES ('$content', '$author', '$timestamp')");
 }
@@ -153,7 +154,7 @@ if(isset($_GET['user']) && $_GET['user'] != $_SESSION['user']['id']){
 	printJson('{"error": "Invalid action."}');
 }
 elseif($_GET['action'] == 'postMessage') {
-	postMessage($_GET['content'], $_GET['user'], $_GET['timestamp']);
+	postMessage($_GET['content'], $_GET['user']);
 }
 elseif($_GET['action'] == 'getMessages') {
 	getMessages($_GET['lastReceivedId']);
