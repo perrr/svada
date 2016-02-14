@@ -122,7 +122,8 @@ function getAllEmoticons() {
 }
 
 function getAllImages() {
-	//Insert code here	
+	$images = getQuery("SELECT * FROM image");
+	printJson(sqlToJson($images));
 }
 
 function setTopic($topic, $userId) {
@@ -173,6 +174,9 @@ elseif($_GET['action'] == 'setPassword') {
 }
 elseif($_GET['action'] == 'getAllEmoticons') {
 	getAllEmoticons();
+}
+elseif($_GET['action'] == 'getAllImages') {
+	getAllImages();
 }
 elseif($_GET['action'] == 'getOnlineUsers') {
 	getOnlineUsers();
