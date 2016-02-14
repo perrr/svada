@@ -136,8 +136,19 @@ function getUserChanges(oldUsers, newUsers) {
 	}
 }
 
+function insertEmoticon(i){
+	//Insert code here
+}
 
 function getAllEmoticonsAsHtml() {
-	//Insert code here
+	var allEmoticonsHtml = ""
+	var tempEmoticonHtml = ""
+	for (var i in emoticonArray){
+		tempEmoticonHtml = getEmoticonHTML(emoticonArray[i]);
+		tempEmoticonHtml=tempEmoticonHtml.slice(0,-1);
+		tempEmoticonHtml += ' onclick="insertEmoticon('+i+')">';
+		allEmoticonsHtml+= tempEmoticonHtml;
+	}
+	return allEmoticonsHtml;
 }
 
