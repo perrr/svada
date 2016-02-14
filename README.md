@@ -18,5 +18,5 @@ The following technologies are utilized in the project:
 * Ajax functionality for asynchronous data retrieval
 * Bootstrap for a responsive design
 
-##Licence
+##License
 The project is published under the MIT License.
