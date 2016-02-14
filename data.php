@@ -141,11 +141,13 @@ function getTopic() {
 }
 
 function setChatImage($image, $userId) {
-	//Insert code here
+	setQuery("UPDATE chat
+		SET image = '$image'");
 }
 
 function getChatImage() {
-	//Insert code here
+	$image = getQuery("SELECT image FROM chat");
+	printJson(sqlToJson($image));
 }
 
 //Escape all input
@@ -202,6 +204,12 @@ elseif($_GET['action'] == 'searchMessages') {
 }
 elseif($_GET['action'] == 'setTopic') {
 	setTopic($_GET['topic'], $_GET['userId']);
+}
+elseif($_GET['action'] == 'setChatImage') {
+	setChatImage($_GET['image'], $_GET['userId']);
+}
+elseif($_GET['action'] == 'getChatImage') {
+	getChatImage();
 }
 
 close();
