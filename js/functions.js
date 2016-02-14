@@ -143,11 +143,16 @@ function insertEmoticon(i){
 function getAllEmoticonsAsHtml() {
 	var allEmoticonsHtml = ""
 	var tempEmoticonHtml = ""
+	var lastEmoteName= ""
 	for (var i in emoticonArray){
-		tempEmoticonHtml = getEmoticonHTML(emoticonArray[i]);
-		tempEmoticonHtml=tempEmoticonHtml.slice(0,-1);
-		tempEmoticonHtml += ' onclick="insertEmoticon('+i+')">';
-		allEmoticonsHtml+= tempEmoticonHtml;
+		//check so that a emote with multiple shortcuts only show once
+		if(emoticonArray[i]["name"]!=lastEmoteName){
+			lastEmoteName=emoticonArray[i]["name"];
+			tempEmoticonHtml = getEmoticonHTML(emoticonArray[i]);
+			tempEmoticonHtml=tempEmoticonHtml.slice(0,-1);
+			tempEmoticonHtml += ' onclick="insertEmoticon('+i+')">';
+			allEmoticonsHtml+= tempEmoticonHtml;
+		}
 	}
 	return allEmoticonsHtml;
 }
