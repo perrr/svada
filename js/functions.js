@@ -96,6 +96,9 @@ function parseMessage(message) {
 	var newmessage = "";
 	var shortcuts = Object.keys(emoticonArray);
 	var allWords = message.split(" ");
+	
+	//Apply syntax highlighting if requested
+	
 	for (var wordindex in allWords){
 		var word = allWords[wordindex];
 		//Make URL's clickable with HTML
@@ -159,6 +162,7 @@ function getUserChanges(oldUsers, newUsers) {
 			changes[1].push(i);
 		}
 	}
+	return changes;
 }
 
 function insertEmoticon(i){

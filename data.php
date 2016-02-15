@@ -23,7 +23,7 @@ function getMessagesNewerThan($timeLimit) {
 
 function getOnlineUsers() {
 	$onlineUsers = getQuery("SELECT id, status FROM user WHERE status != 0");
-	printJson(sqlToJson($newMessages));
+	printJson(sqlToJson($onlineUsers));
 }
 
 function setProfilePicture($userid, $imageid) {
@@ -40,6 +40,10 @@ function setStatusMessage($userid, $statusMessage) {
 
 function setStatus($userId, $status) {
 	setQuery("UPDATE user SET status = $status WHERE id = $userId");
+}
+
+function setLanguage($userId, $language) {
+	//Insert code here
 }
 
 function getAllUsers() {
@@ -149,6 +153,10 @@ function getChatImage() {
 	$image = getQuery("SELECT image FROM chat");
 	printJson(sqlToJson($image));
 
+}
+
+function getChatInformation() {
+	//Insert code here
 }
 
 //Escape all input

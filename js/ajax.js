@@ -39,6 +39,10 @@ function getImageArray() {
 	}});
 }
 
+function getChatInformation() {
+	//Insert code here
+}
+
 function getNewMessages() {
 	$.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), success: function(json){
 		for(var i = 0; i < json.length; i++) {
@@ -76,4 +80,8 @@ function setPassword(newPassword, oldPassword, userId) {
 			//Insert code here for errormessage
 		}
 	}});
+}
+
+function loadLanguage(language) {
+	//Insert code here
 }

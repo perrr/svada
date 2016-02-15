@@ -9,7 +9,7 @@ function sqlToJson($sql) {
 	while ($row = mysqli_fetch_assoc($sql)) {
 		$json[] = $row;
 	}
-	echo json_encode($json, JSON_NUMERIC_CHECK);
+	return json_encode($json, JSON_NUMERIC_CHECK);
 }
 
 function escapeArray($array){
@@ -35,6 +35,10 @@ function setQuery($query) {
 function printJson($json) {
 	 header("Content-Type: application/json");
 	 echo $json;
+}
+
+function loadLanguage($language) {
+	//Insert code here
 }
 
 ?>
