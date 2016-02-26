@@ -38,7 +38,13 @@ function printJson($json) {
 }
 
 function loadLanguage($language) {
-	//Insert code here
+	$path ="lang/".$language.".json";
+	$languageFile = file_get_contents($path);
+	$languageFile = mb_convert_encoding($languageFile,'HTML-ENTITIES', "UTF-8");
+	$languageArray = json_decode($languageFile, true);
+
+	return $languageArray;
 }
+loadLanguage('norwegian');
 
 ?>
