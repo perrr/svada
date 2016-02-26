@@ -82,7 +82,7 @@ function getFormattedDataURL(parameters) {
 function getEmoticonHTML(emoticon){
 	var path = emoticon["path"];
 	var name = emoticon["name"];
-	var html = '<img class="message-smiley" src="'+path+'" title="'+name+'">' 
+	var html = '<img class="message-smiley" src=res/images/emoticons/"'+path+'" title="'+name+'">' 
 	return html;
 }
 
