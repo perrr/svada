@@ -24,6 +24,7 @@ $user = $_SESSION['user'];
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		<link href="css/styles.css" rel="stylesheet">
+		<link rel="stylesheet" href="css/styles/dracula.css">
 	</head>
 	<body>
 		<div class="container" id="chat-top">
@@ -48,5 +49,7 @@ $user = $_SESSION['user'];
 		<script src="js/functions.js"></script>
 		<script src="js/ajax.js"></script>
 		<script src="js/listeners.js"></script>
+		<script src="js/highlight.pack.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
 	</body>
 </html>

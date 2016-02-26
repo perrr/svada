@@ -24,3 +24,4 @@ getUserArray();
 getEmoticonArray();
 getImageArray();
 resizeWindow();
+//initHighlightingOnLoad();
