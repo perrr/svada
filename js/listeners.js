@@ -16,7 +16,7 @@ messageTextField.keyup(function(e) {
 });
 
 //If window is resized, call resize function
-$(window).resize(resizeWindow());
+$(window).resize(resizeWindow);
 
 //Run functions
 fetchNews();
