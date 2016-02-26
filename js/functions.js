@@ -202,7 +202,7 @@ function resizeWindow() {
 }
 
 function htmlEncode(html) {
-	html = jQuery('<div />').text(html.replace(/\n$/, "")).html().replace(/(?:\r\n|\r|\n)/g, '<br />');
+	html = jQuery('<div />').text(html).html().replace(/(?:\r\n|\r|\n)/g, '<br />');
 	return encodeURIComponent(html);
 }
 
