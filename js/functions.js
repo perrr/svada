@@ -199,3 +199,8 @@ function resizeWindow() {
 	$('#messages').css({'height':($('#chat-bottom').height()/100*85)-1});
 	$('#message-text-field').css({'height':($('#chat-bottom').height()/100*15)-1});	
 }
+
+function htmlEncode(html) {
+	html = jQuery('<div />').text(html).html().replace(/(?:\r\n|\r|\n)/g, '<br />');
+	return encodeURIComponent(html);
+}

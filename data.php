@@ -156,24 +156,22 @@ function getChatImage() {
 }
 
 function getChatInformation() {
-	//Insert code here
+	$chatInformation = getQuery("SELECT * FROM chat");
+	printJson(sqlToJson($chatInformation));
 }
 
 //Escape all input
 $_GET = escapeArray($_GET);
 
 //Handle actions
-if(isset($_GET['user']) && $_GET['user'] != $_SESSION['user']['id']){
-	printJson('{"error": "Invalid action."}');
-}
-elseif($_GET['action'] == 'postMessage') {
-	postMessage($_GET['content'], $_GET['user']);
+if($_GET['action'] == 'postMessage') {
+	postMessage($_GET['content'], $_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'getMessages') {
 	getMessages($_GET['lastReceivedId']);
 }
 elseif($_GET['action'] == 'getStatus') {
-	setStatus($_GET['user'], $_GET['status']);
+	setStatus($_SESSION['user']['id'], $_GET['status']);
 }
 elseif($_GET['action'] == 'getAllUsers') {
 	getAllUsers();
@@ -182,7 +180,7 @@ elseif($_GET['action'] == 'editMessage') {
 	editMessage($_GET['message'], $_GET['content']);
 }
 elseif($_GET['action'] == 'setPassword') {
-	setPassword($_GET['user'], $_GET['newPassword'], $_GET['oldPassword']);
+	setPassword($_SESSION['user']['id'], $_GET['newPassword'], $_GET['oldPassword']);
 }
 elseif($_GET['action'] == 'getAllEmoticons') {
 	getAllEmoticons();
@@ -197,16 +195,16 @@ elseif($_GET['action'] == 'getOnlineUsers') {
 	getOnlineUsers();
 }
 elseif($_GET['action'] == 'setProfilePicture') {
-	setProfilePicture($_GET['user'], $_GET['image']);
+	setProfilePicture($_SESSION['user']['id'], $_GET['image']);
 }
 elseif($_GET['action'] == 'setStatusMessage') {
-	setStatusMessage($_GET['user'], $_GET['statusMessage']);
+	setStatusMessage($_SESSION['user']['id'], $_GET['statusMessage']);
 }
 elseif($_GET['action'] == 'setHighPriorityUserInformation') {
-	setHighPriorityUserInformation($_GET['user'], $_GET['status'], $_GET['isTyping']);
+	setHighPriorityUserInformation($_SESSION['user']['id'], $_GET['status'], $_GET['isTyping']);
 }
 elseif($_GET['action'] == 'setLowPriorityUserInformation') {
-	setLowPriorityUserInformation($_GET['user'], $_GET['statusMessage'], $_GET['imageId']);
+	setLowPriorityUserInformation($_SESSION['user']['id'], $_GET['statusMessage'], $_GET['imageId']);
 }
 elseif($_GET['action'] == 'searchMessages') {
 	searchMessages($_GET['string'], $_GET['caseSensitive'], (int) $_GET['userId']);
@@ -220,7 +218,9 @@ elseif($_GET['action'] == 'setChatImage') {
 elseif($_GET['action'] == 'getChatImage') {
 	getChatImage();
 }
-
+elseif($_GET['action'] == 'getChatInformation') {
+	getChatInformation();
+}
 //Close connection to database
 mysqli_close($connection);
 

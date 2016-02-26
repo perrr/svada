@@ -62,12 +62,12 @@ function getNewMessages() {
 }
 
 function displayMessage(message) {
-	var messageHTML = '<div class="message"><span class="message-author">'+ userArray[message["author"]].display_name + '</span><span class="message-content">'+ parseMessage(message["content"]) + '</span><span class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>';
+	var messageHTML = '<div class="message"><span class="message-author">'+ userArray[message["author"]].display_name + '</span><span class="message-content"><pre>'+ parseMessage(message["content"]) + '</pre></span><span class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>';
 	$("#messages").append(messageHTML);
 }
 
 function postMessage(content, userId) {
-	$.ajax({url: getFormattedDataURL(["action=postMessage", "content="+content, "user="+userId, "timestamp="+getCurrentTimestamp()]), success: function(result){
+	$.ajax({url: getFormattedDataURL(["action=postMessage", "content="+htmlEncode(content), "user="+userId, "timestamp="+getCurrentTimestamp()]), success: function(result){
 	}});
 }
 
