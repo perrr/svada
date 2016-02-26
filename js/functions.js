@@ -195,3 +195,8 @@ function htmlEncode(html) {
 	html = jQuery('<div />').text(html).html().replace(/(?:\r\n|\r|\n)/g, '<br />');
 	return encodeURIComponent(html);
 }
+
+function scrollToBottom(id) {
+	var container = $(id);
+	container.scrollTop(container.prop("scrollHeight"));	
+}

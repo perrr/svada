@@ -64,6 +64,7 @@ function getNewMessages() {
 function displayMessage(message) {
 	var messageHTML = '<div class="message"><span class="message-author">'+ userArray[message["author"]].display_name + '</span><span class="message-content"><pre>'+ parseMessage(message["content"]) + '</pre></span><span class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>';
 	$("#messages").append(messageHTML);
+	scrollToBottom("#messages");
 }
 
 function postMessage(content, userId) {
