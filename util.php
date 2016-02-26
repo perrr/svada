@@ -42,9 +42,12 @@ function loadLanguage($language) {
 	$languageFile = file_get_contents($path);
 	$languageFile = mb_convert_encoding($languageFile,'HTML-ENTITIES', "UTF-8");
 	$languageArray = json_decode($languageFile, true);
-
+	
 	return $languageArray;
 }
-loadLanguage('norwegian');
+
+function getString($id) {
+	//Insert code here
+}
 
 ?>
