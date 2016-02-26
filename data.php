@@ -156,7 +156,8 @@ function getChatImage() {
 }
 
 function getChatInformation() {
-	//Insert code here
+	$chatInformation = getQuery("SELECT * FROM chat");
+	printJson(sqlToJson($chatInformation));
 }
 
 //Escape all input
@@ -220,7 +221,9 @@ elseif($_GET['action'] == 'setChatImage') {
 elseif($_GET['action'] == 'getChatImage') {
 	getChatImage();
 }
-
+elseif($_GET['action'] == 'getChatInformation') {
+	getChatInformation();
+}
 //Close connection to database
 mysqli_close($connection);
 
