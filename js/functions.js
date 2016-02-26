@@ -82,7 +82,7 @@ function getFormattedDataURL(parameters) {
 function getEmoticonHTML(emoticon){
 	var path = emoticon["path"];
 	var name = emoticon["name"];
-	var html = '<img class="message-smiley" src=res/images/emoticons/"'+path+'" title="'+name+'">' 
+	var html = '<img class="message-smiley" src=res/images/emoticons/'+path+' title="'+name+'">' 
 	return html;
 }
 
@@ -98,28 +98,38 @@ function parseMessage(message) {
 	var allWords = message.split(" ");
 	
 	//Apply syntax highlighting if requested
-	
-	for (var wordindex in allWords){
-		var word = allWords[wordindex];
-		//Make URL's clickable with HTML
-		if (isUrl(word)){
-			//Checks if the link do or do not start with http, https or ftp
-			var pattern = /^((http|https|ftp):\/\/)/;
-			if(!pattern.test(word)) {
-				//if not then add // to href to not link locally
-				newmessage = newmessage + " " + '<a href="//' + word + '" target="_blank">' + word + '</a>';
+	if (allWords[0].charAt(0)=="!"){
+		var language = allWords[0].slice(1,-1);
+		newmessage = '<span class="monospace">' + message.substr(2) + '</span>';
+			
+	}
+	//if no syntax requested then check for links and emoticons
+	else{
+		for (var wordindex in allWords){
+			var word = allWords[wordindex];
+			//Make URL's clickable with HTML
+			if (isUrl(word)){
+				//Checks if the link do or do not start with http, https or ftp
+				var pattern = /^((http|https|ftp):\/\/)/;
+				if(!pattern.test(word)) {
+					//if not then add // to href to not link locally
+					newmessage = newmessage + " " + '<a href="//' + word + '" target="_blank">' + word + '</a>';
+				}
+				else{
+					newmessage = newmessage + " " + '<a href="' + word + '" target="_blank">' + word + '</a>';
+				}
+				
+			}
+			//Replace emoticon shortcuts with HTML image
+			else if (shortcuts.indexOf(word) != -1){
+				newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
 			}
 			else{
-				newmessage = newmessage + " " + '<a href="' + word + '" target="_blank">' + word + '</a>';
+				newmessage = newmessage + " " + word;
 			}
-			
 		}
-		//Replace emoticon shortcuts with HTML image
-		else if (shortcuts.indexOf(word) != -1){
-			newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
-		}
-		else{
-			newmessage = newmessage + " " + word;
+		if(newmessage.charAt(0)==" "){
+			newmessage = newmessage.substr(1);
 		}
 	}
 	
