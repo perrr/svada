@@ -9,7 +9,7 @@ function fetchNews() {
 var messageTextField = $('#message-text-field');
 messageTextField.keyup(function(e) {
 	//Post message if Enter is pressed
-    if (e.keyCode === 13 && $.trim(messageTextField.val()) != "") {
+    if (e.keyCode === 13 && $.trim(messageTextField.val()) != "" && !e.shiftKey) {
         postMessage(messageTextField.val(), getLoggedInUserId());
 		messageTextField.val("");
     }

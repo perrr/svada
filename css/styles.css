@@ -2,6 +2,23 @@ body {
 	background-color: #EDF9FC;
 }
 
+pre {
+	font-family: sans-serif;
+	font-size: 14px;
+	display: inline-block;
+	white-space: pre;
+	margin: 1em 0px;
+	padding: initial;
+	line-height: initial;
+	color: initial;
+	background-color: initial;
+	border: initial;
+	overflow: initial;
+	word-break: initial;
+	word-wrap: initial;
+	border-radius: initial;
+}
+
 .login-wrapper {
 	max-width: 600px;
 }
