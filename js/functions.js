@@ -99,8 +99,8 @@ function parseMessage(message) {
 	
 	//Apply syntax highlighting if requested
 	if (allWords[0].charAt(0)=="!"){
-		var language = allWords[0].slice(1,-1)
-		newmessage = '<span class="monospace">' + message.substr(2) + '</span>'
+		var language = allWords[0].slice(1,-1);
+		newmessage = '<span class="monospace">' + message.substr(2) + '</span>';
 			
 	}
 	//if no syntax requested then check for links and emoticons
@@ -128,8 +128,9 @@ function parseMessage(message) {
 				newmessage = newmessage + " " + word;
 			}
 		}
-		if(newmesssage.charAt(0)=" "){
+		if(newmessage.charAt(0)==" "){
 			newmessage = newmessage.substr(1);
+		}
 	}
 	
 	//Return parsed message
