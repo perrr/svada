@@ -85,5 +85,7 @@ function setPassword(newPassword, oldPassword, userId) {
 }
 
 function loadLanguage(language) {
-	//Insert code here
+	$.ajax({url: "lang/"+ language+".json", success: function(result){
+		globalLanguage = result;
+	}});
 }
