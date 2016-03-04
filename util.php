@@ -3,7 +3,7 @@
 require('db.php');
 
 $connection = getConnection();
-
+$language = loadLanguage($_SESSION['user']['language']);
 function sqlToJson($sql) {
 	$json = array();
 	while ($row = mysqli_fetch_assoc($sql)) {
@@ -42,12 +42,10 @@ function loadLanguage($language) {
 	$languageFile = file_get_contents($path);
 	$languageFile = mb_convert_encoding($languageFile,'HTML-ENTITIES', "UTF-8");
 	$languageArray = json_decode($languageFile, true);
-	
 	return $languageArray;
 }
-
 function getString($id) {
-	//Insert code here
+	global $language;
+	return $language[$id];
 }
-
 ?>
