@@ -3,6 +3,7 @@
     "incorrectOldPassword": "Feil passord",
     "ChangedTopic": "endret emnet til ",
     "ChangedGroupImage": "endret gruppebildet",
+<<<<<<< HEAD
 	"offline": "Avlogget",
 	"available": "Tilgjengelig",
 	"away": "Borte",
@@ -21,4 +22,7 @@
 	"december": "desember",
 	"and": "og",
 	"typing": "skriver"
+=======
+    "incorrectUserOrPassword": "Feil brukernavn eller passord."
+>>>>>>> refs/remotes/origin/master
 }

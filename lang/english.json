@@ -1,8 +1,9 @@
 {
     "language": "Language",
     "incorrectOldPassword": "Incorrect password",
-    "changedTopid": "changed the topic to ",
-    "changedGroupImage": "changed the group image",	
+    "changedTopic": "changed the topic to ",
+    "changedGroupImage": "changed the group image",
+    "incorrectUserOrPassword": "Incorrect username or password.",
 	"offline": "Offline",
 	"available": "Available",
 	"away": "Away",
@@ -21,5 +22,4 @@
 	"december": "December",
 	"and": "and",
 	"typing": "is typing"
-	
 }
