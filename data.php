@@ -47,7 +47,7 @@ function setLanguage($userId, $language) {
 }
 
 function getAllUsers() {
-	$userQuery =getQuery("SELECT id, username, display_name, status, status_message, image, is_typing FROM user");
+	$userQuery =getQuery("SELECT id, username, display_name, status, status_message, image, is_typing, language FROM user");
 	$users = array();
 	$i=1;
 	while ($row = mysqli_fetch_assoc($userQuery)) {
