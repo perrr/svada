@@ -2,5 +2,6 @@
     "language": "Språk",
     "incorrectOldPassword": "Feil passord",
     "ChangedTopic": "endret emnet til ",
-    "ChangedGroupImage": "endret gruppebildet"
+    "ChangedGroupImage": "endret gruppebildet",
+    "incorrectUserOrPassword": "Feil brukernavn eller passord."
 }
