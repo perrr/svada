@@ -98,9 +98,9 @@ function parseMessage(message) {
 	var allWords = message.split(" ");
 	
 	//Apply syntax highlighting if requested
-	if (allWords[0].charAt(0)=="!"){
+	if (message.substring(0,2)=="!!"){
 		var language = allWords[0].slice(1,-1);
-		newmessage = '<span class="monospace">' + message.substr(2) + '</span>';
+		newmessage = '<code class="php">' + message.substr(2) + '</code>';
 			
 	}
 	//if no syntax requested then check for links and emoticons
