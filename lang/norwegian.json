@@ -1,9 +1,9 @@
 {
-    "language": "Språk",
+    "language": "SprÃ¥k",
     "incorrectOldPassword": "Feil passord",
     "ChangedTopic": "endret emnet til ",
     "ChangedGroupImage": "endret gruppebildet",
-<<<<<<< HEAD
+    "incorrectUserOrPassword": "Feil brukernavn eller passord.",
 	"offline": "Avlogget",
 	"available": "Tilgjengelig",
 	"away": "Borte",
@@ -22,7 +22,4 @@
 	"december": "desember",
 	"and": "og",
 	"typing": "skriver"
-=======
-    "incorrectUserOrPassword": "Feil brukernavn eller passord."
->>>>>>> refs/remotes/origin/master
 }

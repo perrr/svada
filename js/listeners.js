@@ -30,4 +30,5 @@ getEmoticonArray();
 getImageArray();
 getChatInformation();
 resizeWindow();
+loadLanguage("english");
 //initHighlightingOnLoad();
