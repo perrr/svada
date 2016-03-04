@@ -59,12 +59,14 @@ function mostUsedWordsAndEmoticons($user, $shortcuts) {
 					$emoticons[$word] = 1;
 			}
 			else {
-				$numWords++;
 				$stripped = preg_replace('/[^[:alnum:][:space:]]/u', '', strtolower($word));
-				if (array_key_exists($stripped, $words))
-					$words[$stripped] += 1;
-				else
-					$words[$stripped] = 1;
+				if ($stripped != '') {
+					$numWords++;
+					if (array_key_exists($stripped, $words))
+						$words[$stripped] += 1;
+					else
+						$words[$stripped] = 1;
+				}
 			}
 		}
 	}
@@ -168,8 +170,6 @@ foreach ($users as $user) {
 	$relWords = array();
 	foreach ($userWords as $k => $v) {
 		$relWords[$k] = ($v / $numWordsUser) / ($mostUsedWords[$k] / $numWordsTotal);
-		echo($v.'/'.$numWordsUser.'/'.$mostUsedWords[$k].'/'.$numWordsTotal.' ');
-		echo($relWords[$k].'! ');
 	}
 	asort($relWords);
 	$relWords = array_reverse($relWords);
