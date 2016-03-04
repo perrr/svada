@@ -61,3 +61,43 @@ pre {
 	height: 90%;
 	top: 10%;
 }
+
+/* Message styling */
+
+.message{
+	margin-left: auto;
+	margin-right: auto;	
+	max-width: 800px;
+	margin-bottom: 10px;
+	padding: 2px;
+}
+
+.message-author{
+	color: blue;
+	float: left;
+}
+
+.message-timestamp{
+	float: right;
+	color: #ADADAD;
+}
+
+.message-image{
+	float: left;
+	width: 10%;
+	padding: 3px;
+}
+
+.message-image img{
+	width: 100%;
+}
+
+.message-data{
+	float: left;
+	width: 90%;
+	padding-left: 10px;
+}
+
+.clear{
+	clear: both;
+}

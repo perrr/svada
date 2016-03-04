@@ -28,12 +28,7 @@ function getImageArray() {
 	$.ajax({url: getFormattedDataURL(["action=getAllImages"]), success: function(json){
 		
 		for(var i = 0; i < Object.keys(json).length; i++) {
-			var img = {};
-			var keys = Object.keys(json[i]);
-			for(var j = 0; j < keys.length; j++) {
-				img[keys[j]] = json[i][keys[j]];
-			}
-			imgArray[i] = img;
+			imgArray[json[i].id] = json[i].path;
 		}
 		
 	}});
@@ -62,7 +57,7 @@ function getNewMessages() {
 }
 
 function displayMessage(message) {
-	var messageHTML = '<div class="message"><span class="message-author">'+ userArray[message["author"]].display_name + '</span><span class="message-content"><pre>'+ parseMessage(message["content"]) + '</pre></span><span class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>';
+	var messageHTML = '<div class="message"><div class="message-image"><img class="img-rounded" src="res/images/uploads/'+ imgArray[userArray[message["author"]].image] + '"></div><div class="message-data"><div class="message-author">'+ userArray[message["author"]].display_name + '</div><div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div><br class="clear"><div class="message-content"><pre>'+ parseMessage(message["content"]) + '</pre></div></div><br class="clear"></div>';
 	$("#messages").append(messageHTML);
 	scrollToBottom("#messages");
 }
