@@ -116,7 +116,7 @@ function setPassword($userId, $newPassword, $oldPassword) {
 		return "";
 	}
 	else {
-		return '{"error": "Incorrect old password."}';
+		return '{"error":'.getString("incorrectOldPassword").'}';
 	}
 }
 

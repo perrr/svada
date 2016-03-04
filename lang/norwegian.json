@@ -1,3 +1,6 @@
 {
-    "language": "Språk"
+    "language": "Språk",
+    "incorrectOldPassword": "Feil passord",
+    "ChangedTopic": "endret emnet til ",
+    "ChangedGroupImage": "endret gruppebildet"
 }

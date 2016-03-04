@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 //If there's no session for this visitor, redirect him out of here
@@ -14,32 +15,64 @@ mb_internal_encoding('UTF-8');
 //For convenience, store session in a variable with a shorter name
 $user = $_SESSION['user'];
 
+$emoticonSql = getQuery("SELECT shortcut FROM emoticon");
+$shortcuts = [];
+while ($row = mysqli_fetch_assoc($emoticonSql)) {
+	$emoticonShortcuts = $row['shortcut'];
+	$exploded = explode(' ', $emoticonShortcuts);
+	foreach ($exploded as $shortcut) {
+		$shortcuts[] = $shortcut;
+	}
+}
+
+function isEmoticon($word, $shortcuts) {
+	foreach ($shortcuts as $shortcut) {
+		if ($word == $shortcut)
+			return true;
+	}
+	return false;
+}
+
 function printPercentage($number, $total) {
 	$perc = ($number / $total) * 100;
 	echo ' ('.round($perc, 2).' %)';
 }
 
-function mostUsedWords($user) {
+function mostUsedWordsAndEmoticons($user, $shortcuts) {
 	if ($user == null)
 		$content = getQuery("SELECT content FROM message");
 	else
 		$content = getQuery("SELECT content FROM message WHERE author = $user");
 	$words = array();
+	$emoticons = array();
+	$numWords = 0;
+	$numEmoticons = 0;
 	while ($row = mysqli_fetch_assoc($content)) {
 		$message = $row['content'];
 		$exploded = explode(' ', $message);
 		foreach ($exploded as $word) {
-			//Maybe filtrate out smileys at this point
-			$stripped = preg_replace('/[^[:alnum:][:space:]]/u', '', strtolower($word));
-			if (array_key_exists($stripped, $words))
-				$words[$stripped] += 1;
-			else
-				$words[$stripped] = 1;
+			if (isEmoticon($word, $shortcuts)) {
+				$numEmoticons++;
+				if (array_key_exists($word, $emoticons))
+					$emoticons[$word] += 1;
+				else
+					$emoticons[$word] = 1;
+			}
+			else {
+				$numWords++;
+				$stripped = preg_replace('/[^[:alnum:][:space:]]/u', '', strtolower($word));
+				if (array_key_exists($stripped, $words))
+					$words[$stripped] += 1;
+				else
+					$words[$stripped] = 1;
+			}
 		}
 	}
 	asort($words);
 	$words = array_reverse($words);
-	return $words;
+	asort($emoticons);
+	$emoticons = array_reverse($emoticons);
+	return array($words, $emoticons, $numWords, $numEmoticons);
 }
 
 function printWordList($words, $percent) {
@@ -107,26 +140,48 @@ foreach ($users as $user) {
 	echo '<br>';
 }
 
-$totalWords = mostUsedWords(null);
-$numTotal = sizeof($totalWords);
-echo '<br>Total number of unique words: '.$numTotal.'<br>';
+list($mostUsedWords, $mostUsedEmoticons, $numWordsTotal, $numEmoticonsTotal) = mostUsedWordsAndEmoticons(null, $shortcuts);
+$numWordsUnique = sizeof($mostUsedWords);
+echo '<br>Total number of words: '.$numWordsTotal.'<br>';
+echo '<br>Total number of unique words: '.$numWordsUnique.'<br>';
 echo '<br>Most used words:<br>';
-printWordList($totalWords, false);
+printWordList($mostUsedWords, false);
+$numEmoticonsUnique = sizeof($mostUsedEmoticons);
+echo '<br>Total number of emoticons: '.$numEmoticonsTotal.'<br>';
+echo '<br>Total number of unique emoticons: '.$numEmoticonsUnique.'<br>';
+echo '<br>Most used emoticons:<br>';
+printWordList($mostUsedEmoticons, false);
 foreach ($users as $user) {
-	$userWords = mostUsedWords($user['id']);
-	$numUser = sizeof($userWords);
-	echo '<br>Number of unique words for '.$user['username'].': '.$numUser.'<br>';
+	list($userWords, $userEmoticons, $numWordsUser, $numEmoticonsUser) = mostUsedWordsAndEmoticons($user['id'], $shortcuts);
+	$numWordsUserUnique = sizeof($userWords);
+	echo '<br>Number of words for '.$user['username'].': '.$numWordsUser.'<br>';
+	echo '<br>Number of unique words for '.$user['username'].': '.$numWordsUserUnique.'<br>';
 	echo '<br>Most used words for '.$user['username'].':<br>';
 	printWordList($userWords, false);
+	$numEmoticonsUserUnique = sizeof($userEmoticons);
+	echo '<br>Number of emoticons for '.$user['username'].': '.$numEmoticonsUser.'<br>';
+	echo '<br>Number of unique emoticons for '.$user['username'].': '.$numEmoticonsUserUnique.'<br>';
+	echo '<br>Most used emoticons for '.$user['username'].':<br>';
+	printWordList($userEmoticons, false);
 	
 	echo '<br>Relatively most used words for '.$user['username'].':<br>';
 	$relWords = array();
 	foreach ($userWords as $k => $v) {
-		$relWords[$k] = ($v / $numUser) / ($totalWords[$k] / $numTotal);
+		$relWords[$k] = ($v / $numWordsUser) / ($mostUsedWords[$k] / $numWordsTotal);
+		echo($v.'/'.$numWordsUser.'/'.$mostUsedWords[$k].'/'.$numWordsTotal.' ');
+		echo($relWords[$k].'! ');
 	}
 	asort($relWords);
 	$relWords = array_reverse($relWords);
 	printWordList($relWords, true);
+	echo '<br>Relatively most used emoticons for '.$user['username'].':<br>';
+	$relEmoticons = array();
+	foreach ($userEmoticons as $k => $v) {
+		$relEmoticons[$k] = ($v / $numEmoticonsUser) / ($mostUsedEmoticons[$k] / $numEmoticonsTotal);
+	}
+	asort($relEmoticons);
+	$relEmoticons = array_reverse($relEmoticons);
+	printWordList($relEmoticons, true);
 }
 
 //Close connection to database
