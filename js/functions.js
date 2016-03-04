@@ -145,9 +145,9 @@ function getWhoIsTypingAsText(users) {
 	}
 	//checks if the sentence need to add "and".
 	if (nrPeopleTyping >1){
-		typingMessage += "and ";
+		typingMessage += language["and"]+ " ";
 	}
-	typingMessage += userArray[users[nrPeopleTyping-1]]["display_name"] + " is typing."
+	typingMessage += userArray[users[nrPeopleTyping-1]]["display_name"] + " "+ language["typing"]
 	return typingMessage;
 }
 
