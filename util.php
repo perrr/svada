@@ -1,9 +1,17 @@
 <?php
 //Connect to database
 require('db.php');
-
 $connection = getConnection();
-$language = loadLanguage($_SESSION['user']['language']);
+
+// If user is not logged in, set English as default
+if(isset($_SESSION['user'])){
+	$language = $_SESSION['user']['language'];
+}
+else{
+	$language = 'english';
+}
+$language = loadLanguage($language);
+
 function sqlToJson($sql) {
 	$json = array();
 	while ($row = mysqli_fetch_assoc($sql)) {
