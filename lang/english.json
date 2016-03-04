@@ -2,5 +2,22 @@
     "language": "Language",
     "incorrectOldPassword": "Incorrect password",
     "changedTopid": "changed the topic to ",
-    "changedGroupImage": "changed the group image"
+    "changedGroupImage": "changed the group image",	
+	"offline": "Offline",
+	"available": "Available",
+	"away": "Away",
+	"occupied": "Occupied",
+	"january": "January",
+	"february": "February",
+	"march": "March",
+	"april": "April",
+	"may": "May",
+	"june": "June",
+	"july": "July",
+	"august": "August",
+	"september": "September",
+	"october": "October",
+	"november": "November",
+	"december": "December"
+	
 }

@@ -2,5 +2,21 @@
     "language": "Språk",
     "incorrectOldPassword": "Feil passord",
     "ChangedTopic": "endret emnet til ",
-    "ChangedGroupImage": "endret gruppebildet"
+    "ChangedGroupImage": "endret gruppebildet",
+	"offline": "Avlogget",
+	"available": "Tilgjengelig",
+	"away": "Borte",
+	"occupied": "Opptatt",
+	"january": "januar",
+	"february": "februar",
+	"march": "mars",
+	"april": "april",
+	"may": "mai",
+	"june": "juni",
+	"july": "juli",
+	"august": "august",
+	"september": "september",
+	"october": "oktober",
+	"november": "november",
+	"december": "desember"
 }

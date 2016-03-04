@@ -4,4 +4,4 @@ var userArray = [];
 var lastReceivedId = 0;
 var imgArray = [];
 var chatInformation = {};
-var globalLanguage;
+var language;
