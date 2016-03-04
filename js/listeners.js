@@ -28,5 +28,6 @@ fetchNews();
 getUserArray();
 getEmoticonArray();
 getImageArray();
+getChatInformation();
 resizeWindow();
 //initHighlightingOnLoad();

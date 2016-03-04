@@ -35,12 +35,13 @@ function getImageArray() {
 			}
 			imgArray[i] = img;
 		}
-		
 	}});
 }
 
 function getChatInformation() {
-	//Insert code here
+	$.ajax({url: getFormattedDataURL(["action=getChatInformation"]), success:function(json){
+		chatInformation = {topic:json[0]["topic"], chatImage:json[0]["image"]};
+	}});
 }
 
 function getNewMessages() {
