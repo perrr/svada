@@ -87,7 +87,7 @@ function getEmoticonHTML(emoticon){
 }
 
 function isUrl(string) {
-	var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+	var expression = /((?:https?\:\/\/|www\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)/i;
 	var regex = new RegExp(expression);
 	return string.match(regex);
  }
@@ -100,8 +100,7 @@ function parseMessage(message) {
 	//Apply syntax highlighting if requested
 	if (message.substring(0,2)=="!!"){
 		var language = allWords[0].slice(1,-1);
-		newmessage = '<code class="php">' + message.substr(2) + '</code>';
-			
+		newmessage = '<code>' + hljs.highlightAuto(htmlDecode(message.substr(2).replace(/<br\s*[\/]?>/gi, "\n"))).value + '</code>';
 	}
 	//if no syntax requested then check for links and emoticons
 	else{
@@ -204,6 +203,12 @@ function resizeWindow() {
 function htmlEncode(html) {
 	html = jQuery('<div />').text(html).html().replace(/(?:\r\n|\r|\n)/g, '<br />');
 	return encodeURIComponent(html);
+}
+
+function htmlDecode(html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
 }
 
 function scrollToBottom(id) {

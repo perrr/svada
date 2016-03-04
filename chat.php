@@ -24,7 +24,7 @@ $user = $_SESSION['user'];
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		<link href="css/styles.css" rel="stylesheet">
-		<link rel="stylesheet" href="css/highlightstyles/default.css">
+		<link rel="stylesheet" href="css/highlight.xcode.css">
 	</head>
 	<body>
 		<div class="container" id="chat-top">
@@ -45,11 +45,10 @@ $user = $_SESSION['user'];
 		<!-- Scripts -->
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
+		<script src="js/highlight.pack.js"></script>
 		<script src="js/global.js"></script>
 		<script src="js/functions.js"></script>
 		<script src="js/ajax.js"></script>
 		<script src="js/listeners.js"></script>
-		<script src="js/highlight.pack.js"></script>
-		<script>hljs.initHighlightingOnLoad();</script>
 	</body>
 </html>
