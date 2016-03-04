@@ -4,16 +4,16 @@ function getLoggedInUserId() {
 
 function statusIdToText(id) {
    	if(id==0) {
-   		return 'Offline';
+   		return language['offline'];
    	}
    	else if(id==1) {
-   		return 'Available';
+   		return language['available'];
    	}
    	else if(id==2) {
-   		return 'Away';
+   		return language['away'];
    	}
    	else if(id==3){
-   		return 'Occupied';
+   		return language['occupied'];
    	}
 }
 
@@ -70,7 +70,7 @@ function timestampToDateAndTime(timestamp) {
 	var day = a.getDate();
 	var month = a.getMonth();
 	var year = a.getFullYear();
-	var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	var months = [language["january"], language["february"], language["march"], language["april"], language["may"], language["june"], language["july"], language["august"], language["september"], language["october"], language["november"], language["december"]];
 	var time =  day + '. ' + months[month] + ' ' + year + ', ' + hour + ':' + min + ':' + sec;
 	return time;
 }
@@ -145,9 +145,9 @@ function getWhoIsTypingAsText(users) {
 	}
 	//checks if the sentence need to add "and".
 	if (nrPeopleTyping >1){
-		typingMessage += "and ";
+		typingMessage += language["and"]+ " ";
 	}
-	typingMessage += userArray[users[nrPeopleTyping-1]]["display_name"] + " is typing."
+	typingMessage += userArray[users[nrPeopleTyping-1]]["display_name"] + " "+ language["typing"]
 	return typingMessage;
 }
 

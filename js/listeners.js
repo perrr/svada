@@ -28,5 +28,7 @@ fetchNews();
 getUserArray();
 getEmoticonArray();
 getImageArray();
+getChatInformation();
 resizeWindow();
+loadLanguage("english");
 //initHighlightingOnLoad();

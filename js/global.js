@@ -3,5 +3,5 @@ var emoticonArray = {};
 var userArray = [];
 var lastReceivedId = 0;
 var imgArray = [];
-var chatInformation;
+var chatInformation = {};
 var language;

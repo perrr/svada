@@ -30,12 +30,13 @@ function getImageArray() {
 		for(var i = 0; i < Object.keys(json).length; i++) {
 			imgArray[json[i].id] = json[i].path;
 		}
-		
 	}});
 }
 
 function getChatInformation() {
-	//Insert code here
+	$.ajax({url: getFormattedDataURL(["action=getChatInformation"]), success:function(json){
+		chatInformation = {topic:json[0]["topic"], chatImage:json[0]["image"]};
+	}});
 }
 
 function getNewMessages() {
@@ -78,6 +79,8 @@ function setPassword(newPassword, oldPassword, userId) {
 	}});
 }
 
-function loadLanguage(language) {
-	//Insert code here
+function loadLanguage(newlanguage) {
+	$.ajax({url: "lang/"+ newlanguage+".json", success: function(result){
+		language = result;
+	}});
 }
