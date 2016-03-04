@@ -62,6 +62,7 @@ function mostUsedWordsAndEmoticons($user, $shortcuts) {
 					$emoticons[$word] = 1;
 			}
 			else {
+				$word = str_replace('<br', '', $word);
 				$stripped = preg_replace('/[^[:alnum:][:space:]]/u', '', strtolower($word));
 				if ($stripped != '') {
 					$numWords++;
