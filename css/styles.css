@@ -1,6 +1,9 @@
 body {
 	background-color: #EDF9FC;
 	overflow-y: hidden;
+	tab-size: 4;
+	-o-tab-size: 4;
+	-moz-tab-size: 4;
 }
 
 pre {
@@ -18,6 +21,11 @@ pre {
 	word-break: initial;
 	word-wrap: initial;
 	border-radius: initial;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;    
 }
 
 .login-wrapper {
