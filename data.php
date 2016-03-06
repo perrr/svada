@@ -221,10 +221,10 @@ elseif($_GET['action'] == 'searchMessages') {
 	searchMessages($_GET['string'], $_GET['caseSensitive'], (int) $_GET['userId']);
 }
 elseif($_GET['action'] == 'setTopic') {
-	setTopic($_GET['topic'], $_GET['userId']);
+	setTopic($_GET['topic'], $_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'setChatImage') {
-	setChatImage($_GET['image'], $_GET['userId']);
+	setChatImage($_GET['image'], $_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'getChatImage') {
 	getChatImage();
