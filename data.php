@@ -43,7 +43,7 @@ function setStatus($userId, $status) {
 }
 
 function setLanguage($userId, $language) {
-	//Insert code here
+	setQuery("UPDATE user SET language = '$language' WHERE id = '$userId'");
 }
 
 function getAllUsers() {
@@ -220,6 +220,9 @@ elseif($_GET['action'] == 'getChatImage') {
 }
 elseif($_GET['action'] == 'getChatInformation') {
 	getChatInformation();
+}
+elseif($_GET['action'] == 'setLanguage') {
+	setLanguage($_SESSION['user']['id'], $_GET['language']);
 }
 //Close connection to database
 mysqli_close($connection);
