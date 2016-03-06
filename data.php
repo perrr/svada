@@ -7,8 +7,17 @@ require('util.php');
 
 function postMessage($content, $author) {
 	$timestamp = time();
+	if(notSpam($author, $timestamp-5)){
 	setQuery("INSERT INTO message (content, author, timestamp)
 	VALUES ('$content', '$author', '$timestamp')");
+}
+}
+function notSpam($author, $timestamp) {
+	$messages = (getQuery("SELECT count(*) as count
+		FROM message 
+		WHERE author = '$author' AND timestamp>'$timestamp'"));
+	$result = $messages->fetch_assoc();
+	return ($result['count']<5);
 }
 
 function getMessages($lastReceivedId) {
