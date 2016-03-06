@@ -57,10 +57,12 @@ function getAllUsers() {
 	printJson(json_encode($users, JSON_NUMERIC_CHECK));
 }
 
-function editMessage($messageId, $content) {
+function editMessage($user, $messageId, $content) {
+	//5*60=300 is the maximum amount of time ou can wait before editing a message
+	$timestamp = time() -300;
 	setQuery("UPDATE message
 		SET content='$content', edit=1
-		WHERE id='$messageId'");
+		WHERE id='$messageId' AND author = '$user' AND timestamp>'$timestamp'");
 }
 
 function setHighPriorityUserInformation($userId, $status, $isTyping) {
@@ -177,7 +179,7 @@ elseif($_GET['action'] == 'getAllUsers') {
 	getAllUsers();
 }
 elseif($_GET['action'] == 'editMessage') {
-	editMessage($_GET['message'], $_GET['content']);
+	editMessage($_SESSION['user']['id'],$_GET['message'], $_GET['content']);
 }
 elseif($_GET['action'] == 'setPassword') {
 	setPassword($_SESSION['user']['id'], $_GET['newPassword'], $_GET['oldPassword']);
