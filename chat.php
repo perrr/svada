@@ -37,6 +37,7 @@ $user = $_SESSION['user'];
 				</div>
 				<div class="col-sm-10" id="mainbar">
 					<div id="messages"></div>
+					<div id="whoistyping"></div>
 					<textarea id="message-text-field"></textarea> 
 				</div>
 			</div>
@@ -50,5 +51,6 @@ $user = $_SESSION['user'];
 		<script src="js/functions.js"></script>
 		<script src="js/ajax.js"></script>
 		<script src="js/listeners.js"></script>
+		<script src="js/initialize.js"></script>
 	</body>
 </html>

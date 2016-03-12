@@ -25,6 +25,7 @@ if(isset($_POST['username'])){
 	//Store error message if login was unsuccessful
 	$message = '<span class="error-message">Incorrect username or password.</span>';
 }
+
 if(isset($_GET['logout'])){
 	session_destroy();
 }

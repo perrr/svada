@@ -52,8 +52,13 @@ function loadLanguage($language) {
 	$languageArray = json_decode($languageFile, true);
 	return $languageArray;
 }
+
 function getString($id) {
 	global $language;
 	return $language[$id];
+}
+
+function salt($password, $salt){
+	//Insert code here
 }
 ?>

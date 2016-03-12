@@ -215,3 +215,15 @@ function scrollToBottom(id) {
 	var container = $(id);
 	container.scrollTop(container.prop("scrollHeight"));	
 }
+
+function setAsInitialized(functionName) {
+	//Insert code here
+}
+
+function playSound(sound) {
+	//Insert code here
+}
+
+function browserNotification(message) {
+	//Insert code here
+}
