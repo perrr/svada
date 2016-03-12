@@ -7,8 +7,17 @@ require('util.php');
 
 function postMessage($content, $author) {
 	$timestamp = time();
+	if(notSpam($author, $timestamp-5)){
 	setQuery("INSERT INTO message (content, author, timestamp)
 	VALUES ('$content', '$author', '$timestamp')");
+}
+}
+function notSpam($author, $timestamp) {
+	$messages = (getQuery("SELECT count(*) as count
+		FROM message 
+		WHERE author = '$author' AND timestamp>'$timestamp'"));
+	$result = $messages->fetch_assoc();
+	return ($result['count']<5);
 }
 
 function getMessages($lastReceivedId) {
@@ -43,7 +52,7 @@ function setStatus($userId, $status) {
 }
 
 function setLanguage($userId, $language) {
-	//Insert code here
+	setQuery("UPDATE user SET language = '$language' WHERE id = '$userId'");
 }
 
 function getAllUsers() {
@@ -57,10 +66,12 @@ function getAllUsers() {
 	printJson(json_encode($users, JSON_NUMERIC_CHECK));
 }
 
-function editMessage($messageId, $content) {
+function editMessage($user, $messageId, $content) {
+	//5*60=300 is the maximum amount of time ou can wait before editing a message
+	$timestamp = time() -300;
 	setQuery("UPDATE message
 		SET content='$content', edit=1
-		WHERE id='$messageId'");
+		WHERE id='$messageId' AND author = '$user' AND timestamp>'$timestamp'");
 }
 
 function setHighPriorityUserInformation($userId, $status, $isTyping) {
@@ -177,7 +188,7 @@ elseif($_GET['action'] == 'getAllUsers') {
 	getAllUsers();
 }
 elseif($_GET['action'] == 'editMessage') {
-	editMessage($_GET['message'], $_GET['content']);
+	editMessage($_SESSION['user']['id'],$_GET['message'], $_GET['content']);
 }
 elseif($_GET['action'] == 'setPassword') {
 	setPassword($_SESSION['user']['id'], $_GET['newPassword'], $_GET['oldPassword']);
@@ -210,16 +221,19 @@ elseif($_GET['action'] == 'searchMessages') {
 	searchMessages($_GET['string'], $_GET['caseSensitive'], (int) $_GET['userId']);
 }
 elseif($_GET['action'] == 'setTopic') {
-	setTopic($_GET['topic'], $_GET['userId']);
+	setTopic($_GET['topic'], $_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'setChatImage') {
-	setChatImage($_GET['image'], $_GET['userId']);
+	setChatImage($_GET['image'], $_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'getChatImage') {
 	getChatImage();
 }
 elseif($_GET['action'] == 'getChatInformation') {
 	getChatInformation();
+}
+elseif($_GET['action'] == 'setLanguage') {
+	setLanguage($_SESSION['user']['id'], $_GET['language']);
 }
 //Close connection to database
 mysqli_close($connection);
