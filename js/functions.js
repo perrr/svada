@@ -237,9 +237,10 @@ function setAsInitialized(functionName) {
 }
 
 function playSound(sound) {
-	//Insert code here
+	var audio = new Audio("res/audio/"+sound);
+	audio.play();
 }
-
+//playSound("anthem.mp3");
 function browserNotification(message) {
 	//Insert code here
 }
