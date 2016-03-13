@@ -59,6 +59,17 @@ function getString($id) {
 }
 
 function salt($password, $salt){
-	//Insert code here
+	$number =1;
+	for ($i=0; $i < strlen($salt); $i++) { 
+		$number = $number* ord($salt[$i]);
+	}
+	while ($number<= 1000000000) {
+		$number=$number*7;
+	}
+	$numberString= strval($number);
+	for ($i=0; $i < 10; $i++) { 
+			$password=$password.$numberString[$i];
+	}
+	return $password;
 }
 ?>

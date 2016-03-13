@@ -7,7 +7,7 @@ if(isset($_POST['username'])){
 	
 	//Preprocess username and password
 	$username = strtolower($connection->real_escape_string($_POST['username']));
-	$password = md5($connection->real_escape_string($_POST['password']));
+	$password = md5(salt($connection->real_escape_string($_POST['password']),$_SESSION['user']['username']));
 	
 	//Look for matching users
 	$user = mysqli_fetch_array(getQuery("SELECT * FROM user WHERE username = '$username' AND password = '$password'"));
