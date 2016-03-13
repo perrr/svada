@@ -23,7 +23,7 @@ if(isset($_POST['username'])){
 	}
 	
 	//Store error message if login was unsuccessful
-	$message = '<span class="error-message">Incorrect username or password.</span>';
+	$message = '<span class="error-message">'.getString("incorrectUserOrPassword").'</span>';
 }
 
 if(isset($_GET['logout'])){
