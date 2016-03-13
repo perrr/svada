@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+require('util.php');
+
 //If there's no session for this visitor, redirect him out of here
 if(!isset($_SESSION['user'])){
 	header('Location: index.php');
@@ -28,7 +30,7 @@ $user = $_SESSION['user'];
 	</head>
 	<body>
 		<div class="container" id="chat-top">
-		  -topic-
+		  <a href="index.php?logout=1"><?php echo getString('logout'); ?></a>
 		</div>
 		<div class="container" id="chat-bottom">
 			<div class="row">
