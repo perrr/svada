@@ -1,6 +1,8 @@
 function getUserArray() {
 	$.ajax({url: getFormattedDataURL(["action=getAllUsers"]), success: function(json){
-		
+		//Copy the old userArray
+		var oldUserArray = jQuery.extend({}, userArray);
+		//Update the userArray
 		for(var i = 0; i < Object.keys(json).length; i++) {
 			var user = {};
 			var keys = Object.keys(json[i]);
@@ -9,7 +11,9 @@ function getUserArray() {
 			}
 			userArray[i] = user;
 		}
-		
+		//Get changes and propagate those
+		var changes = getUserChanges(oldUserArray, userArray);
+		propagateUserChanges(changes);
 	}});
 }
 

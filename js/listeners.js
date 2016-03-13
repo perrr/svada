@@ -2,7 +2,13 @@
 function fetchNews() {
 	window.setInterval(function(){
 		getNewMessages();
+		getUserArray();
 	}, 1000);
+}
+
+//Update chat based on changes un userArray
+function propagateUserChanges(changes) {
+	$('#whoistyping').html(getWhoIsTypingAsText(changes[1]));
 }
 
 //Listen for input in the message field
