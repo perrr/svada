@@ -1,26 +1,43 @@
 <?php
 session_start();
+require('util.php');
 $message = '';
-
-if(isset($_POST['username'])){
-	require('util.php');
-	
+/*
+if(isset($_COOKIE['usercookie'])){
+	$cookie = $_COOKIE['usercookie'];
+	$cookieResult = mysqli_fetch_array(getQuery("SELECT id FROM user_session WHERE token ='$cookie'"));
+	mysqli_close($connection);
+	if(!empty($cookieResult)){
+		$id = $cookieResult['id'];
+		$_SESSION['user'] = mysqli_fetch_array(getQuery("SELECT * FROM user WHERE id ='$id'"));;
+		header('Location: chat.php');
+		die();
+	}
+}*/
+if(isset($_POST['username'])){	
 	//Preprocess username and password
 	$username = strtolower($connection->real_escape_string($_POST['username']));
-	$password = md5(salt($connection->real_escape_string($_POST['password']),$_SESSION['user']['username']));
+	$password = md5(salt($connection->real_escape_string($_POST['password']),$_POST['username']));
 	
 	//Look for matching users
 	$user = mysqli_fetch_array(getQuery("SELECT * FROM user WHERE username = '$username' AND password = '$password'"));
 	
-	//Close connection to database
-	mysqli_close($connection);
+
 	
 	//If a matching user was found, redirect to chat
 	if(!empty($user)){
 		$_SESSION['user'] = $user;
+		$token = $_SESSION['user']['id'].md5(strval(time()));
+		$id = $_SESSION['user']['id'];
+		setQuery("UPDATE user_session SET token = '$token' WHERE id = '$id'");
+		//Close connection to database
+		mysqli_close($connection);
+		setcookie('usercookie', $token, 86400*365*100);
 		header('Location: chat.php');
 		die();
 	}
+	//Close connection to database
+	mysqli_close($connection);
 	
 	//Store error message if login was unsuccessful
 	$message = '<span class="error-message">'.getString("incorrectUserOrPassword").'</span>';
