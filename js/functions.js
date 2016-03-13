@@ -142,14 +142,16 @@ function parseMessage(message) {
 function getWhoIsTypingAsText(users) {
 	var nrPeopleTyping = users.length;
 	var typingMessage = "";
-	for (var i=0; i<nrPeopleTyping-1;i++){
-		typingMessage += userArray[users[i]]["display_name"] + ", ";
+	if (nrPeopleTyping > 0){
+		for (var i=0; i<nrPeopleTyping-1;i++){
+			typingMessage += userArray[users[i]]["display_name"] + ", ";
+		}
+		//checks if the sentence need to add "and".
+		if (nrPeopleTyping >1){
+			typingMessage += language["and"]+ " ";
+		}
+		typingMessage += userArray[users[nrPeopleTyping-1]]["display_name"] + " "+ language["typing"];
 	}
-	//checks if the sentence need to add "and".
-	if (nrPeopleTyping >1){
-		typingMessage += language["and"]+ " ";
-	}
-	typingMessage += userArray[users[nrPeopleTyping-1]]["display_name"] + " "+ language["typing"]
 	return typingMessage;
 }
 
