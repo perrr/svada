@@ -97,8 +97,13 @@ function parseMessage(message) {
 	var shortcuts = Object.keys(emoticonArray);
 	var allWords = message.split(" ");
 	
+	//No parsing if sentence start with @@
+	if(message.substring(0,2)=="@@"){
+		newmessage = message.substr(2);
+	}
+	
 	//Apply syntax highlighting if requested
-	if (message.substring(0,2)=="!!"){
+	else if (message.substring(0,2)=="!!"){
 		newmessage = '<code>' + hljs.highlightAuto(htmlDecode(message.substr(2).replace(/<br\s*[\/]?>/gi, "\n"))).value + '</code>';
 	}
 	//if no syntax requested then check for links and emoticons

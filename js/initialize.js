@@ -1,5 +1,5 @@
 function initializeChat() {
-	loadLanguage("english");
+	loadLanguage(userArray[getLoggedInUserId()]["language"]);
 	fetchNews();
 }
 initialized = {"getUserArray":false, "getEmoticonArray":false, "getImageArray":false, "getChatInformation":false};
