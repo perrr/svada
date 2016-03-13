@@ -141,7 +141,7 @@ function parseMessage(message) {
 
 function getWhoIsTypingAsText(users) {
 	var nrPeopleTyping = users.length;
-	var typingMessage = "";
+	var typingMessage = "&nbsp;";
 	if (nrPeopleTyping > 0){
 		for (var i=0; i<nrPeopleTyping-1;i++){
 			typingMessage += userArray[users[i]]["display_name"] + ", ";
@@ -202,7 +202,7 @@ function getAllEmoticonsAsHtml() {
 
 function resizeWindow() {
 	$('#messages').css({'height':($('#chat-bottom').height()/100*85)-1});
-	$('#message-text-field').css({'height':($('#chat-bottom').height()/100*15)-1});	
+	$('#message-text-field').css({'height':($('#chat-bottom').height()/100*15) + 1 - $('#whoistyping').height()});	
 }
 
 function htmlEncode(html) {
