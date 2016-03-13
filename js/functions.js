@@ -217,7 +217,19 @@ function scrollToBottom(id) {
 }
 
 function setAsInitialized(functionName) {
-	//Insert code here
+	initialized[functionName] = true;
+	var check = true;
+	for(var i in initialized) {
+		if (initialized.hasOwnProperty(i)){
+			if (!initialized[i]){
+				check=false;
+				break;
+			}
+		}
+	}
+	if (check){
+		initializeChat();
+	}
 }
 
 function playSound(sound) {
