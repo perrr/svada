@@ -53,6 +53,7 @@ pre {
 #message-text-field {
 	width: 100%;
 	border-top: 1px solid black;
+	white-space: pre-wrap;
 }
 
 #chat-top{
@@ -108,4 +109,19 @@ pre {
 
 .clear{
 	clear: both;
+}
+
+/* Message elements */
+
+.quote{
+	border: 1px solid;
+	background: #E1EAED;
+	margin-bottom: 2px;
+	padding: 3px;
+}
+
+.quote-signature{
+	font-size: 90%;
+	color: #0286B3;
+	padding-top: 5px;
 }

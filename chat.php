@@ -38,7 +38,7 @@ $user = $_SESSION['user'];
 				<div class="col-sm-10" id="mainbar">
 					<div id="messages"></div>
 					<div id="whoistyping"></div>
-					<textarea id="message-text-field"></textarea> 
+					<div id="message-text-field" contenteditable="true"></div> 
 				</div>
 			</div>
 		</div>

@@ -71,6 +71,7 @@ function getNewMessages() {
 			//If the message is previously unrecieved, add it to array and display it
 			if (!(id in messages)) {
 				messages[id] = json[i];
+				messages[id].parsedContent = parseMessage(messages[id].content);
 				displayMessage(json[i]);
 			}
 		}
@@ -78,8 +79,9 @@ function getNewMessages() {
 }
 
 function displayMessage(message) {
-	var messageHTML = '<div class="message"><div class="message-image"><img class="img-rounded" src="res/images/uploads/'+ imgArray[userArray[message["author"]].image] + '"></div><div class="message-data"><div class="message-author">'+ userArray[message["author"]].display_name + '</div><div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div><br class="clear"><div class="message-content"><pre>'+ parseMessage(message["content"]) + '</pre></div></div><br class="clear"></div>';
+	var messageHTML = '<div class="message"><div class="message-image"><img class="img-rounded" src="res/images/uploads/'+ imgArray[userArray[message["author"]].image] + '"></div><div class="message-data"><div class="message-author">'+ userArray[message["author"]].display_name + '</div><div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div><br class="clear"><div id="message' + message.id + '" class="message-content"><pre>'+ message.parsedContent + '</pre></div></div><br class="clear"></div>';
 	$("#messages").append(messageHTML);
+	listenForQuote(message.id);
 	scrollToBottom("#messages");
 }
 

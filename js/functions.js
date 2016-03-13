@@ -3,18 +3,18 @@ function getLoggedInUserId() {
 }
 
 function statusIdToText(id) {
-   	if(id==0) {
-   		return language['offline'];
-   	}
-   	else if(id==1) {
-   		return language['available'];
-   	}
-   	else if(id==2) {
-   		return language['away'];
-   	}
-   	else if(id==3){
-   		return language['occupied'];
-   	}
+	if(id==0) {
+		return language['offline'];
+	}
+	else if(id==1) {
+		return language['available'];
+	}
+	else if(id==2) {
+		return language['away'];
+	}
+	else if(id==3){
+		return language['occupied'];
+	}
 }
 
 function getCurrentTimestamp(){
@@ -23,16 +23,16 @@ function getCurrentTimestamp(){
 
 function timestampToTimeOfDay(timestamp) {
 	var a = new Date(timestamp*1000);
-  	var hour = a.getHours();
-  	if(hour<10){
-  		hour= '0'+hour;
-  	}
-  	var min = a.getMinutes();
-  	if(min<10){
-  		min= '0'+min;
-  	}
-  	var time =  hour + ':' + min;
-  	return time;
+	var hour = a.getHours();
+	if(hour<10){
+		hour= '0'+hour;
+	}
+	var min = a.getMinutes();
+	if(min<10){
+		min= '0'+min;
+	}
+	var time =  hour + ':' + min;
+	return time;
 }
 
 function timestampToPreciseTimeOfDay(timestamp) {
@@ -50,7 +50,7 @@ function timestampToPreciseTimeOfDay(timestamp) {
 		hour = '0' + hour;
 	}
 	var time =  hour + ':' + min + ':' + sec;
-  	return time;
+	return time;
 }
 
 function timestampToDateAndTime(timestamp) {
@@ -90,7 +90,7 @@ function isUrl(string) {
 	var expression = /((?:https?\:\/\/|www\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)/i;
 	var regex = new RegExp(expression);
 	return string.match(regex);
- }
+}
 
 function parseMessage(message) {
 	var newmessage = "";
@@ -206,14 +206,13 @@ function resizeWindow() {
 }
 
 function htmlEncode(html) {
-	html = jQuery('<div />').text(html).html().replace(/(?:\r\n|\r|\n)/g, '<br />');
 	return encodeURIComponent(html);
 }
 
 function htmlDecode(html) {
-    var txt = document.createElement("textarea");
-    txt.innerHTML = html;
-    return txt.value;
+	var txt = document.createElement("textarea");
+	txt.innerHTML = html;
+	return txt.value;
 }
 
 function scrollToBottom(id) {
@@ -249,13 +248,51 @@ function playSound(sound) {
 //theTitle: title of the notification
 
 function browserNotification(theBody, theIcon, theTitle) {
-  var options = {
-    body: theBody,
-    icon: theIcon
-  }
-  var n = new Notification(theTitle, options);
-  //how long the notification appears
-  setTimeout(n.close.bind(n), 4000);
+	var options = {
+body: theBody,
+icon: theIcon
+	}
+	var n = new Notification(theTitle, options);
+	//how long the notification appears
+	setTimeout(n.close.bind(n), 4000);
 }
 //an example
 //spawnNotification("Hi everyone, welcome to the chat", "res/images/uploads/s.jpg", "Game Master");
+
+function messageIdStringToInt(string){
+	return parseInt(string.substring(7));
+}
+
+function insertToMessageField(content) {
+	var sel, range;
+	if (window.getSelection) {
+		// IE9 and non-IE
+		sel = window.getSelection();
+		if (sel.getRangeAt && sel.rangeCount) {
+			range = sel.getRangeAt(0);
+			range.deleteContents();
+
+			// Range.createContextualFragment() would be useful here but is
+			// non-standard and not supported in all browsers (IE9, for one)
+			var el = document.createElement("div");
+			el.innerHTML = content;
+			var frag = document.createDocumentFragment(), node, lastNode;
+			while ( (node = el.firstChild) ) {
+				lastNode = frag.appendChild(node);
+			}
+			range.insertNode(frag);
+			
+			// Preserve the selection
+			if (lastNode) {
+				range = range.cloneRange();
+				range.setStartAfter(lastNode);
+				range.collapse(true);
+				sel.removeAllRanges();
+				sel.addRange(range);
+			}
+		}
+	} else if (document.selection && document.selection.type != "Control") {
+		// IE < 9
+		document.selection.createRange().pasteHTML(content);
+	}
+}
