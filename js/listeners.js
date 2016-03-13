@@ -28,12 +28,3 @@ messageTextField.keydown(function(e) {
 
 //If window is resized, call resize function
 $(window).resize(resizeWindow);
-
-//Run functions
-fetchNews();
-getUserArray();
-getEmoticonArray();
-getImageArray();
-getChatInformation();
-resizeWindow();
-loadLanguage("english");

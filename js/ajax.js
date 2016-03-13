@@ -14,6 +14,7 @@ function getUserArray() {
 		//Get changes and propagate those
 		var changes = getUserChanges(oldUserArray, userArray);
 		propagateUserChanges(changes);
+		setAsInitialized("getUserArray");
 	}});
 }
 
@@ -25,6 +26,7 @@ function getEmoticonArray() {
 				emoticonArray[allShortcuts[d]]= {path:json[i]["path"], name:json[i]["name"]};
 			}
 		}
+		setAsInitialized("getEmoticonArray");
 	}});
 }
 
@@ -34,12 +36,14 @@ function getImageArray() {
 		for(var i = 0; i < Object.keys(json).length; i++) {
 			imgArray[json[i].id] = json[i].path;
 		}
+		setAsInitialized("getImageArray");
 	}});
 }
 
 function getChatInformation() {
 	$.ajax({url: getFormattedDataURL(["action=getChatInformation"]), success:function(json){
 		chatInformation = {topic:json[0]["topic"], chatImage:json[0]["image"]};
+		setAsInitialized("getChatInformation");
 	}});
 }
 

@@ -97,9 +97,13 @@ function parseMessage(message) {
 	var shortcuts = Object.keys(emoticonArray);
 	var allWords = message.split(" ");
 	
+	//No parsing if sentence start with @@
+	if(message.substring(0,2)=="@@"){
+		newmessage = message.substr(2);
+	}
+	
 	//Apply syntax highlighting if requested
-	if (message.substring(0,2)=="!!"){
-		var language = allWords[0].slice(1,-1);
+	else if (message.substring(0,2)=="!!"){
 		newmessage = '<code>' + hljs.highlightAuto(htmlDecode(message.substr(2).replace(/<br\s*[\/]?>/gi, "\n"))).value + '</code>';
 	}
 	//if no syntax requested then check for links and emoticons
@@ -131,7 +135,6 @@ function parseMessage(message) {
 			newmessage = newmessage.substr(1);
 		}
 	}
-	
 	//Return parsed message
 	return newmessage;
 }
@@ -217,13 +220,40 @@ function scrollToBottom(id) {
 }
 
 function setAsInitialized(functionName) {
-	//Insert code here
+	initialized[functionName] = true;
+	var check = true;
+	for(var i in initialized) {
+		if (initialized.hasOwnProperty(i)){
+			if (!initialized[i]){
+				check=false;
+				break;
+			}
+		}
+	}
+	if (check){
+		initializeChat();
+	}
 }
 
 function playSound(sound) {
-	//Insert code here
+	var audio = new Audio("res/audio/"+sound);
+	audio.play();
 }
+//playSound("anthem.mp3");
 
-function browserNotification(message) {
-	//Insert code here
+// Functions for notifications
+//theBody: the text you want to notify the others with
+//theIcon: the image of the person talking
+//theTitle: title of the notification
+
+function browserNotification(theBody, theIcon, theTitle) {
+  var options = {
+    body: theBody,
+    icon: theIcon
+  }
+  var n = new Notification(theTitle, options);
+  //how long the notification appears
+  setTimeout(n.close.bind(n), 4000);
 }
+//an example
+//spawnNotification("Hi everyone, welcome to the chat", "res/images/uploads/s.jpg", "Game Master");
