@@ -8,4 +8,5 @@ initialized = {"getUserArray":false, "getEmoticonArray":false, "getImageArray":f
 	getEmoticonArray();
 	getImageArray();
 	getChatInformation();
+	Notification.requestPermission();
 	resizeWindow();

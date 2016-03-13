@@ -135,7 +135,6 @@ function parseMessage(message) {
 			newmessage = newmessage.substr(1);
 		}
 	}
-	
 	//Return parsed message
 	return newmessage;
 }
@@ -241,6 +240,20 @@ function playSound(sound) {
 	audio.play();
 }
 //playSound("anthem.mp3");
-function browserNotification(message) {
-	//Insert code here
+
+// Functions for notifications
+//theBody: the text you want to notify the others with
+//theIcon: the image of the person talking
+//theTitle: title of the notification
+
+function browserNotification(theBody, theIcon, theTitle) {
+  var options = {
+    body: theBody,
+    icon: theIcon
+  }
+  var n = new Notification(theTitle, options);
+  //how long the notification appears
+  setTimeout(n.close.bind(n), 4000);
 }
+//an example
+//spawnNotification("Hi everyone, welcome to the chat", "res/images/uploads/s.jpg", "Game Master");
