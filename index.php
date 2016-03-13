@@ -2,18 +2,21 @@
 session_start();
 require('util.php');
 $message = '';
-/*
+if(isset($_GET['logout'])){
+	setcookie('usercookie', '', time()-3600);
+	session_destroy();
+}
 if(isset($_COOKIE['usercookie'])){
 	$cookie = $_COOKIE['usercookie'];
 	$cookieResult = mysqli_fetch_array(getQuery("SELECT id FROM user_session WHERE token ='$cookie'"));
-	mysqli_close($connection);
 	if(!empty($cookieResult)){
 		$id = $cookieResult['id'];
-		$_SESSION['user'] = mysqli_fetch_array(getQuery("SELECT * FROM user WHERE id ='$id'"));;
+		$_SESSION['user'] = mysqli_fetch_array(getQuery("SELECT * FROM user WHERE id ='$id'"));
+		mysqli_close($connection);
 		header('Location: chat.php');
 		die();
 	}
-}*/
+}
 if(isset($_POST['username'])){	
 	//Preprocess username and password
 	$username = strtolower($connection->real_escape_string($_POST['username']));
@@ -43,9 +46,6 @@ if(isset($_POST['username'])){
 	$message = '<span class="error-message">'.getString("incorrectUserOrPassword").'</span>';
 }
 
-if(isset($_GET['logout'])){
-	session_destroy();
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
