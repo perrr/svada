@@ -240,7 +240,6 @@ function playSound(sound) {
 	var audio = new Audio("res/audio/"+sound);
 	audio.play();
 }
-//playSound("anthem.mp3");
 
 // Functions for notifications
 //theBody: the text you want to notify the others with
