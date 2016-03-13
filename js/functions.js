@@ -99,7 +99,6 @@ function parseMessage(message) {
 	
 	//Apply syntax highlighting if requested
 	if (message.substring(0,2)=="!!"){
-		var language = allWords[0].slice(1,-1);
 		newmessage = '<code>' + hljs.highlightAuto(htmlDecode(message.substr(2).replace(/<br\s*[\/]?>/gi, "\n"))).value + '</code>';
 	}
 	//if no syntax requested then check for links and emoticons
