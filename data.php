@@ -55,6 +55,10 @@ function setLanguage($userId, $language) {
 	setQuery("UPDATE user SET language = '$language' WHERE id = '$userId'");
 }
 
+function setIsTyping($userId, $isTyping) {
+	//Insert code here
+}
+
 function getAllUsers() {
 	$userQuery =getQuery("SELECT id, username, display_name, status, status_message, image, is_typing, language FROM user");
 	$users = array();

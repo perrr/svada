@@ -90,6 +90,18 @@ function postMessage(content, userId) {
 	}});
 }
 
+function sendIsTyping(isTyping) {
+	//Insert code here
+}
+
+function sendStatus(status) {
+	//Insert code here
+}
+
+function performSearch(searchstring, caseSensitive, userId) {
+	
+}
+
 function setPassword(newPassword, oldPassword, userId) {
 	$.ajax({url: getFormattedDataURL(["action=setPassword", "user="+userId, "newPassword="+newPassword, "oldPassword="+oldPassword]), success: function(result){
 		if (Object.keys(json).length ==0){

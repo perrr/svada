@@ -2,6 +2,10 @@ function getLoggedInUserId() {
 	return userArray[0]['id'];
 }
 
+function getLoggedInUser() {
+	return userArray[0];
+}
+
 function statusIdToText(id) {
 	if(id==0) {
 		return language['offline'];
@@ -73,6 +77,10 @@ function timestampToDateAndTime(timestamp) {
 	var months = [language["january"], language["february"], language["march"], language["april"], language["may"], language["june"], language["july"], language["august"], language["september"], language["october"], language["november"], language["december"]];
 	var time =  day + '. ' + months[month] + ' ' + year + ', ' + hour + ':' + min + ':' + sec;
 	return time;
+}
+
+function timestampToTextualDateAndTime(timestamp) {
+	//Insert code here
 }
 
 function getFormattedDataURL(parameters) {
@@ -294,4 +302,12 @@ function insertToMessageField(content) {
 		// IE < 9
 		document.selection.createRange().pasteHTML(content);
 	}
+}
+
+function showTitleAlert(message) {
+	//Insert code here
+}
+
+function displaySearchResults(results) {
+	//Insert code here
 }

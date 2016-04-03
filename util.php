@@ -72,4 +72,8 @@ function salt($password, $salt){
 	}
 	return $password;
 }
+
+function verifyQuotes($message) {
+	//Insert code here
+}
 ?>
