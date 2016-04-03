@@ -65,16 +65,16 @@ if(isset($_POST['username'])){
 		
 		<div class="container login-wrapper">
 			<div class="panel panel-primary">
-				  <div class="panel-heading login-header"><h3>Log in to Svada</h3></div>
+				  <div class="panel-heading login-header"><h3><?php echo getString("logInSvada"); ?></h3></div>
 				  <div class="panel-body">
 				  
 					<form action="" method="post">
 						<div class="form-group">
-							<label for="username">Username</label>
+							<label for="username"><?php echo getString("username");?></label>
 							<input type="text" name="username" class="form-control" id="username">
 						</div>
 						<div class="form-group">
-							<label for="password">Password</label>
+							<label for="password"><?php echo getString("password"); ?></label>
 							<input type="password" name="password" class="form-control" id="password">
 						</div>
 						<div class="form-group">

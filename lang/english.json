@@ -22,5 +22,8 @@
 	"december": "December",
 	"and": "and",
 	"typing": "is typing",
-	"logout": "Log out"
+	"logout": "Log out",
+	"username": "Username",
+	"password": "Password",
+	"logInSvada": "Log in to Svada"
 }
