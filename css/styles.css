@@ -36,9 +36,8 @@ pre {
 }
 
 #sidebar {
-	height: 100%;
-	width: 250px;
 	padding: 10px;
+	overflow-y: auto;
 }
 
 #mainbar {
@@ -140,6 +139,11 @@ pre {
 }
 
 /* Userboxes */
+
+.userbox{
+	margin-bottom: 10px;
+}
+
 .userbox-image{
 	float: left;
 	width: 80px;
@@ -152,7 +156,9 @@ pre {
 
 .userbox-data{
 	float: left;
-	width: 150;
+	width: 150px;
+	height: 80px;
+	overflow: hidden;
 	padding-left: 10px;
 }
 

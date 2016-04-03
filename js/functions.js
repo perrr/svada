@@ -216,14 +216,16 @@ function resizeWindow() {
 	var userbarOffset;
 	if($(window).width() >= 770) {
 		generateUserBar(true);
+		$('#sidebar').css({'width':'270px'});
 		$('#mainbar').css({'width':$(window).width() - $('#sidebar').outerWidth()});
-		$('#sidebar').css({'width':'250px'});
+		$('#sidebar').css({'height':$(window).height() - $('#chat-top').height()});
 		userbarOffset = 0;
 	}
 	else {
 		generateUserBar(false);
 		$('#mainbar').css({'width':'100%'});
 		$('#sidebar').css({'width':'100%'});
+		$('#sidebar').css({'height':'100%'});
 		userbarOffset = $('#sidebar').outerHeight();
 	}
 	
