@@ -169,6 +169,9 @@ function getUserChanges(oldUsers, newUsers) {
 	changes[1] = [];
 	//go over all users and check if something has changed.
 	for (var i in oldUsers){
+		if(i ==0){
+			continue;
+		}
 		changes[0][i]= [];
 		if (oldUsers[i]["status_message"]!=newUsers[i]["status_message"]){
 			changes[0][i]["newStatusMessage"] =newUsers[i]["status_message"];
