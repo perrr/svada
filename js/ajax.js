@@ -94,14 +94,15 @@ function sendIsTyping(isTyping) {
 	//Insert code here
 }
 
-function sendStatus(status) {
-	//Insert code here
+function sendStatus(myStatus) {
+	$.ajax({url: getFormattedDataURL(["action=setStatus", "status="+myStatus]), success: function(result){
+	}});
 }
-
 function performSearch(searchstring, caseSensitive, userId) {
-	
+	$.ajax({url: getFormattedDataURL(["action=searchMessages", "string="+searchstring, "caseSensitive="+caseSensitive, "userId="+userId]), success: function(result){
+		displaySearchResults(result);
+	}});
 }
-
 function setPassword(newPassword, oldPassword, userId) {
 	$.ajax({url: getFormattedDataURL(["action=setPassword", "user="+userId, "newPassword="+newPassword, "oldPassword="+oldPassword]), success: function(result){
 		if (Object.keys(json).length ==0){

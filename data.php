@@ -56,7 +56,7 @@ function setLanguage($userId, $language) {
 }
 
 function setIsTyping($userId, $isTyping) {
-	//Insert code here
+	setQuery("UPDATE user SET is_typing = '$isTyping' WHERE id = '$userId'");
 }
 
 function getAllUsers() {
@@ -185,7 +185,7 @@ if($_GET['action'] == 'postMessage') {
 elseif($_GET['action'] == 'getMessages') {
 	getMessages($_GET['lastReceivedId']);
 }
-elseif($_GET['action'] == 'getStatus') {
+elseif($_GET['action'] == 'setStatus') {
 	setStatus($_SESSION['user']['id'], $_GET['status']);
 }
 elseif($_GET['action'] == 'getAllUsers') {
@@ -238,6 +238,9 @@ elseif($_GET['action'] == 'getChatInformation') {
 }
 elseif($_GET['action'] == 'setLanguage') {
 	setLanguage($_SESSION['user']['id'], $_GET['language']);
+}
+elseif($_GET['action'] == 'setIsTyping') {
+	setIsTyping($_SESSION['user']['id'], $_GET['isTyping']);
 }
 //Close connection to database
 mysqli_close($connection);

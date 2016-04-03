@@ -169,6 +169,9 @@ function getUserChanges(oldUsers, newUsers) {
 	changes[1] = [];
 	//go over all users and check if something has changed.
 	for (var i in oldUsers){
+		if(i ==0){
+			continue;
+		}
 		changes[0][i]= [];
 		if (oldUsers[i]["status_message"]!=newUsers[i]["status_message"]){
 			changes[0][i]["newStatusMessage"] =newUsers[i]["status_message"];
@@ -320,9 +323,27 @@ function insertToMessageField(content) {
 }
 
 function showTitleAlert(message) {
-	//Insert code here
+	titleAlerts =true;
+	function loop(){
+	setTimeout(function () {
+        if (document.title == language["title"]){
+			document.title = message;
+		}
+		else{
+			document.title = language["title"];
+		}
+		if (titleAlerts) {
+		loop()
+		}
+		else{
+			document.title= language["title"];
+		}
+    }, 1200);
+	}
+	loop();
+	document.title= language["title"];
 }
-
 function displaySearchResults(results) {
 	//Insert code here
+	alert(results);
 }
