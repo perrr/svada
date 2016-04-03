@@ -7,3 +7,4 @@ var chatInformation = {};
 var language;
 var currentQuote = {};
 var initialized = {"getUserArray":false, "getEmoticonArray":false, "getImageArray":false, "getChatInformation":false};
+var titleAlert = false;

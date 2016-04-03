@@ -308,9 +308,26 @@ function insertToMessageField(content) {
 }
 
 function showTitleAlert(message) {
-	//Insert code here
+	titleAlerts =true;
+	function loop(){
+	setTimeout(function () {
+        if (document.title == language["title"]){
+			document.title = message;
+		}
+		else{
+			document.title = language["title"];
+		}
+		if (titleAlerts) {
+		loop()
+		}
+		else{
+			document.title= language["title"];
+		}
+    }, 1200);
+	}
+	loop();
+	document.title= language["title"];
 }
-
 function displaySearchResults(results) {
 	//Insert code here
 }
