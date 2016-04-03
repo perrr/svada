@@ -4,6 +4,8 @@ require('util.php');
 $message = '';
 if(isset($_GET['logout'])){
 	setcookie('usercookie', '', time()-3600);
+	$id = $_SESSION['user']['id'];
+	setQuery("UPDATE user_session SET token = NULL WHERE id = '$id'");
 	session_destroy();
 }
 if(isset($_COOKIE['usercookie'])){
