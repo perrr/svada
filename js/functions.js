@@ -213,22 +213,21 @@ function getAllEmoticonsAsHtml() {
 
 function resizeWindow() {
 	//Redraw the sidebar with the correct size
+	var userbarOffset;
 	if($(window).width() >= 770) {
 		generateUserBar(true);
 		$('#mainbar').css({'width':$(window).width() - $('#sidebar').outerWidth()});
 		$('#sidebar').css({'width':'250px'});
+		userbarOffset = 0;
 	}
 	else {
 		generateUserBar(false);
 		$('#mainbar').css({'width':'100%'});
 		$('#sidebar').css({'width':'100%'});
+		userbarOffset = $('#sidebar').outerHeight();
 	}
 	
-	$('#messages').css({'height':($('#chat-bottom').height()/100*85)-1});
-	$('#message-text-field').css({'height':($('#chat-bottom').height()/100*15) + 1 - $('#whoistyping').height()});	
-	
-	
-
+	$('#messages').css({'height':$('#chat-bottom').height() - $('#whoistyping').height() - $('#message-text-field').outerHeight() - userbarOffset});	
 }
 
 function htmlEncode(html) {

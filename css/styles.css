@@ -25,7 +25,6 @@ pre {
 	white-space: -moz-pre-wrap;
 	white-space: -pre-wrap;
 	white-space: -o-pre-wrap;
-	word-wrap: break-word;    
 }
 
 .login-wrapper {
@@ -61,7 +60,11 @@ pre {
 #message-text-field {
 	width: 100%;
 	border-top: 1px solid black;
-	white-space: pre-wrap;
+	overflow-y: auto;
+	padding: 3px;
+	height: 100px;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
 }
 
 #chat-top{
@@ -111,6 +114,12 @@ pre {
 	padding-left: 10px;
 }
 
+.message-content{
+	word-wrap: break-word;    
+	overflow-wrap: break-word;
+	width: 100%;	
+}
+
 .clear{
 	clear: both;
 }
@@ -151,6 +160,11 @@ pre {
 	color: #ADADAD;
 }
 
+.centered-userbar{
+	text-align: center;
+
+}
+
 .status-circle {
 	border-radius: 0.8em;
 	-moz-border-radius: 0.8em;
@@ -173,6 +187,7 @@ pre {
 	text-align: center;
 	padding: 5px;
 	font-size: 12px;
+	margin: 3px;
 }
 
 .status-available {
