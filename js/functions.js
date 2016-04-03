@@ -330,4 +330,5 @@ function showTitleAlert(message) {
 }
 function displaySearchResults(results) {
 	//Insert code here
+	alert(results);
 }

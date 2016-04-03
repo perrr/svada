@@ -99,9 +99,10 @@ function sendStatus(myStatus) {
 	}});
 }
 function performSearch(searchstring, caseSensitive, userId) {
-	
+	$.ajax({url: getFormattedDataURL(["action=searchMessages", "string="+searchstring, "caseSensitive="+caseSensitive, "userId="+userId]), success: function(result){
+		displaySearchResults(result);
+	}});
 }
-
 function setPassword(newPassword, oldPassword, userId) {
 	$.ajax({url: getFormattedDataURL(["action=setPassword", "user="+userId, "newPassword="+newPassword, "oldPassword="+oldPassword]), success: function(result){
 		if (Object.keys(json).length ==0){
