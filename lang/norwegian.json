@@ -24,4 +24,7 @@
 	"typing": "skriver",
 	"logout": "Logg ut",
 	"title": "Dette er en tittel"
+	"username": "Brukernavn",
+	"password": "Passord",
+	"loginSvada": "Logg på Svada"
 }
