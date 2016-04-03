@@ -74,6 +74,19 @@ function salt($password, $salt){
 }
 
 function verifyQuotes($message) {
-	//Insert code here
+	$pattern = '/(<div class="quote" data-messageid=")(.*)(" contenteditable="false">)(.*)(<)/';
+	preg_match_all($pattern, $message, $matches, PREG_OFFSET_CAPTURE);
+	for ($i=0; $i < count($matches[0]); $i++) { 
+		$messageId= $matches[2][$i][0];
+		$quote= $matches[4][$i][0];
+		$result = getQuery("SELECT content FROM message WHERE id = '$messageId'");
+		$originalText =  $result ->fetch_assoc();
+		echo $originalText['content'];
+		echo $quote;
+		if(strpos($originalText['content'], $quote)===false){
+			return false;
+		}
+	}
+	return true;
 }
 ?>

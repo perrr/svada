@@ -7,7 +7,7 @@ require('util.php');
 
 function postMessage($content, $author) {
 	$timestamp = time();
-	if(notSpam($author, $timestamp-5)){
+	if(notSpam($author, $timestamp-5) and verifyQuote($content)){
 	setQuery("INSERT INTO message (content, author, timestamp)
 	VALUES ('$content', '$author', '$timestamp')");
 }
