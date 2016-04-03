@@ -91,7 +91,8 @@ function postMessage(content, userId) {
 }
 
 function sendIsTyping(isTyping) {
-	//Insert code here
+	$.ajax({url: getFormattedDataURL(["action=setIsTyping", "isTyping="+htmlEncode(isTyping)]), success: function(result){
+	}});
 }
 
 function sendStatus(myStatus) {
