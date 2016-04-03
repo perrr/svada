@@ -94,10 +94,10 @@ function sendIsTyping(isTyping) {
 	//Insert code here
 }
 
-function sendStatus(status) {
-	//Insert code here
+function sendStatus(myStatus) {
+	$.ajax({url: getFormattedDataURL(["action=setStatus", "status="+myStatus]), success: function(result){
+	}});
 }
-
 function performSearch(searchstring, caseSensitive, userId) {
 	
 }
