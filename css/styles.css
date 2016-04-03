@@ -38,11 +38,19 @@ pre {
 
 #sidebar {
 	height: 100%;
+	width: 250px;
+	padding: 10px;
 }
 
 #mainbar {
 	background-color: white;
 	padding: 0;
+}
+
+#mainbar-wrapper {
+	max-width: 800px;
+	margin-left: auto;
+	margin-right: auto;	
 }
 
 #messages{
@@ -64,7 +72,6 @@ pre {
 }
 
 #chat-bottom{
-	background-color: red;
 	width: 100%;
 	position: absolute;
 	height: 90%;
@@ -74,9 +81,6 @@ pre {
 /* Message styling */
 
 .message{
-	margin-left: auto;
-	margin-right: auto;	
-	max-width: 800px;
 	margin-bottom: 10px;
 	padding: 2px;
 }
@@ -124,4 +128,65 @@ pre {
 	font-size: 90%;
 	color: #0286B3;
 	padding-top: 5px;
+}
+
+/* Userboxes */
+.userbox-image{
+	float: left;
+	width: 80px;
+	padding: 3px;
+}
+
+.userbox-image img{
+	width: 100%;
+}
+
+.userbox-data{
+	float: left;
+	width: 150;
+	padding-left: 10px;
+}
+
+.userbox-statusmessage {
+	color: #ADADAD;
+}
+
+.status-circle {
+	border-radius: 0.8em;
+	-moz-border-radius: 0.8em;
+	-webkit-border-radius: 0.8em;
+	color: #fff;
+	display: inline-block;
+	font-weight: bold;
+	line-height: 14px;
+	text-align: center;
+	width: 14px; 
+}
+
+.status-circled-background {
+	border-radius: 0.8em;
+	-moz-border-radius: 0.8em;
+	-webkit-border-radius: 0.8em;
+	color: #fff;
+	display: inline-block;
+	font-weight: bold;
+	text-align: center;
+	padding: 5px;
+	font-size: 12px;
+}
+
+.status-available {
+	background-color: green;
+}
+
+.status-offline {
+	background-color: #DFE6E8;
+}
+
+.status-away {
+	background-color: #FCA212;
+}
+
+.status-occupied {
+	background-color: #F22222;
 }

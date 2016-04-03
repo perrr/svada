@@ -35,12 +35,14 @@ $user = $_SESSION['user'];
 		<div class="container" id="chat-bottom">
 			<div class="row">
 				<div class="col-sm-2" id="sidebar">
-					-users-
+					
 				</div>
 				<div class="col-sm-10" id="mainbar">
-					<div id="messages"></div>
-					<div id="whoistyping"></div>
-					<div id="message-text-field" contenteditable="true"></div> 
+					<div id="mainbar-wrapper">
+						<div id="messages"></div>
+						<div id="whoistyping"></div>
+						<div id="message-text-field" contenteditable="true"></div> 
+					</div>
 				</div>
 			</div>
 		</div>

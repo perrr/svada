@@ -209,8 +209,23 @@ function getAllEmoticonsAsHtml() {
 }
 
 function resizeWindow() {
+	//Redraw the sidebar with the correct size
+	if($(window).width() >= 770) {
+		generateUserBar(true);
+		$('#mainbar').css({'width':$(window).width() - $('#sidebar').outerWidth()});
+		$('#sidebar').css({'width':'250px'});
+	}
+	else {
+		generateUserBar(false);
+		$('#mainbar').css({'width':'100%'});
+		$('#sidebar').css({'width':'100%'});
+	}
+	
 	$('#messages').css({'height':($('#chat-bottom').height()/100*85)-1});
 	$('#message-text-field').css({'height':($('#chat-bottom').height()/100*15) + 1 - $('#whoistyping').height()});	
+	
+	
+
 }
 
 function htmlEncode(html) {
