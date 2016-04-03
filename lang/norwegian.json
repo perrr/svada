@@ -26,5 +26,6 @@
 	"title": "Dette er en tittel",
 	"username": "Brukernavn",
 	"password": "Passord",
-	"loginSvada": "Logg på Svada"
+	"loginSvada": "Logg på Svada",
+	"loggedon": " Har logget på"
 }
