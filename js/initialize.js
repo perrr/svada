@@ -1,14 +1,15 @@
 function initializeChat() {
 	loadLanguage(userArray[getLoggedInUserId()]["language"]);
 	fetchNews();
-	generateUserBar(true);
+	resizeWindow();
 }
 
 function generateUserBar(fullsize) {
 	
 	$('#sidebar').html("");
+	var userHTML = "";
 	
-	for (var i in userArray) {
+	for(var i in userArray) {
 		if(i == 0) continue;
 		
 		var statusClass;
@@ -27,11 +28,20 @@ function generateUserBar(fullsize) {
 		
 		var userStatus = '<span class="status-circle status-' + statusClass + '">&nbsp;</span>';
 		if(fullsize)
-			var userHTML = '<div class="userbox"><div class="userbox-image"><img class="img-rounded" src="res/images/uploads/'+ imgArray[userArray[i].image] + '"></div><div id="userbox' + i + '" class="userbox-data"><div class="userbox-username">' + userStatus + ' ' + userArray[i].display_name + '</div><div class="userbox-statusmessage">' + userArray[i].status_message +'</div></div></div><br class="clear"></div>';
+			userHTML += '<div class="userbox"><div class="userbox-image"><img class="img-rounded" src="res/images/uploads/'+ imgArray[userArray[i].image] + '"></div><div id="userbox' + i + '" class="userbox-data"><div class="userbox-username">' + userStatus + ' ' + userArray[i].display_name + '</div><div class="userbox-statusmessage">' + userArray[i].status_message +'</div></div></div><br class="clear"></div>';
 		else
-			var userHTML = '<span class="status-circled-background status-' + statusClass + '">' + userArray[i].display_name + '</span> ';
-		$('#sidebar').append(userHTML);
+			userHTML += '<span class="status-circled-background status-' + statusClass + '">' + userArray[i].display_name + '</span> ';
+		
 	}
+
+	$('#sidebar').append(userHTML);
+	
+	if(!fullsize){
+
+		$('#sidebar').wrap('<div class="centered-userbar"></div>');
+	}
+	
+
 }
 
 //Run functions
@@ -40,4 +50,3 @@ getEmoticonArray();
 getImageArray();
 getChatInformation();
 Notification.requestPermission();
-resizeWindow();

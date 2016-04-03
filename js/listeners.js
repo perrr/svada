@@ -49,6 +49,7 @@ $("#message-text-field").bind('paste', function(e) {
 	else{
 		insertToMessageField(clipboard);
 	}
+	scrollToBottom("#message-text-field");
 });
 
 //Listen for input in the message field

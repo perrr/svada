@@ -40,7 +40,7 @@ $user = $_SESSION['user'];
 				<div class="col-sm-10" id="mainbar">
 					<div id="mainbar-wrapper">
 						<div id="messages"></div>
-						<div id="whoistyping"></div>
+						<div id="whoistyping">&nbsp;</div>
 						<div id="message-text-field" contenteditable="true"></div> 
 					</div>
 				</div>
