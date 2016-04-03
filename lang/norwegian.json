@@ -1,8 +1,8 @@
 {
     "language": "Språk",
     "incorrectOldPassword": "Feil passord",
-    "ChangedTopic": "endret emnet til ",
-    "ChangedGroupImage": "endret gruppebildet",
+    "changedTopic": "endret emnet til ",
+    "changedGroupImage": "endret gruppebildet",
     "incorrectUserOrPassword": "Feil brukernavn eller passord.",
 	"offline": "Avlogget",
 	"available": "Tilgjengelig",
@@ -26,6 +26,6 @@
 	"title": "Dette er en tittel",
 	"username": "Brukernavn",
 	"password": "Passord",
-	"loginSvada": "Logg på Svada",
-	"loggedon": " Har logget på"
+	"logInSvada": "Logg på Svada",
+	"loggedon": "har logget på"
 }
