@@ -55,7 +55,7 @@ function propagateUserChanges(changes) {
 			}
 			if ("oldStatus" in changes[0][i]){
 				if (changes[0][i]["oldStatus"]==0) {
-					browserNotification("","res/images/uploads/"+imgArray[userArray[i]["image"]],userArray[i]["display_name"]+language["loggedon"]);
+					browserNotification("","res/images/uploads/"+imgArray[userArray[i]["image"]],userArray[i]["display_name"]+" " +language["loggedon"]);
 				}
 			}
 		}
