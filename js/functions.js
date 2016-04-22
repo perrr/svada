@@ -80,10 +80,10 @@ function timestampToDateAndTime(timestamp) {
 }
 
 function timestampToTextualDateAndTime(timestamp) {
-	var thatDay = new Date(timestamp);
-	var thisDay = getCurrentTimestamp();
+	var thatDay = new Date(timestamp*1000);
+	var thisDay = getCurrentTimestamp()*1000;
 	var difference = thisDay-thatDay;
-	difference = difference/(60*60*24)
+	difference = difference/(1000*60*60*24)
 	if (difference > 2 || difference <0){
 		return timestampToDateAndTime(timestamp);
 	}
