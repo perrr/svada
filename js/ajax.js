@@ -101,7 +101,8 @@ function sendStatus(myStatus) {
 }
 
 function sendActivity() {
-	//Insert code here
+	$.ajax({url: getFormattedDataURL(["action=checkUserActivity"]), success: function(result){
+	}});
 }
 
 function performSearch(searchstring, caseSensitive, userId) {

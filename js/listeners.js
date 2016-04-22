@@ -12,7 +12,9 @@ function fetchNews() {
 
 //Regularly report activity
 function reportActivity() {
-	//Insert code here
+	 window.setInterval(function(){
+		sendActivity();
+	}, 240000);
 }
 
 //Regularly listen to the message field to determine if the user is currently typing
