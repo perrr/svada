@@ -393,7 +393,3 @@ function displaySearchResults(results) {
 	//Insert code here
 	alert(results);
 }
-
-function tabIsActive() {
-	//Insert code here
-}

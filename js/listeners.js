@@ -154,5 +154,11 @@ messageTextField.keydown(function(e) {
 	}
 });
 
+window.onfocus = function () { 
+	isActive = true;
+}; 
+window.onblur = function () { 
+	isActive = false;
+};
 //If window is resized, call resize function
 $(window).resize(resizeWindow);
