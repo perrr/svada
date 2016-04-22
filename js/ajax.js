@@ -51,8 +51,12 @@ function getImageArray() {
 
 function getChatInformation() {
 	$.ajax({url: getFormattedDataURL(["action=getChatInformation"]), success:function(json){
+		//copy old chat information
+		var oldChatInformation = jQuery.extend({}, chatInformation);
+		//new chatInformation
 		chatInformation = {topic:json[0]["topic"], chatImage:json[0]["image"]};
-		
+		var changes = getChatInformationChanges(oldChatInformation, chatInformation);
+		propagateUserChanges(changes);
 		//Report array as initialized
 		if(!initialized.getChatInformation)
 			setAsInitialized("getChatInformation");

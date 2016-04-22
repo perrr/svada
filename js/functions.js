@@ -191,8 +191,14 @@ function getUserChanges(oldUsers, newUsers) {
 }
 
 function getChatInformationChanges(oldChatInformation, newChatInformation) {
-	//Insert code here
+	var changes = [];
+	var changedTopic = oldChatInformation['topic'] != newChatInformation['topic'];
+	var changedImage = oldChatInformation['chatImage'] != newChatInformation['chatImage'];
+	changes[0]= changedTopic;
+	changes[1]= changedImage;
+	return changes;
 }
+
 
 function insertEmoticon(i){
 	//Insert code here
