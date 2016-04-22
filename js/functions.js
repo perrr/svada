@@ -104,7 +104,7 @@ function parseMessage(message) {
 	var newmessage = "";
 	var shortcuts = Object.keys(emoticonArray);
 	var allWords = message.split(" ");
-	
+
 	//No parsing if sentence start with @@
 	if(message.substring(0,2)=="@@"){
 		newmessage = message.substr(2);
@@ -190,6 +190,10 @@ function getUserChanges(oldUsers, newUsers) {
 	return changes;
 }
 
+function getChatInformationChanges(oldChatInformation, newChatInformation) {
+	//Insert code here
+}
+
 function insertEmoticon(i){
 	//Insert code here
 }
@@ -211,10 +215,14 @@ function getAllEmoticonsAsHtml() {
 	return allEmoticonsHtml;
 }
 
+function isFullsize() {
+	return $(window).width() >= 770;
+}
+
 function resizeWindow() {
 	//Redraw the sidebar with the correct size
 	var userbarOffset;
-	if($(window).width() >= 770) {
+	if(isFullsize()) {
 		generateUserBar(true);
 		$('#sidebar').css({'width':'270px'});
 		$('#mainbar').css({'width':$(window).width() - $('#sidebar').outerWidth()});
@@ -347,4 +355,8 @@ function showTitleAlert(message) {
 function displaySearchResults(results) {
 	//Insert code here
 	alert(results);
+}
+
+function tabIsActive() {
+	//Insert code here
 }

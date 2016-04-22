@@ -99,6 +99,11 @@ function sendStatus(myStatus) {
 	$.ajax({url: getFormattedDataURL(["action=setStatus", "status="+myStatus]), success: function(result){
 	}});
 }
+
+function sendActivity() {
+	//Insert code here
+}
+
 function performSearch(searchstring, caseSensitive, userId) {
 	$.ajax({url: getFormattedDataURL(["action=searchMessages", "string="+searchstring, "caseSensitive="+caseSensitive, "userId="+userId]), success: function(result){
 		displaySearchResults(result);

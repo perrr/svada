@@ -1,7 +1,16 @@
 function initializeChat() {
 	loadLanguage(userArray[getLoggedInUserId()]["language"]);
 	fetchNews();
+	reportActivity();
 	resizeWindow();
+}
+
+function initializeChatPhaseOne() {
+	//Insert code here
+}
+
+function initializeChatPhaseTwo() {
+	//Insert code here
 }
 
 function generateUserBar(fullsize) {

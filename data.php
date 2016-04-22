@@ -175,6 +175,14 @@ function getChatInformation() {
 	printJson(sqlToJson($chatInformation));
 }
 
+function uploadFile($file, $uploader, $share){
+	//Insert code here
+}
+
+function checkUserActivity() {
+	//Insert code here
+}
+
 //Escape all input
 $_GET = escapeArray($_GET);
 

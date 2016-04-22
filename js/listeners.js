@@ -4,6 +4,15 @@ function fetchNews() {
 		getNewMessages();
 		getUserArray();
 	}, 1000);
+	
+	window.setInterval(function(){
+		getChatInformation();
+	}, 60000);
+}
+
+//Regularly report activity
+function reportActivity() {
+	//Insert code here
 }
 
 //Regularly listen to the message field to determine if the user is currently typing
@@ -23,6 +32,11 @@ function propagateUserChanges(changes) {
 			}
 		}
 	}
+}
+
+//Update chat information based on changes
+function propagateChatInformationChanges(changes) {
+	//Insert code here
 }
 
 //Store quote on copy
