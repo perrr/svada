@@ -19,7 +19,29 @@ function reportActivity() {
 
 //Regularly listen to the message field to determine if the user is currently typing
 function isTyping() {
-	//Insert code here
+	var message = $('#message-text-field').html();
+	lastStatus = 0;
+	function loop(){
+	setTimeout(function () {
+        if (message ==($('#message-text-field').html()) && lastStatus ==1){
+			sendIsTyping(0);
+			lastStatus=0;
+		}
+		else if (message != ($('#message-text-field').html())){
+			message = $('#message-text-field').html();
+			if (lastStatus ==0){
+				sendIsTyping(1);
+				lastStatus=1;
+			}
+		}
+		
+		if (true){
+			loop();
+		}
+	//Can change to increase and decrease how often you check if you are typing
+    }, 1635);
+	}
+	loop();
 }
 
 //Update chat based on changes in userArray

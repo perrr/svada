@@ -9,6 +9,7 @@ function initializeChatPhaseTwo() {
 	if(userArray[getLoggedInUserId()]["status"]==0){
 		sendStatus(1);
 	}
+	isTyping();
 }
 
 function generateUserBar(fullsize) {
