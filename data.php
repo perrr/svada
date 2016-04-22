@@ -179,8 +179,15 @@ function uploadFile($file, $uploader, $share){
 	//Insert code here
 }
 
-function checkUserActivity() {
-	//Insert code here
+function checkUserActivity($user) {
+	$currentTimestamp = time();
+	setQuery("UPDATE user
+		SET last_activity = '$currentTimestamp'
+		WHERE id ='$user'");
+	$fiveMinutesAgo = time()-300;
+	setQuery("UPDATE user
+		SET status = '0' 
+		WHERE last_activity<'$fiveMinutesAgo'");
 }
 
 //Escape all input
@@ -249,6 +256,9 @@ elseif($_GET['action'] == 'setLanguage') {
 }
 elseif($_GET['action'] == 'setIsTyping') {
 	setIsTyping($_SESSION['user']['id'], $_GET['isTyping']);
+}
+elseif($_GET['action'] == 'checkUserActivity') {
+	checkUserActivity($_SESSION['user']['id']);
 }
 //Close connection to database
 mysqli_close($connection);
