@@ -25,13 +25,20 @@ function isTyping() {
 //Update chat based on changes in userArray
 function propagateUserChanges(changes) {
 	$('#whoistyping').html(getWhoIsTypingAsText(changes[1]));
+	var aChange =false;
 	if(userArray[getLoggedInUserId()]["status"]!=3){
 		for (var i in changes[0]){
+			if (Object.keys(changes[0][i]).length!=0){
+				aChange =true;
+			}
 			if ("oldStatus" in changes[0][i]){
 				if (changes[0][i]["oldStatus"]==0) {
 					browserNotification("","res/images/uploads/"+imgArray[userArray[i]["image"]],userArray[i]["display_name"]+language["loggedon"]);
 				}
 			}
+		}
+		if (aChange==true){
+			generateUserBar(isFullsize());
 		}
 	}
 }
