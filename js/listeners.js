@@ -88,7 +88,7 @@ $("#message-text-field").bind('paste', function(e) {
 	//Check if clopboard contains a quote
 	if(clipboard == currentQuote.content){
 		insertToMessageField('<div title="' + messages[currentQuote.id].parsedContent + '" class="quote" data-timestamp="1" contenteditable="false">' + currentQuote.content + '<div class="quote-signature"> &ndash; ' + userArray[
-		messages[currentQuote.id].author].display_name + ' - ' + timestampToDateAndTime(messages[currentQuote.id].timestamp) + '</div></div>');
+		messages[currentQuote.id].author].display_name + ' - ' + timestampToTextualDateAndTime(messages[currentQuote.id].timestamp) + '</div></div>');
 	}
 	//Insert clipboard as normal if not
 	else{

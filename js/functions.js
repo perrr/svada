@@ -80,7 +80,38 @@ function timestampToDateAndTime(timestamp) {
 }
 
 function timestampToTextualDateAndTime(timestamp) {
-	//Insert code here
+	var thatDay = new Date(timestamp);
+	var thisDay = getCurrentTimestamp();
+	var difference = thisDay-thatDay;
+	difference = difference/(60*60*24)
+	if (difference > 2 || difference <0){
+		return timestampToDateAndTime(timestamp);
+	}
+	else{
+		var sec = thatDay.getSeconds();
+		if(sec < 10) {
+			sec='0' + sec;
+		}
+		var min = thatDay.getMinutes();
+		if(min < 10){
+			min = '0' + min;
+		}
+		var hour = thatDay.getHours();
+		if(hour < 10){
+			hour = '0' + hour;
+		}
+		
+		var beginning = "";
+		if (difference >1){
+			beginning = language["yesterday"];
+		}
+		else{
+			beginning = language["today"];
+		}
+		var time = beginning + ", " + hour + ':' + min + ':' + sec;
+		return time;
+	}
+			
 }
 
 function getFormattedDataURL(parameters) {

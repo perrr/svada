@@ -27,5 +27,7 @@
 	"username": "Username",
 	"password": "Password",
 	"logInSvada": "Log in to Svada",
-	"loggedon": "has logged in"
+	"loggedon": "has logged in",
+	"today": "Today",
+	"yesterday": "Yesterday"
 }

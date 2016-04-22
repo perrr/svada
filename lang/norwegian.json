@@ -27,5 +27,7 @@
 	"username": "Brukernavn",
 	"password": "Passord",
 	"logInSvada": "Logg på Svada",
-	"loggedon": "har logget på"
+	"loggedon": "har logget på",
+	"today": "I dag",
+	"yesterday": "I går"
 }
