@@ -273,7 +273,7 @@ function setAsInitialized(functionName) {
 		}
 	}
 	if (check){
-		initializeChat();
+		initializeChatPhaseOne();
 	}
 }
 

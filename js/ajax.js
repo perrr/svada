@@ -128,5 +128,6 @@ function setPassword(newPassword, oldPassword, userId) {
 function loadLanguage(newlanguage) {
 	$.ajax({url: "lang/"+ newlanguage+".json", success: function(result){
 		language = result;
+		initializeChatPhaseTwo()
 	}});
 }
