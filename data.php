@@ -141,7 +141,7 @@ function getAllEmoticons() {
 }
 
 function getAllImages() {
-	$images = getQuery("SELECT * FROM image");
+	$images = getQuery("SELECT * FROM file");
 	printJson(sqlToJson($images));
 }
 
