@@ -6,6 +6,9 @@ function initializeChatPhaseTwo() {
 	fetchNews();
 	reportActivity();
 	resizeWindow();
+	if(userArray[getLoggedInUserId()]["status"]==0){
+		sendStatus(1);
+	}
 }
 
 function generateUserBar(fullsize) {
