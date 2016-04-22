@@ -41,12 +41,56 @@ function generateUserBar(fullsize) {
 			userHTML += '<span class="status-circled-background status-' + statusClass + '">' + userArray[i].display_name + '</span> ';
 		
 	}
-	
-	if(!fullsize){
-		userHTML = '<div class="centered-userbar">' + userHTML + '</div>'
-	}
 
 	$('#sidebar').append(userHTML);
+}
+
+
+function generateTopBar(fullsize) {
+	var topHTML = "";
+	
+	var menuItems = [["settings", "cog", "chat.php"],
+		["stats", "stats", "stats.php"],
+		["logout", "log-out", "index.php?logout=1"]];
+	
+	if(fullsize) {
+		topHTML = '<div id="top-left">\
+			<img id="chat-image" src="res/images/uploads/' + imgArray[chatInformation.chatImage] + '" class="img-circle">\
+				<div id="top-header">\
+					<h1 id="chat-name">' + chatInformation.name + '</h1>\
+					<h2 id="chat-topic">' + chatInformation.topic + '</h2>\
+				</div>\
+			  </div>\
+			  <div id="top-right">';
+		  
+		  for(var i = 0; i < menuItems.length; i++) {
+			  topHTML += '<div class="top-link-wrapper"><div class="top-link">\
+				<a href="' + menuItems[i][2] + '">\
+					<span class="glyphicon glyphicon-' + menuItems[i][1] + ' top-glyph"></span>\
+					 ' + language[menuItems[i][0]] + '\
+				</a>\
+			</div></div>';
+		  }
+		  
+		  topHTML += '</div>';
+	}
+	else {
+		menuHTML = "";
+		
+		for(var i = 0; i < menuItems.length; i++) {
+			menuHTML += '<a class=\\\'menu-link\\\' href=\\\'' + menuItems[i][2] + '\\\'>\
+					<span class=\\\'glyphicon glyphicon-' + menuItems[i][1] + ' menu-glyph\\\'></span>\
+					 ' + language[menuItems[i][0]] + '\
+				</a>';
+		}
+		  
+		topHTML = '<div id="top-left">\
+			<h1 id="chat-small-title">' + chatInformation.name + (chatInformation.topic != "" ? ": " + chatInformation.topic : "") + '</h1>\
+			</div>\
+			<span id="chat-small-menu" onclick="toggleMenu(\'' + menuHTML + '\')" class="glyphicon glyphicon-menu-hamburger top-glyph"></span>';
+	}
+
+	$('#chat-top').html(topHTML);
 }
 
 //Run functions

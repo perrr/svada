@@ -223,10 +223,12 @@ function getUserChanges(oldUsers, newUsers) {
 
 function getChatInformationChanges(oldChatInformation, newChatInformation) {
 	var changes = [];
+	var changedName = oldChatInformation['name'] != newChatInformation['name'];
 	var changedTopic = oldChatInformation['topic'] != newChatInformation['topic'];
 	var changedImage = oldChatInformation['chatImage'] != newChatInformation['chatImage'];
-	changes[0]= changedTopic;
-	changes[1]= changedImage;
+	changes[0] = changedName;
+	changes[1] = changedTopic;
+	changes[2] = changedImage;
 	return changes;
 }
 
@@ -253,28 +255,42 @@ function getAllEmoticonsAsHtml() {
 }
 
 function isFullsize() {
-	return $(window).width() >= 770;
+	return $(window).width() >= 800;
 }
 
 function resizeWindow() {
 	//Redraw the sidebar with the correct size
 	var userbarOffset;
 	if(isFullsize()) {
+		$('#chat-top').css({'height':'120px'});
 		generateUserBar(true);
+		generateTopBar(true);
 		$('#sidebar').css({'width':'270px'});
 		$('#mainbar').css({'width':$(window).width() - $('#sidebar').outerWidth()});
 		$('#sidebar').css({'height':$(window).height() - $('#chat-top').height()});
+		hideMenu();
 		userbarOffset = 0;
 	}
 	else {
 		generateUserBar(false);
+		generateTopBar(false);
 		$('#mainbar').css({'width':'100%'});
 		$('#sidebar').css({'width':'100%'});
 		$('#sidebar').css({'height':'100%'});
+		$('#chat-top').css({'height':'45px'});
 		userbarOffset = $('#sidebar').outerHeight();
+		
 	}
-	
+	$('#chat-bottom').css({'height':$(window).height() - $('#chat-top').height()});
 	$('#messages').css({'height':$('#chat-bottom').height() - $('#whoistyping').height() - $('#message-text-field').outerHeight() - userbarOffset});	
+}
+
+function toggleMenu(items) {
+	$('#chat-menu').html(items).slideToggle(500);
+}
+
+function hideMenu(){
+	$('#chat-menu').hide();
 }
 
 function htmlEncode(html) {

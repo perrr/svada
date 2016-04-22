@@ -29,9 +29,8 @@ $user = $_SESSION['user'];
 		<link rel="stylesheet" href="css/highlight.xcode.css">
 	</head>
 	<body>
-		<div class="container" id="chat-top">
-		  <a href="index.php?logout=1"><?php echo getString('logout'); ?></a>
-		</div>
+		<div class="container" id="chat-top"></div>
+		<div id="chat-menu"></div>
 		<div class="container" id="chat-bottom">
 			<div class="row">
 				<div class="col-sm-2" id="sidebar">

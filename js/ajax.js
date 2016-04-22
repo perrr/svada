@@ -54,9 +54,18 @@ function getChatInformation() {
 		//copy old chat information
 		var oldChatInformation = jQuery.extend({}, chatInformation);
 		//new chatInformation
-		chatInformation = {topic:json[0]["topic"], chatImage:json[0]["image"]};
+		chatInformation = {topic:json[0]["topic"], chatImage:json[0]["image"], name:json[0]["name"]};
 		var changes = getChatInformationChanges(oldChatInformation, chatInformation);
-		propagateUserChanges(changes);
+		var somethingChanged = false;
+		for(var i = 0; i < changes.length; i++) {
+			if(changes[i]){
+				somethingChanged = true;
+				break;
+			}
+		}
+		if(somethingChanged && initialized.getChatInformation){
+			generateTopBar(isFullsize());
+		}
 		//Report array as initialized
 		if(!initialized.getChatInformation)
 			setAsInitialized("getChatInformation");

@@ -29,5 +29,7 @@
 	"logInSvada": "Log in to Svada",
 	"loggedon": "has logged in",
 	"today": "Today",
-	"yesterday": "Yesterday"
+	"yesterday": "Yesterday",
+	"stats": "Stats",
+	"settings": "Settings"
 }
