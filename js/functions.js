@@ -178,6 +178,10 @@ function parseMessage(message) {
 	return newmessage;
 }
 
+function parseQuote(quote) {
+	//Insert code here
+}
+
 function getWhoIsTypingAsText(users) {
 	var nrPeopleTyping = users.length;
 	var typingMessage = "&nbsp;";
@@ -408,4 +412,8 @@ function showTitleAlert(message) {
 function displaySearchResults(results) {
 	//Insert code here
 	alert(results);
+}
+
+function alertNewMessages() {
+	//Insert code here
 }

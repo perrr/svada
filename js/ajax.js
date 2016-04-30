@@ -15,10 +15,19 @@ function getUserArray() {
 		var changes = getUserChanges(oldUserArray, userArray);
 		propagateUserChanges(changes);
 		
+		
 		//Report array as initialized
 		if(!initialized.getUserArray)
 			setAsInitialized("getUserArray");
 	}});
+}
+
+function getUser() {
+	//Insert code here
+	
+	//Report variabel as initialized
+	if(!initialized.getUser)
+		setAsInitialized("getUser");
 }
 
 function getEmoticonArray() {

@@ -94,6 +94,7 @@ function generateTopBar(fullsize) {
 }
 
 //Run functions
+getUser();
 getUserArray();
 getEmoticonArray();
 getImageArray();

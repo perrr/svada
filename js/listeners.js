@@ -3,6 +3,7 @@ function fetchNews() {
 	window.setInterval(function(){
 		getNewMessages();
 		getUserArray();
+		getUser();
 	}, 1000);
 	
 	window.setInterval(function(){
@@ -154,11 +155,14 @@ messageTextField.keydown(function(e) {
 	}
 });
 
+//Listen for activity in this tab
 window.onfocus = function () { 
 	isActive = true;
-}; 
+};
+
 window.onblur = function () { 
 	isActive = false;
 };
+
 //If window is resized, call resize function
 $(window).resize(resizeWindow);

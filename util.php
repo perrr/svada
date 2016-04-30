@@ -53,6 +53,10 @@ function loadLanguage($language) {
 	return $languageArray;
 }
 
+function getStyle($style){
+	//Insert code here
+}
+
 function getString($id) {
 	global $language;
 	return $language[$id];
