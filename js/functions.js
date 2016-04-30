@@ -271,7 +271,7 @@ function resizeWindow() {
 		generateTopBar(true);
 		$('#sidebar').css({'width':'270px'});
 		$('#mainbar').css({'width':$(window).width() - $('#sidebar').outerWidth()});
-		$('#sidebar').css({'height':$(window).height() - $('#chat-top').height()});
+		$('#sidebar').css({'height':$(window).height() - $('#chat-top').outerHeight()});
 		hideMenu();
 		userbarOffset = 0;
 	}
@@ -285,7 +285,7 @@ function resizeWindow() {
 		userbarOffset = $('#sidebar').outerHeight();
 		
 	}
-	$('#chat-bottom').css({'height':$(window).height() - $('#chat-top').height()});
+	$('#chat-bottom').css({'height':$(window).height() - $('#chat-top').outerHeight()});
 	$('#messages').css({'height':$('#chat-bottom').height() - $('#whoistyping').height() - $('#message-text-field').outerHeight() - userbarOffset});	
 }
 
