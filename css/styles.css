@@ -64,6 +64,7 @@ pre {
 	height: 150px;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
+	outline: 0px solid transparent;
 }
 
 #chat-top{
@@ -137,6 +138,8 @@ pre {
 	background: #E1EAED;
 	margin-bottom: 2px;
 	padding: 3px;
+	display: inline-block;
+	width: 100%;
 }
 
 .quote-signature{
