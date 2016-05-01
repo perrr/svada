@@ -24,10 +24,12 @@ function getUserArray() {
 
 function getUser() {
 	//Insert code here
-	
+	$.ajax({url: getFormattedDataURL(["action=getUser"]), success: function(json){
+		user = json;
 	//Report variabel as initialized
 	if(!initialized.getUser)
 		setAsInitialized("getUser");
+	}});
 }
 
 function getEmoticonArray() {

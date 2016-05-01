@@ -71,7 +71,11 @@ function getAllUsers() {
 }
 
 function getUser() {
-	//Insert code here
+	$user = $_SESSION['user']['id'];
+	$userData = getQuery("SELECT id, username, display_name, status, status_message, image, is_typing, language, mute_sounds FROM user WHERE id = '$user'");
+	$userData = $userData->fetch_assoc();
+	printJson(json_encode($userData, JSON_NUMERIC_CHECK));
+
 }
 
 function editMessage($user, $messageId, $content) {
@@ -263,6 +267,9 @@ elseif($_GET['action'] == 'setIsTyping') {
 }
 elseif($_GET['action'] == 'checkUserActivity') {
 	checkUserActivity($_SESSION['user']['id']);
+}
+elseif($_GET['action'] == 'getUser') {
+	getUser();
 }
 //Close connection to database
 mysqli_close($connection);
