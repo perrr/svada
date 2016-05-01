@@ -54,7 +54,10 @@ function loadLanguage($language) {
 }
 
 function getStyle($style){
-	//Insert code here
+	$result = getQuery("SELECT * FROM style WHERE id='$style'");
+	$result = $result -> fetch_assoc();
+	$html = '<link href="css/styles/"'.$result['css'].'rel="stylesheet"><link rel="stylesheet" href="css/markup/"'.$result['markup'].'>';
+	return $html;
 }
 
 function getString($id) {
