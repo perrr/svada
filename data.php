@@ -152,8 +152,8 @@ function getAllImages() {
 function setTopic($topic, $userId) {
 	setQuery("UPDATE chat
 		SET topic = '$topic'");
-	$content='<'. $userId.'>'.getString("changedTopic").'<span class="message-strong">' . $topic . '</span>'; 
-	postMessage($content, $userId);
+	$content='<username|'.$userId.'> <lang|'."changedTopic".'> <span class="message-strong">' . $topic .'. </span>'; 
+	postMessage($content, 0);
 }
 
 function getTopic() {
@@ -164,8 +164,8 @@ function getTopic() {
 function setChatImage($image, $userId) {
 	setQuery("UPDATE chat
 		SET image = '$image'");
-	$content='<'. $userId.'>'.getString("changedGroupImage"); 
-	postMessage($content, $userId);
+	$content='<username|'.$userId.'> <lang|'."changedGroupImage".'>'; 
+	postMessage($content, 0);
 }
 
 function getChatImage() {
