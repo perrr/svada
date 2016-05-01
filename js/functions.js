@@ -391,7 +391,7 @@ function insertToMessageField(content) {
 }
 
 function showTitleAlert(message) {
-	titleAlerts =true;
+	titleAlert = true;
 	function loop(){
 	setTimeout(function () {
         if (document.title == chatInformation.name){
@@ -400,7 +400,7 @@ function showTitleAlert(message) {
 		else{
 			document.title = chatInformation.name;
 		}
-		if (titleAlerts) {
+		if (titleAlert) {
 		loop()
 		}
 		else{
@@ -417,9 +417,10 @@ function displaySearchResults(results) {
 }
 
 function alertNewMessages() {
-	showTitleAlert("New Activity!");
-	if (getLoggedInUser()["mute_sounds"]==0){
-		playSound("user.mp3");
+	if(!titleAlert)
+		showTitleAlert("New Activity!");
+	if (user["mute_sounds"]==0){
+		playSound("message.mp3");
 	}
 }
 
