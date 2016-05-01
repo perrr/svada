@@ -6,7 +6,7 @@ if ($connection->connect_error) {
 }
 //Create database
 //$connection->query("CREATE DATABASE svada2");
-mysqli_query($connection, "CREATE DATABASE svada2") or die(mysqli_error($connection));
+mysqli_query($connection, "CREATE DATABASE svada") or die(mysqli_error($connection));
 
 require('util.php');
 
@@ -71,6 +71,6 @@ setQuery("CREATE TABLE IF NOT EXISTS `user_session` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1");
 
 //Delete this file upon completion
-//Insert code here
+unlink(__FILE__);
 
 ?>
