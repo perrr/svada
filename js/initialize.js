@@ -33,7 +33,7 @@ function generateUserBar(fullsize) {
 			statusClass = 'occupied';
 		}
 		
-		var userStatus = '<span class="status-circle status-' + statusClass + '">&nbsp;</span>';
+		var userStatus = '<span class="status-circle status-' + statusClass + '"></span>';
 		if(fullsize)
 			userHTML += '<div class="userbox"><div class="userbox-image"><img class="img-rounded" src="res/images/uploads/'+ imgArray[userArray[i].image] + '"></div><div id="userbox' + i + '" class="userbox-data"><div class="userbox-username">' + userStatus + ' ' + userArray[i].display_name + '</div><div class="userbox-statusmessage">' + userArray[i].status_message +'</div></div><br class="clear"></div></div>';
 		else
