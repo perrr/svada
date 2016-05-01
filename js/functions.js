@@ -135,6 +135,9 @@ function parseMessage(message) {
 	var newmessage = "";
 	var shortcuts = Object.keys(emoticonArray);
 	var allWords = message.split(" ");
+	
+	//var patt =/<div class="quote" data-messageid="\d+" contenteditable="false">(^*?)<\/div>/;
+	//alert(patt.test(message));
 
 	//No parsing if sentence start with @@
 	if(message.substring(0,2)=="@@"){
@@ -166,6 +169,17 @@ function parseMessage(message) {
 			else if (shortcuts.indexOf(word) != -1){
 				newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
 			}
+			else if(word.substr(0,6)=="<lang|"){
+				newmessage = newmessage + " " + language[word.slice(6,-1)];
+			}
+			else if(word.substr(0,10)=="<username|"){
+				for (var aUser in userArray){
+					if (userArray[aUser]["id"] ==parseInt(word.slice(10,-1))){
+						newmessage = newmessage + " " + userArray[aUser]["display_name"];
+						break;
+					}
+				}
+			}
 			else{
 				newmessage = newmessage + " " + word;
 			}
@@ -177,7 +191,6 @@ function parseMessage(message) {
 	//Return parsed message
 	return newmessage;
 }
-
 function parseQuote(quote) {
 	//Insert code here
 }
