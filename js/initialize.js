@@ -10,6 +10,8 @@ function initializeChatPhaseTwo() {
 		sendStatus(1);
 	}
 	isTyping();
+	//Here to test F80 parse quotes
+	//parseMessage('se her: <div class="quote" data-messageid="1" contenteditable="false">Hei og hå</div> hva synes du')
 }
 
 function generateUserBar(fullsize) {
