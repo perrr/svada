@@ -47,7 +47,9 @@ function isTyping() {
 
 //Update chat based on changes in userArray
 function propagateUserChanges(changes) {
-	$('#whoistyping').html(getWhoIsTypingAsText(changes[1]));
+	if (getWhoIsTypingAsText(changes[1]) != ($('#whoistyping').html())){
+		$('#whoistyping').html(getWhoIsTypingAsText(changes[1]));
+	}
 	var aChange =false;
 	if(userArray[getLoggedInUserId()]["status"]!=3){
 		for (var i in changes[0]){
@@ -56,6 +58,9 @@ function propagateUserChanges(changes) {
 			}
 			if ("oldStatus" in changes[0][i]){
 				if (changes[0][i]["oldStatus"]==0) {
+					if (getLoggedInUser()["mute_sounds"]==0){
+						playSound("user.mp3");
+					}
 					browserNotification("","res/images/uploads/"+imgArray[userArray[i]["image"]],userArray[i]["display_name"]+" " +language["loggedon"]);
 				}
 			}
@@ -158,6 +163,7 @@ messageTextField.keydown(function(e) {
 //Listen for activity in this tab
 window.onfocus = function () { 
 	isActive = true;
+	titleAlerts=false;
 };
 
 window.onblur = function () { 
