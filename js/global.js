@@ -9,4 +9,4 @@ var language;
 var currentQuote = {};
 var initialized = {"getUser":false, "getUserArray":false, "getEmoticonArray":false, "getImageArray":false, "getChatInformation":false};
 var titleAlert = false;
-var isActive= false;
+var isActive= true;

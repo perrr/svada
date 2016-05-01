@@ -392,22 +392,22 @@ function showTitleAlert(message) {
 	titleAlerts =true;
 	function loop(){
 	setTimeout(function () {
-        if (document.title == language["title"]){
+        if (document.title == chatInformation.name){
 			document.title = message;
 		}
 		else{
-			document.title = language["title"];
+			document.title = chatInformation.name;
 		}
 		if (titleAlerts) {
 		loop()
 		}
 		else{
-			document.title= language["title"];
+			document.title= chatInformation.name;
 		}
     }, 1200);
 	}
 	loop();
-	document.title= language["title"];
+	document.title= chatInformation.name;
 }
 function displaySearchResults(results) {
 	//Insert code here
@@ -415,5 +415,8 @@ function displaySearchResults(results) {
 }
 
 function alertNewMessages() {
-	//Insert code here
+	showTitleAlert("New Activity!");
+	if (getLoggedInUser()["mute_sounds"]==0){
+		playSound("user.mp3");
+	}
 }

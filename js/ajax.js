@@ -85,6 +85,7 @@ function getChatInformation() {
 
 function getNewMessages() {
 	$.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), success: function(json){
+		var aChange = false;
 		for(var i = 0; i < json.length; i++) {
 			var id = json[i]['id'];
 			
@@ -94,10 +95,14 @@ function getNewMessages() {
 			
 			//If the message is previously unrecieved, add it to array and display it
 			if (!(id in messages)) {
+				aChange = true;
 				messages[id] = json[i];
 				messages[id].parsedContent = parseMessage(messages[id].content);
 				displayMessage(json[i]);
 			}
+		}
+		if(!isActive && aChange){
+			alertNewMessages();
 		}
     }});
 }
