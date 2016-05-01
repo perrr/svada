@@ -1,12 +1,12 @@
 function initializeChatPhaseOne() {
-	loadLanguage(userArray[getLoggedInUserId()]["language"]);
+	loadLanguage(user.language);
 }
 
 function initializeChatPhaseTwo() {
 	fetchNews();
 	reportActivity();
 	resizeWindow();
-	if(userArray[getLoggedInUserId()]["status"]==0){
+	if(userArray[user.id]["status"]==0){
 		sendStatus(1);
 	}
 	isTyping();
@@ -18,7 +18,6 @@ function generateUserBar(fullsize) {
 	var userHTML = "";
 	
 	for(var i in userArray) {
-		if(i == 0) continue;
 		
 		var statusClass;
 		if(userArray[i].status == 0) {

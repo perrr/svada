@@ -49,7 +49,7 @@ function isTyping() {
 function propagateUserChanges(changes) {
 	$('#whoistyping').html(getWhoIsTypingAsText(changes[1]));
 	var aChange =false;
-	if(userArray[getLoggedInUserId()]["status"]!=3){
+	if(userArray[user.id]["status"]!=3){
 		for (var i in changes[0]){
 			if (Object.keys(changes[0][i]).length!=0){
 				aChange =true;
@@ -104,7 +104,7 @@ messageTextField.keydown(function(e) {
 	//Post message if Enter is pressed
 	if (e.keyCode === 13 && $.trim(messageTextField.html()) != "" && !e.shiftKey) {
 		e.preventDefault();
-		postMessage($.trim(messageTextField.html()), getLoggedInUserId());
+		postMessage($.trim(messageTextField.html()), user.id);
 		messageTextField.html("");
 	}
 	

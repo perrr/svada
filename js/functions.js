@@ -1,11 +1,3 @@
-function getLoggedInUserId() {
-	return userArray[0]['id'];
-}
-
-function getLoggedInUser() {
-	return userArray[0];
-}
-
 function statusIdToText(id) {
 	if(id==0) {
 		return language['offline'];
@@ -204,9 +196,6 @@ function getUserChanges(oldUsers, newUsers) {
 	changes[1] = [];
 	//go over all users and check if something has changed.
 	for (var i in oldUsers){
-		if(i ==0){
-			continue;
-		}
 		changes[0][i]= [];
 		if (oldUsers[i]["status_message"]!=newUsers[i]["status_message"]){
 			changes[0][i]["newStatusMessage"] =newUsers[i]["status_message"];
@@ -218,7 +207,7 @@ function getUserChanges(oldUsers, newUsers) {
 			changes[0][i]["oldStatus"] =oldUsers[i]["status"];
 			changes[0][i]["newStatus"] =newUsers[i]["status"];
 		}
-		if (i != getLoggedInUserId() && newUsers[i]["is_typing"]==1){
+		if (i != user.id && newUsers[i]["is_typing"]==1){
 			changes[1].push(i);
 		}
 	}

@@ -4,17 +4,18 @@ function getUserArray() {
 		var oldUserArray = jQuery.extend({}, userArray);
 		//Update the userArray
 		for(var i = 0; i < Object.keys(json).length; i++) {
-			var user = {};
-			var keys = Object.keys(json[i]);
+			var users = {};
+			var id = parseInt(Object.keys(json)[i]);
+
+			var keys = Object.keys(json[id]);
 			for(var j = 0; j < keys.length; j++) {
-				user[keys[j]] = json[i][keys[j]];
+				users[keys[j]] = json[id][keys[j]];
 			}
-			userArray[i] = user;
+			userArray[id+1] = users;
 		}
 		//Get changes and propagate those
 		var changes = getUserChanges(oldUserArray, userArray);
 		propagateUserChanges(changes);
-		
 		
 		//Report array as initialized
 		if(!initialized.getUserArray)
@@ -23,7 +24,6 @@ function getUserArray() {
 }
 
 function getUser() {
-	//Insert code here
 	$.ajax({url: getFormattedDataURL(["action=getUser"]), success: function(json){
 		user = json;
 	//Report variabel as initialized

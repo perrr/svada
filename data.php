@@ -60,13 +60,12 @@ function setIsTyping($userId, $isTyping) {
 }
 
 function getAllUsers() {
-	$userQuery =getQuery("SELECT id, username, display_name, status, status_message, image, is_typing, language, mute_sounds FROM user");
+	$userQuery =getQuery("SELECT id, display_name, status, status_message, image, is_typing FROM user");
 	$users = array();
-	$i=1;
+	$i=0;
 	while ($row = mysqli_fetch_assoc($userQuery)) {
 		$users[$i++] = $row;
 	}
-	$users[0] = $users[$_SESSION['user']['id']];
 	printJson(json_encode($users, JSON_NUMERIC_CHECK));
 }
 

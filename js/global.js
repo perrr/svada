@@ -1,6 +1,6 @@
 var messages = [];
 var emoticonArray = {};
-var userArray = [];
+var userArray = {};
 var user;
 var lastReceivedId = 0;
 var imgArray = [];
