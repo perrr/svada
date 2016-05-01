@@ -33,15 +33,22 @@ $user = $_SESSION['user'];
 		<div id="chat-menu"></div>
 		<div class="container" id="chat-bottom">
 			<div class="row">
-				<div class="col-sm-2" id="sidebar">
-					
-				</div>
+				<div class="col-sm-2" id="sidebar"></div>
 				<div class="col-sm-10" id="mainbar">
-					<div id="mainbar-wrapper">
-						<div id="messages"></div>
-						<div id="whoistyping">&nbsp;</div>
-						<div id="message-text-field" contenteditable="true"></div> 
-					</div>
+					<form id="uploadform" method="post" action="" name="file" enctype="multipart/form-data">
+						<div id="notifications"></div>
+						<div id="mainbar-wrapper">
+							<div id="messages"></div>
+							<div id="toolbar">
+								<div id="whoistyping"></div>
+								<div id="right-toolbar">
+									<span class="glyphicon glyphicon-upload toolbar-item" onclick="manualUpload();"></span>
+								</div>
+							</div>
+							<div id="message-text-field" contenteditable="true"></div>	
+						</div>
+						<input id="fileupload" class="invisible" onchange="submitUpload()" type="file" name="files[]" multiple />
+					</form>
 				</div>
 			</div>
 		</div>
@@ -54,6 +61,7 @@ $user = $_SESSION['user'];
 		<script src="js/functions.js"></script>
 		<script src="js/ajax.js"></script>
 		<script src="js/listeners.js"></script>
+		<script src="js/upload.js"></script>
 		<script src="js/initialize.js"></script>
 	</body>
 </html>

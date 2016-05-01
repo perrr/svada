@@ -31,5 +31,7 @@
 	"today": "Today",
 	"yesterday": "Yesterday",
 	"stats": "Stats",
-	"settings": "Settings"
+	"settings": "Settings",
+	"uploadSuccessful": "Upload successful.",
+	"alreadyUploading": "You are already uploading a file."
 }

@@ -270,6 +270,10 @@ elseif($_GET['action'] == 'checkUserActivity') {
 elseif($_GET['action'] == 'getUser') {
 	getUser();
 }
+elseif($_GET['action'] == 'upload') {
+	printJson('{"status": "success", "message": "' . getString('uploadSuccessful') . '"}');
+}
+
 //Close connection to database
 mysqli_close($connection);
 

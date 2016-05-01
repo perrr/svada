@@ -189,7 +189,7 @@ function parseQuote(quote) {
 
 function getWhoIsTypingAsText(users) {
 	var nrPeopleTyping = users.length;
-	var typingMessage = "&nbsp;";
+	var typingMessage = "";
 	if (nrPeopleTyping > 0){
 		for (var i=0; i<nrPeopleTyping-1;i++){
 			typingMessage += userArray[users[i]]["display_name"] + ", ";
@@ -421,4 +421,16 @@ function alertNewMessages() {
 	if (getLoggedInUser()["mute_sounds"]==0){
 		playSound("user.mp3");
 	}
+}
+
+function errorNotification(content) {
+	var $notification = $('<div class="notification notification-error">' + content + '</div>');
+	$("#notifications" ).append($notification);
+	$notification.slideDown("slow").delay(5000).slideUp("slow", function() { $(this).remove(); } );
+}
+
+function successNotification(content) {
+	var $notification = $('<div class="notification notification-success">' + content + '</div>');
+	$("#notifications" ).append($notification);
+	$notification.slideDown("slow").delay(5000).slideUp("slow", function() { $(this).remove(); } );
 }
