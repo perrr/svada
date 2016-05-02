@@ -44,10 +44,11 @@ $user = $_SESSION['user'];
 								<div id="right-toolbar">
 									<span class="glyphicon glyphicon-upload toolbar-item" onclick="manualUpload();"></span>
 								</div>
+								<br class="clear">
 							</div>
 							<div id="message-text-field" contenteditable="true"></div>	
 						</div>
-						<input id="fileupload" class="invisible" onchange="submitUpload()" type="file" name="files[]" multiple />
+						<input id="fileupload" class="hidden" onchange="submitUpload()" type="file" name="files[]" multiple />
 					</form>
 				</div>
 			</div>
