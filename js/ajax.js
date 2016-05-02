@@ -13,13 +13,16 @@ function getUserArray() {
 			}
 			userArray[id+1] = users;
 		}
-		//Get changes and propagate those
-		var changes = getUserChanges(oldUserArray, userArray);
-		propagateUserChanges(changes);
+
 		
 		//Report array as initialized
 		if(!initialized.getUserArray)
 			setAsInitialized("getUserArray");
+		else {
+			//Get changes and propagate those
+			var changes = getUserChanges(oldUserArray, userArray);
+			propagateUserChanges(changes);
+		}
 	}});
 }
 
