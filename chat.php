@@ -26,7 +26,7 @@ $user = $_SESSION['user'];
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		<link href="css/styles.css" rel="stylesheet">
-		<php echo getStyles(); ?>
+		<?php echo getStyle($user['style']); ?>
 	</head>
 	<body>
 		<div class="container" id="chat-top"></div>
