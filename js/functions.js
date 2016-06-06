@@ -100,7 +100,7 @@ function timestampToTextualDateAndTime(timestamp) {
 		else{
 			beginning = language["today"];
 		}
-		var time = beginning + ", " + hour + ':' + min + ':' + sec;
+		var time = beginning + " " + hour + ':' + min + ':' + sec;
 		return time;
 	}
 			
@@ -126,10 +126,18 @@ function isUrl(string) {
 function parseMessage(message) {
 	var newmessage = "";
 	var shortcuts = Object.keys(emoticonArray);
-	var allWords = message.split(" ");
 	
-	//var patt =/<div class="quote" data-messageid="\d+" contenteditable="false">(^*?)<\/div>/;
-	//alert(patt.test(message));
+	//Parse quotes
+	var content = $('<div>' + message + '</div>');
+	content.children('.quote').each(function(){
+		var id = $(this).data('messageid');
+		var quote = '<div class="quote-content">' + $(this).html() + '</div><div class="quote-signature">' + getQuoteSignature(id) + '</div>';
+		$(this).html(quote);
+		$(this).attr('title', getQuoteTitle(id));
+	});
+	
+	message = content.html();
+	var allWords = message.split(" ");
 
 	//No parsing if sentence start with @@
 	if(message.substring(0,2)=="@@"){
@@ -182,9 +190,6 @@ function parseMessage(message) {
 	}
 	//Return parsed message
 	return newmessage;
-}
-function parseQuote(quote) {
-	//Insert code here
 }
 
 function getWhoIsTypingAsText(users) {
@@ -308,6 +313,15 @@ function htmlDecode(html) {
 	txt.innerHTML = html;
 	return txt.value;
 }
+
+function escapeHtml(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+ }
 
 function scrollToBottom(id) {
 	var container = $(id);

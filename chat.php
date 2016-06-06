@@ -46,7 +46,7 @@ $user = $_SESSION['user'];
 								</div>
 								<br class="clear">
 							</div>
-							<div id="message-text-field" contenteditable="true"></div>	
+							<div id="message-text-field" contenteditable="true" onkeyup="arrangeQuotes()"></div>	
 						</div>
 						<input id="fileupload" class="hidden" onchange="submitUpload()" type="file" name="files[]" multiple />
 					</form>

@@ -28,10 +28,12 @@
 	"password": "Password",
 	"logInSvada": "Log in to Svada",
 	"loggedon": "has logged in",
-	"today": "Today",
-	"yesterday": "Yesterday",
+	"today": "today",
+	"yesterday": "yesterday",
 	"stats": "Stats",
 	"settings": "Settings",
 	"uploadSuccessful": "Upload successful.",
-	"alreadyUploading": "You are already uploading a file."
+	"alreadyUploading": "You are already uploading a file.",
+	"leftQuote": "&ldquo;",
+	"rightQuote": "&rdquo;"
 }

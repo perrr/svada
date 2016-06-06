@@ -28,10 +28,12 @@
 	"password": "Passord",
 	"logInSvada": "Logg på Svada",
 	"loggedon": "har logget på",
-	"today": "I dag",
-	"yesterday": "I går",
+	"today": "i dag",
+	"yesterday": "i går",
 	"stats": "Statistikk",
 	"settings": "Innstillinger",
 	"uploadSuccessful": "Vellykket opplasting.",
-	"alreadyUploading": "Du er allerede i gang med å laste opp en fil."
+	"alreadyUploading": "Du er allerede i gang med å laste opp en fil.",
+	"leftQuote": "&laquo;",
+	"rightQuote": "&raquo;"
 }

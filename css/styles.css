@@ -147,12 +147,42 @@ pre {
 /* Message elements */
 
 .quote{
-	border: 1px solid;
-	background: #E1EAED;
 	margin-bottom: 2px;
 	padding: 3px;
-	display: inline-block;
 	width: 100%;
+	box-sizing: border-box;
+	border: 1px solid transparent;
+	background-color: white;
+}
+
+.quote-content{
+	background-image: url("../res/images/misc/leftquote.png"), url("../res/images/misc/rightquote.png");
+	background-position: left top, right top;
+	background-repeat: no-repeat;
+	display: inline-block;
+	padding-left: 14px;
+	padding-right: 14px;
+	max-width: 100%;
+}
+
+.quote-signature{
+	padding-left: 14px;
+}
+
+.quote-selected{
+	border: 1px solid black;	
+}
+
+.after-quote{
+	min-width: 1px;
+	min-height: 1px;
+	outline: 0px solid transparent;
+}
+
+.before-quote{
+	min-width: 1px;
+	min-height: 1px;
+	outline: 0px solid transparent;
 }
 
 .quote-signature{
@@ -160,6 +190,14 @@ pre {
 	color: #0286B3;
 	padding-top: 5px;
 }
+
+.unselectable{
+	user-select: none;
+	moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+} 
 
 /* Top bar */
 
