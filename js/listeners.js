@@ -1,6 +1,5 @@
 //Fetch news from database regularly
 function fetchNews() {
-	alert("let it go");
 	window.setInterval(function(){
 		getNewMessages();
 		getUserArray();

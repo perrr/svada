@@ -3,8 +3,7 @@ function initializeChatPhaseOne() {
 }
 
 function initializeChatPhaseTwo() {
-	//getRecentMessagesOnLogin();
-	fetchNews();
+	getRecentMessagesOnLogin();
 	reportActivity();
 	resizeWindow();
 	if(userArray[user.id]["status"]==0){
