@@ -2,23 +2,28 @@
 
 if (isset($_POST["ip"])) {
 	//Connect to database
+	// THIS DOES NOT WORK BECAUSE WE HAVE NO CONNECTION YET, NEED TO FIX THIS
 	$connection = new mysqli($_POST["ip"], $_POST["db_user"], $_POST["db_password"]);
+	//$connection = new mysqli($connection->real_escape_string($_POST["ip"]), $connection->real_escape_string($_POST["db_user"]), $connection->real_escape_string($_POST["db_password"]));
 	if ($connection->connect_error) {
 	    die("Connection failed: " . $connection->connect_error);
 	}
 	//Create database
-	mysqli_query($connection, "CREATE DATABASE ".$_POST["chat"]) or die(mysqli_error($connection));
+	mysqli_query($connection, "CREATE DATABASE svada" or die(mysqli_error($connection)));
 
 	require('util.php');
 
 	//Create tables
+	setQuery("DROP TABLE IF EXISTS `chat`");
 	setQuery("CREATE TABLE `chat` (
 	  `name` varchar(20) NOT NULL,
-	  `topic` text NOT NULL,
-	  `image` int(11) NOT NULL
+	  `topic` text NOT NULL DEFAULT '',
+	  `image` int(11) NOT NULL DEFAULT '0'
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1");
-	setQuery("INSERT INTO `chat` (`name`, `topic`, `image`) VALUES
-	('', '', 0)");
+	setQuery('INSERT INTO `chat` (`name`) VALUES
+	("'.$connection->real_escape_string($_POST["chat"]).'")');
+
+	setQuery("DROP TABLE IF EXISTS `emoticon`");
 	setQuery("CREATE TABLE `emoticon` (
 	  `id` int(11) NOT NULL AUTO_INCREMENT,
 	  `path` varchar(30) NOT NULL,
@@ -26,6 +31,8 @@ if (isset($_POST["ip"])) {
 	  `shortcut` text NOT NULL,
 	  PRIMARY KEY (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1");
+
+	setQuery("DROP TABLE IF EXISTS `file`");
 	setQuery("CREATE TABLE `file` (
 	  `id` int(11) NOT NULL AUTO_INCREMENT,
 	  `path` varchar(30) NOT NULL,
@@ -33,6 +40,8 @@ if (isset($_POST["ip"])) {
 	  `timestamp` int(11) NOT NULL,
 	  PRIMARY KEY (`id`)
 	) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1");
+
+	setQuery("DROP TABLE IF EXISTS `message`");
 	setQuery("CREATE TABLE `message` (
 	  `id` int(11) NOT NULL AUTO_INCREMENT,
 	  `content` text NOT NULL,
@@ -42,6 +51,8 @@ if (isset($_POST["ip"])) {
 	  `skype` int(11) NOT NULL DEFAULT '0',
 	  PRIMARY KEY (`id`)
 	) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1");
+
+	setQuery("DROP TABLE IF EXISTS `style`");
 	setQuery("CREATE TABLE `style` (
 	  `id` int(11) NOT NULL AUTO_INCREMENT,
 	  `name` varchar(30) NOT NULL,
@@ -51,6 +62,8 @@ if (isset($_POST["ip"])) {
 	) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1");
 	setQuery("INSERT INTO `style` (`id`, `name`, `css`, `markup`) VALUES
 	(1, 'Standard', 'standard.css', 'highlight.xcode.css')");
+
+	setQuery("DROP TABLE IF EXISTS `user`");
 	setQuery("CREATE TABLE `user` (
 	  `username` varchar(20) NOT NULL,
 	  `display_name` varchar(30) NOT NULL,
@@ -66,18 +79,18 @@ if (isset($_POST["ip"])) {
 	  `style` int(11) NOT NULL DEFAULT '1',
 	  PRIMARY KEY (`id`)
 	) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1");
-	setQuery('INSERT INTO `user` (`username`, `display_name`, `id`, `password`, `status`, `status_message`, `image`, `is_typing`, `language`, `mute_sounds`, `last_activity`, `style`) VALUES 
-		("'.$_POST["username"].'", "'.$_POST["display"].'", 1, "'.$_POST["password"].'", 0, "", 0, 0, "english", 0, 0, 1)');
+	setQuery('INSERT INTO `user` (`username`, `display_name`, `password`) VALUES 
+		("'.strtolower($connection->real_escape_string($_POST['username'])).'", "'.$connection->real_escape_string($_POST["display"]).'", "'.md5(salt($connection->real_escape_string($_POST['password']), $_POST['username'])).'")');
+	
+	setQuery("DROP TABLE IF EXISTS `user_session`");
 	setQuery("CREATE TABLE `user_session` (
 	  `id` int(11) NOT NULL,
 	  `token` varchar(33) DEFAULT NULL
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1");
 
 	//Delete this file upon completion
-	unlink(__FILE__);
+	//unlink(__FILE__);
 }
-
-
 
 ?>
 
@@ -97,7 +110,7 @@ if (isset($_POST["ip"])) {
 	</head>
 	<body>
 		<form action="install.php" method="post">
-			IP of database server: <input type="text" name="ip"><br>
+			Database host: <input type="text" name="ip"><br>
 			Database username: <input type="text" name="db_user"><br>
 			Database password: <input type="text" name="db_password"><br>
 			Name of chat: <input type="text" name="chat"><br>
