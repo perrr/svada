@@ -193,7 +193,23 @@ function getChatInformation() {
 }
 
 function uploadFile($file, $uploader, $share){
-	//Insert code here
+	$save_path="uploads/"; 
+	$originalFileName = $file["name"][0];
+  	$uploadTime = time();
+
+  	//Create unique id for file
+	$fileIdresult = getQuery("SELECT * FROM file WHERE id=(SELECT MAX(id) FROM file)");
+	$newFileIdAssoc = $fileIdresult ->fetch_assoc();
+	$newFileId = $newFileIdAssoc["id"] + 1;
+
+	//Format for filename 'id.fileExtension'
+  	$newFileName = $newFileId.substr($originalFileName, strrpos($originalFileName, '.'));
+  	
+  	//Add to database 
+  	setQuery("INSERT INTO file (path, uploader, timestamp) VALUES ('$newFileName', '$uploader', '$uploadTime')");
+
+  	$success = move_uploaded_file($file['tmp_name'][0], $save_path.$newFileName);
+	printJson('{"status": "success", "message": "' . getString('uploadSuccessful') . '"}');
 }
 
 function checkUserActivity($user) {
@@ -284,7 +300,8 @@ elseif($_GET['action'] == 'getUser') {
 	getUser();
 }
 elseif($_GET['action'] == 'upload') {
-	printJson('{"status": "success", "message": "' . getString('uploadSuccessful') . '"}');
+	uploadFile($_FILES["files"], "1", "0");
+	
 }
 
 //Close connection to database
