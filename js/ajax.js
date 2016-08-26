@@ -86,6 +86,25 @@ function getChatInformation() {
 	}});
 }
 
+function getRecentMessagesOnLogin() {
+	alert("ghg");
+	$.ajax({url: getFormattedDataURL(["action=getRecentMessages"]), success: function(json){
+		var aChange = false;
+		var initialLoading = messages.length == 0;
+		alert("lol");
+		for(var i = 0; i < json.length; i++) {
+			alert("lal");
+			var id = json[i]['id'];
+			lastReceivedId = json[i]['id'];
+			
+			messages[id] = json[i];
+			messages[id].parsedContent = parseMessage(messages[id].content);
+			displayMessage(json[i]);
+		}
+		fetchNews();
+    }});
+}
+
 function getNewMessages() {
 	$.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), success: function(json){
 		var aChange = false;

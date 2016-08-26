@@ -3,6 +3,7 @@ function initializeChatPhaseOne() {
 }
 
 function initializeChatPhaseTwo() {
+	//getRecentMessagesOnLogin();
 	fetchNews();
 	reportActivity();
 	resizeWindow();
