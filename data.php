@@ -185,14 +185,12 @@ function getChatInformation() {
 function uploadFile($file, $uploader, $share){
 	$save_path="uploads/"; 
 	$originalFileName = $file["name"][0];
-  	postMessage($originalFileName, 2);
   	$uploadTime = time();
 
   	//Create unique id for file
 	$fileIdresult = getQuery("SELECT * FROM file WHERE id=(SELECT MAX(id) FROM file)");
 	$newFileIdAssoc = $fileIdresult ->fetch_assoc();
 	$newFileId = $newFileIdAssoc["id"] + 1;
-	postMessage($newFileId, 3);
 
 	//Format for filename 'id.fileExtension'
   	$newFileName = $newFileId.substr($originalFileName, strrpos($originalFileName, '.'));
@@ -200,13 +198,8 @@ function uploadFile($file, $uploader, $share){
   	//Add to database 
   	setQuery("INSERT INTO file (path, uploader, timestamp) VALUES ('$newFileName', '$uploader', '$uploadTime')");
 
-  	//testing	
-  	$success = (move_uploaded_file($originalFileName, $save_path.$newFileName)) ? 'true' : 'false';	
-  	postMessage($success, 4);
-
-  	$writable = is_writeable($save_path) ? 'true' : 'false';
-  	postMessage($writable, 1);
-
+  	$success = move_uploaded_file($file['tmp_name'][0], $save_path.$newFileName);
+	printJson('{"status": "success", "message": "' . getString('uploadSuccessful') . '"}');
 }
 
 function checkUserActivity($user) {
@@ -294,12 +287,8 @@ elseif($_GET['action'] == 'getUser') {
 	getUser();
 }
 elseif($_GET['action'] == 'upload') {
-	$var_info = print_r($_FILES,true);
-
-	#printJson('{"status": "success", "message": "lol"}');
-	echo json_encode($var_info);
-	//printJson('{"status": "success", "message": "' . json_encode($var_info) . '"}');
 	uploadFile($_FILES["files"], "1", "0");
+	
 }
 
 //Close connection to database
