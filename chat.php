@@ -38,7 +38,14 @@ $user = $_SESSION['user'];
 					<form id="uploadform" method="post" action="" name="file" enctype="multipart/form-data">
 						<div id="notifications"></div>
 						<div id="mainbar-wrapper">
-							<div id="messages"></div>
+							<div id="main-window">
+								<div id="messages"></div>
+								<div id="submenu">
+									<div id="submenu-settings">
+										<?php include('pages/settings.php'); ?>
+									</div>
+								</div>
+							</div>
 							<div id="toolbar">
 								<div id="whoistyping"></div>
 								<div id="right-toolbar">
@@ -63,6 +70,7 @@ $user = $_SESSION['user'];
 		<script src="js/ajax.js"></script>
 		<script src="js/listeners.js"></script>
 		<script src="js/upload.js"></script>
+		<script src="js/submenu.js"></script>
 		<script src="js/initialize.js"></script>
 	</body>
 </html>

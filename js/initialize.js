@@ -48,9 +48,9 @@ function generateUserBar(fullsize) {
 function generateTopBar(fullsize) {
 	var topHTML = "";
 	
-	var menuItems = [["settings", "cog", "chat.php"],
-		["stats", "stats", "stats.php"],
-		["logout", "log-out", "index.php?logout=1"]];
+	var menuItems = [["settings", "cog", "#", "toggleSubmenu('settings')"],
+		["stats", "stats", "stats.php", ""],
+		["logout", "log-out", "index.php?logout=1", ""]];
 	
 	if(fullsize) {
 		topHTML = '<div id="top-left">\
@@ -63,9 +63,9 @@ function generateTopBar(fullsize) {
 			  <div id="top-right">';
 		  
 		  for(var i = 0; i < menuItems.length; i++) {
-			  topHTML += '<div class="top-link-wrapper"><div class="top-link">\
-				<a href="' + menuItems[i][2] + '">\
-					<span class="glyphicon glyphicon-' + menuItems[i][1] + ' top-glyph"></span>\
+			  topHTML += '<div class="top-link-wrapper" onclick="' + menuItems[i][3] + '"><div class="top-link">\
+				<a href="' + menuItems[i][2] + '" >\
+					<span class="top-link-a glyphicon glyphicon-' + menuItems[i][1] + ' top-glyph"></span>\
 					 ' + language[menuItems[i][0]] + '\
 				</a>\
 			</div></div>';
