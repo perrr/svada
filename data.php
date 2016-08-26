@@ -30,6 +30,11 @@ function getMessagesNewerThan($timeLimit) {
 	printJson(sqlToJson($limitMessages));
 }
 
+function getRecentMessages() {
+	echo($lastDate);
+	//$recentMessages = getQuery("SELECT * FROM message WHERE message .timestamp = ");
+}
+
 function getOnlineUsers() {
 	$onlineUsers = getQuery("SELECT id, status FROM user WHERE status != 0");
 	printJson(sqlToJson($onlineUsers));

@@ -74,9 +74,7 @@ function timestampToDateAndTime(timestamp) {
 function timestampToTextualDateAndTime(timestamp) {
 	var thatDay = new Date(timestamp*1000);
 	var thisDay = new Date();
-	console.log(thisDay);
 	var difference = thisDay.getDate()-thatDay.getDate();
-	console.log(difference);
 	if (difference >= 2 || difference <0){
 		return timestampToDateAndTime(timestamp);
 	}
