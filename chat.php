@@ -44,6 +44,9 @@ $user = $_SESSION['user'];
 									<div id="submenu-settings">
 										<?php include('pages/settings.php'); ?>
 									</div>
+									<div id="submenu-stats">
+										<?php include('pages/stats.php'); ?>
+									</div>
 								</div>
 							</div>
 							<div id="toolbar">

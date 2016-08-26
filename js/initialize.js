@@ -49,7 +49,7 @@ function generateTopBar(fullsize) {
 	var topHTML = "";
 	
 	var menuItems = [["settings", "cog", "#", "toggleSubmenu('settings')"],
-		["stats", "stats", "stats.php", ""],
+		["stats", "stats", "#", "toggleSubmenu('stats')"],
 		["logout", "log-out", "index.php?logout=1", ""]];
 	
 	if(fullsize) {

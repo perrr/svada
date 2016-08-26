@@ -1,24 +1,8 @@
 <?php
-
-session_start();
-
-//If there's no session for this visitor, redirect him out of here
-if(!isset($_SESSION['user'])){
-	header('Location: index.php');
-	die();
-}
-
-require('util.php');
-
-mb_internal_encoding('UTF-8');
-
-//For convenience, store session in a variable with a shorter name
-$user = $_SESSION['user'];
-
 $content = array(); // An array containing all we wish to print
 
 $emoticonSql = getQuery("SELECT shortcut FROM emoticon");
-$shortcuts = [];
+$shortcuts = array();
 while ($row = mysqli_fetch_assoc($emoticonSql)) {
 	$emoticonShortcuts = $row['shortcut'];
 	$exploded = explode(' ', $emoticonShortcuts);
@@ -101,10 +85,15 @@ $content[] = 'STATS<br><br>';
 
 //Database queries
 $messagesTable = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message"));
+
 $messages = $messagesTable['COUNT(*)'];
 $content[] = 'Number of messages: ';
 $content[] = $messages;
-$users = getQuery("SELECT id, username FROM user");
+$usersQuery = getQuery("SELECT id, username FROM user");
+$users = array();
+while($user = mysqli_fetch_assoc($usersQuery)){
+  $users[] = $user;
+}
 
 $content[] = '<br><br>';
 foreach ($users as $user) {
@@ -116,27 +105,23 @@ foreach ($users as $user) {
 	printPercentage($userMessages, $messages);
 	$content[] = '<br>';
 }
-
 $content[] = '<br>';
 $skypeTable = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE skype = 1"));
 $skype = $skypeTable['COUNT(*)'];
 $content[] = 'Messages from Skype: ';
 $content[] = $skype;
 printPercentage($skype, $messages);
-
 $content[] = '<br>';
 $notSkypeTable = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE skype = 0"));
 $notSkype = $notSkypeTable['COUNT(*)'];
 $content[] = 'Messages not from Skype: ';
 $content[] = $notSkype;
 printPercentage($notSkype, $messages);
-
 $content[] = '<br><br>';
 $lengthTable = mysqli_fetch_assoc(getQuery("SELECT AVG(LENGTH(content)) FROM message"));
 $length = $lengthTable['AVG(LENGTH(content))'];
 $content[] = 'Average message length: ';
 $content[] = round($length, 2);
-
 $content[] = '<br><br>';
 foreach ($users as $user) {
 	$id = $user['id'];
@@ -146,7 +131,6 @@ foreach ($users as $user) {
 	$content[] = round($userLength, 2);
 	$content[] = '<br>';
 }
-
 list($mostUsedWords, $mostUsedEmoticons, $numWordsTotal, $numEmoticonsTotal) = mostUsedWordsAndEmoticons(null, $shortcuts);
 $numWordsUnique = sizeof($mostUsedWords);
 $content[] = '<br>Total number of words: '.$numWordsTotal.'<br>';
@@ -170,7 +154,6 @@ foreach ($users as $user) {
 	$content[] = '<br>Number of unique emoticons for '.$user['username'].': '.$numEmoticonsUserUnique.'<br>';
 	$content[] = '<br>Most used emoticons for '.$user['username'].':<br>';
 	printWordList($userEmoticons, false);
-	
 	$content[] = '<br>Relatively most used words for '.$user['username'].':<br>';
 	$relWords = array();
 	foreach ($userWords as $k => $v) {
@@ -192,32 +175,9 @@ foreach ($users as $user) {
 //Close connection to database
 mysqli_close($connection);
 
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<meta charset="utf-8">
-		<title>Svada Chat Client</title>
-		<meta name="generator" content="Bootply" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<!--[if lt IE 9]>
-			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-		<link href="css/styles.css" rel="stylesheet">
-	</head>
-	<body>
-		<?php
-		foreach ($content as $text) {
-			echo $text;
-		}
-		?>
-		<!-- Scripts -->
-		<script src="js/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/functions.js"></script>
-		<script src="js/ajax.js"></script>
-	</body>
-</html>
+foreach ($content as $text) {
+	echo $text;
+}
+
+?>
