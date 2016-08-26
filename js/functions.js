@@ -73,10 +73,11 @@ function timestampToDateAndTime(timestamp) {
 
 function timestampToTextualDateAndTime(timestamp) {
 	var thatDay = new Date(timestamp*1000);
-	var thisDay = getCurrentTimestamp()*1000;
-	var difference = thisDay-thatDay;
-	difference = difference/(1000*60*60*24)
-	if (difference > 2 || difference <0){
+	var thisDay = new Date();
+	console.log(thisDay);
+	var difference = thisDay.getDate()-thatDay.getDate();
+	console.log(difference);
+	if (difference >= 2 || difference <0){
 		return timestampToDateAndTime(timestamp);
 	}
 	else{
@@ -94,7 +95,7 @@ function timestampToTextualDateAndTime(timestamp) {
 		}
 		
 		var beginning = "";
-		if (difference >1){
+		if (difference ==1){
 			beginning = language["yesterday"];
 		}
 		else{
