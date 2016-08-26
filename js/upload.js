@@ -62,6 +62,7 @@ $form.on('submit', function(e) {
 			url: "data.php?action=upload",
 			type: $form.attr('method'),
 			data: ajaxData,
+			dataType: 'text',
 			cache: false,
 			contentType: false,
 			processData: false,
@@ -69,12 +70,7 @@ $form.on('submit', function(e) {
 				$form.removeClass('is-uploading');
 			},
 			success: function(json) {
-				if(json["status"] == "success"){
-					successNotification(json['message']);
-				}
-				else{
-					errorNotification(json['message']);
-				}
+				alert(json);
 			}
 		});	
 	}
