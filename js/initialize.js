@@ -77,8 +77,8 @@ function generateTopBar(fullsize) {
 		menuHTML = "";
 		
 		for(var i = 0; i < menuItems.length; i++) {
-			menuHTML += '<a class=\\\'menu-link\\\' href=\\\'' + menuItems[i][2] + '\\\'>\
-					<span class=\\\'glyphicon glyphicon-' + menuItems[i][1] + ' menu-glyph\\\'></span>\
+			menuHTML += '<a class="menu-link" href="' + menuItems[i][2] + '" onclick="' + menuItems[i][3] + '; toggleMenu()">\
+					<span class="glyphicon glyphicon-' + menuItems[i][1] + ' menu-glyph"></span>\
 					 ' + language[menuItems[i][0]] + '\
 				</a>';
 		}
@@ -86,10 +86,12 @@ function generateTopBar(fullsize) {
 		topHTML = '<div id="top-left">\
 			<h1 id="chat-small-title">' + chatInformation.name + (chatInformation.topic != "" ? ": " + chatInformation.topic : "") + '</h1>\
 			</div>\
-			<span id="chat-small-menu" onclick="toggleMenu(\'' + menuHTML + '\')" class="glyphicon glyphicon-menu-hamburger top-glyph"></span>';
+			<span id="chat-small-menu" onclick="toggleMenu()" class="glyphicon glyphicon-menu-hamburger top-glyph"></span>';
+		$('#chat-menu').html(menuHTML);
 	}
 
 	$('#chat-top').html(topHTML);
+	
 }
 
 //Run functions

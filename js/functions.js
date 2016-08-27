@@ -295,8 +295,8 @@ function resizeWindow() {
 	$('#main-window').css({'height':$('#chat-bottom').height() - $('#toolbar').height() - $('#message-text-field').outerHeight() - userbarOffset});
 }
 
-function toggleMenu(items) {
-	$('#chat-menu').html(items).slideToggle(500);
+function toggleMenu() {
+	$('#chat-menu').slideToggle(500);
 }
 
 function hideMenu(){
