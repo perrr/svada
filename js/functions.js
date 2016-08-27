@@ -448,3 +448,7 @@ function successNotification(content) {
 	$("#notifications" ).append($notification);
 	$notification.slideDown("slow").delay(5000).slideUp("slow", function() { $(this).remove(); } );
 }
+
+function getUserImage(imageId) {
+	return imageId != null ? 'res/images/uploads/' . imgArray[imageId] : 'res/images/default/default_user_image.png';
+}

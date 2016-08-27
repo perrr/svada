@@ -18,7 +18,7 @@ if (isset($_POST["ip"])) {
 	setQuery("CREATE TABLE `chat` (
 	  `name` varchar(20) NOT NULL,
 	  `topic` text NOT NULL DEFAULT '',
-	  `image` int(11) NOT NULL DEFAULT '0'
+	  `image` int(11) DEFAULT NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 	setQuery('INSERT INTO `chat` (`name`) VALUES
 	("'.$connection->real_escape_string($_POST["chat"]).'")');

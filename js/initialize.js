@@ -35,7 +35,7 @@ function generateUserBar(fullsize) {
 		
 		var userStatus = '<span class="status-circle status-' + statusClass + '"></span>';
 		if(fullsize)
-			userHTML += '<div class="userbox"><div class="userbox-image"><img class="img-rounded" src="res/images/uploads/'+ imgArray[userArray[i].image] + '"></div><div id="userbox' + i + '" class="userbox-data"><div class="userbox-username">' + userStatus + ' ' + userArray[i].display_name + '</div><div class="userbox-statusmessage">' + userArray[i].status_message +'</div></div><br class="clear"></div></div>';
+			userHTML += '<div class="userbox"><div class="userbox-image"><img class="img-rounded" src="' + userArray[i].image + '"></div><div id="userbox' + i + '" class="userbox-data"><div class="userbox-username">' + userStatus + ' ' + userArray[i].display_name + '</div><div class="userbox-statusmessage">' + userArray[i].status_message +'</div></div><br class="clear"></div></div>';
 		else
 			userHTML += '<span class="status-circled-background status-' + statusClass + '">' + userArray[i].display_name + '</span> ';
 		
@@ -51,10 +51,10 @@ function generateTopBar(fullsize) {
 	var menuItems = [["settings", "cog", "#", "toggleSubmenu('settings')"],
 		["stats", "stats", "#", "toggleSubmenu('stats')"],
 		["logout", "log-out", "index.php?logout=1", ""]];
-	
+
 	if(fullsize) {
 		topHTML = '<div id="top-left">\
-			<img id="chat-image" src="res/images/uploads/' + imgArray[chatInformation.chatImage] + '" class="img-circle">\
+			<img id="chat-image" src="' + chatInformation.chatImage + '" class="img-circle">\
 				<div id="top-header">\
 					<h1 id="chat-name">' + chatInformation.name + '</h1>\
 					<h2 id="chat-topic">' + chatInformation.topic + '</h2>\
