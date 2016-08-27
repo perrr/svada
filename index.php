@@ -2,7 +2,7 @@
 session_start();
 require('util.php');
 $message = '';
-if(isset($_GET['logout'])){
+if(isLoggedIn() && isset($_GET['logout'])){
 	setcookie('usercookie', '', time()-3600);
 	$id = $_SESSION['user']['id'];
 	setQuery("UPDATE user_session SET token = NULL WHERE id = '$id'");
@@ -35,7 +35,7 @@ if(isset($_POST['username'])){
 		$_SESSION['user'] = $user;
 		$token = $_SESSION['user']['id'].md5(strval(time()));
 		$id = $_SESSION['user']['id'];
-		setQuery("UPDATE user_session SET token = '$token' WHERE id = '$id'");
+		setQuery("INSERT INTO user_session VALUES ($id, '$token')");
 		//Close connection to database
 		mysqli_close($connection);
 		setcookie('usercookie', $token, 86400*365*100);

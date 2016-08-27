@@ -12,6 +12,15 @@ else{
 }
 $language = loadLanguage($language);
 
+function isLoggedIn() {
+	if (!isset($_SESSION['user'])) {
+		return false;
+	}
+
+	$databaseSession = mysqli_fetch_array(getQuery("SELECT * FROM user_session WHERE id = ".$_SESSION['user']['id']));
+	return !empty($databaseSession);
+}
+
 function sqlToJson($sql) {
 	$json = array();
 	while ($row = mysqli_fetch_assoc($sql)) {

@@ -39,7 +39,7 @@ if (isset($_POST["ip"])) {
 	  `uploader` int(11) NOT NULL,
 	  `timestamp` int(11) NOT NULL,
 	  PRIMARY KEY (`id`)
-	) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1");
+	) ENGINE=MyISAM DEFAULT CHARSET=latin1");
 
 	setQuery("DROP TABLE IF EXISTS `message`");
 	setQuery("CREATE TABLE `message` (
@@ -50,7 +50,7 @@ if (isset($_POST["ip"])) {
 	  `edit` int(11) NOT NULL DEFAULT '0',
 	  `skype` int(11) NOT NULL DEFAULT '0',
 	  PRIMARY KEY (`id`)
-	) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1");
+	) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 
 	setQuery("DROP TABLE IF EXISTS `style`");
 	setQuery("CREATE TABLE `style` (
@@ -78,7 +78,7 @@ if (isset($_POST["ip"])) {
 	  `last_activity` int(11) NOT NULL DEFAULT '0',
 	  `style` int(11) NOT NULL DEFAULT '1',
 	  PRIMARY KEY (`id`)
-	) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1");
+	) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 	setQuery('INSERT INTO `user` (`username`, `display_name`, `password`) VALUES 
 		("'.strtolower($connection->real_escape_string($_POST['username'])).'", "'.$connection->real_escape_string($_POST["display"]).'", "'.md5(salt($connection->real_escape_string($_POST['password']), $_POST['username'])).'")');
 	

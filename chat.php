@@ -4,7 +4,7 @@ session_start();
 require('util.php');
 
 //If there's no session for this visitor, redirect him out of here
-if(!isset($_SESSION['user'])){
+if(!isLoggedIn()){
 	header('Location: index.php');
 	die();
 }
