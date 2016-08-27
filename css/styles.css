@@ -306,6 +306,10 @@ a, a:active, a:focus {
 	margin-bottom: 10px;
 }
 
+.userbox-username{
+	font-size: 14px;
+}
+
 .userbox-image{
 	float: left;
 	width: 80px;
@@ -329,9 +333,9 @@ a, a:active, a:focus {
 }
 
 .status-circle {
-	border-radius: 0.8em;
-	-moz-border-radius: 0.8em;
-	-webkit-border-radius: 0.8em;
+	border-radius: 0.6em;
+	-moz-border-radius: 0.6em;
+	-webkit-border-radius: 0.6em;
 	color: #fff;
 	display: inline-block;
 	font-weight: bold;
@@ -339,6 +343,8 @@ a, a:active, a:focus {
 	text-align: center;
 	width: 14px;
 	height: 14px;
+	margin-right: 5px; 
+	margin-bottom: -2px;
 }
 
 .status-circled-background {
