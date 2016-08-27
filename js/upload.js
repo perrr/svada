@@ -1,3 +1,5 @@
+var $form = $('#uploadform');
+
 var isAdvancedUpload = function() {
 	var div = document.createElement('div');
 	return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
@@ -11,74 +13,79 @@ function submitUpload() {
 	$form.submit();
 }
 
-var $form = $('#uploadform');
+function activateUploadForm() {
+	if(isAdvancedUpload) {
+		$form.addClass('has-advanced-upload');
+		
+		var droppedFiles = false;
 
-if(isAdvancedUpload) {
-	$form.addClass('has-advanced-upload');
+		$form.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+		})
+		.on('dragover dragenter', function() {
+			$form.addClass('dragover');
+		})
+		.on('dragleave dragend drop', function() {
+			$form.removeClass('dragover');
+		})
+		.on('drop', function(e) {
+			droppedFiles = e.originalEvent.dataTransfer.files;
+			$form.submit();
+		});
+	}
 	
-	var droppedFiles = false;
+	$form.on('submit', function(e) {
+		if($form.hasClass('is-uploading')) {
+			errorNotification(language["alreadyUploading"]);
+			return false;
+		}
+		$form.addClass('is-uploading');
 
-	$form.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-	})
-	.on('dragover dragenter', function() {
-		$form.addClass('dragover');
-	})
-	.on('dragleave dragend drop', function() {
-		$form.removeClass('dragover');
-	})
-	.on('drop', function(e) {
-		droppedFiles = e.originalEvent.dataTransfer.files;
-		$form.submit();
+		if(isAdvancedUpload) {
+			e.preventDefault();
+
+			var ajaxData;
+
+			if(droppedFiles) {
+				ajaxData = new FormData();
+				$.each(droppedFiles, function(i, file) {
+					$input = $form.find('input[type="file"]');
+					ajaxData.append($input.attr('name'), file);
+				});
+			}
+			else{
+				ajaxData = new FormData($form.get(0))	
+			}
+
+			$.ajax({
+				url: "data.php?action=upload",
+				type: $form.attr('method'),
+				data: ajaxData,
+				cache: false,
+				contentType: false,
+				processData: false,
+				complete: function() {
+					$form.removeClass('is-uploading');
+				},
+				success: function(json) {
+					if(json["status"] == "success"){
+						successNotification(json['message']);
+					}
+					else{
+						errorNotification(json['message']);
+					}
+				}
+			});	
+		}
+		else {
+			//Todo: Add support for older browsers
+		}
 	});
-
 }
 
-$form.on('submit', function(e) {
-	if($form.hasClass('is-uploading')) {
-		errorNotification(language["alreadyUploading"]);
-		return false;
-	}
-	$form.addClass('is-uploading');
+function disableUploadForm() {
+	$form.off();
+}
 
-	if(isAdvancedUpload) {
-		e.preventDefault();
-
-		var ajaxData;
-
-		if(droppedFiles) {
-			ajaxData = new FormData();
-			$.each(droppedFiles, function(i, file) {
-				$input = $form.find('input[type="file"]');
-				ajaxData.append($input.attr('name'), file);
-			});
-		}
-		else{
-			ajaxData = new FormData($form.get(0))	
-		}
-
-		$.ajax({
-			url: "data.php?action=upload",
-			type: $form.attr('method'),
-			data: ajaxData,
-			cache: false,
-			contentType: false,
-			processData: false,
-			complete: function() {
-				$form.removeClass('is-uploading');
-			},
-			success: function(json) {
-				if(json["status"] == "success"){
-					successNotification(json['message']);
-				}
-				else{
-					errorNotification(json['message']);
-				}
-			}
-		});	
-	}
-	else {
-		//Todo: Add support for older browsers
-	}
-});
+activateUploadForm()

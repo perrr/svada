@@ -47,18 +47,21 @@ a, a:active, a:focus {
 #mainbar {
 	background-color: white;
 	padding: 0;
+	height: 100%;
 }
 
-#mainbar-wrapper {
+#tabs {
 	max-width: 800px;
 	margin-left: auto;
 	margin-right: auto;
-	position: relative;
+}
+
+#tabs > div {
+	overflow-y: auto;
 }
 
 #messages{
 	overflow-y: scroll;
-	height: 100%;
 }
 
 #message-text-field {
@@ -144,10 +147,6 @@ a, a:active, a:focus {
 	word-wrap: break-word;    
 	overflow-wrap: break-word;
 	width: 100%;	
-}
-
-.clear{
-	clear: both;
 }
 
 /* Message elements */
@@ -245,34 +244,40 @@ a, a:active, a:focus {
 }
 
 .top-link-wrapper{
-	padding: 10px;
 	float: left;
+	margin-right: 20px;
 	border-radius: 25px;
-	margin-right: 10px;
+}
+
+.top-link-wrapper a{
+	padding: 10px 15px;
 	display: block;
 }
 
 .top-link{
 	text-align: center;
-	width: 80px;
+	width: 100px;
 	margin-left: auto;
 	margin-right: auto;
-}
-
-.top-link-wrapper:hover{
-	background: white;
-	padding: 10px;
-	border-radius: 25px;
-	color: #428BCA;
-}
-
-.top-link-wrapper:hover a{
-	color: #428BCA;
 }
 
 .top-link a{
 	color: white;
 	text-decoration: none;
+}
+
+.top-link-wrapper:hover,
+.active-tab-button{
+	background: white;
+}
+
+.menu-link.active-tab-button{
+	border-radius: 0;
+}
+
+.top-link-wrapper:hover a,
+.active-tab-button a{
+	color: #428BCA;
 }
 
 .top-link :hover{
@@ -407,23 +412,9 @@ a, a:active, a:focus {
 	background-color: #F5F5F5;
 }
 
-/* Submenu */
+/* Tabs */
 
-#submenu{
-	background: white;
-	height: 100%;
-	width: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 1;
-	display: none;
-	max-width: 800px;
-	margin-left: auto;
-	margin-right: auto;	
-}
-
-#submenu div {
+#tabs  > div:not(.active-tab) {
 	display: none;
 }
 
@@ -431,4 +422,8 @@ a, a:active, a:focus {
 
 .invisible{
 	display: none;
+}
+
+.clear{
+	clear: both;
 }

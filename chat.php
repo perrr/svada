@@ -37,26 +37,24 @@ $user = $_SESSION['user'];
 				<div class="col-sm-10" id="mainbar">
 					<form id="uploadform" method="post" action="" name="file" enctype="multipart/form-data">
 						<div id="notifications"></div>
-						<div id="mainbar-wrapper">
-							<div id="main-window">
+						<div id="tabs">
+							<div class="active-tab" id="tab-chat">
 								<div id="messages"></div>
-								<div id="submenu">
-									<div id="submenu-settings">
-										<?php include('pages/settings.php'); ?>
+								<div id="toolbar">
+									<div id="whoistyping"></div>
+									<div id="right-toolbar">
+										<span class="glyphicon glyphicon-upload toolbar-item" onclick="manualUpload();"></span>
 									</div>
-									<div id="submenu-stats">
-										<?php include('pages/stats.php'); ?>
-									</div>
+									<br class="clear">
 								</div>
+								<div id="message-text-field" contenteditable="true" onkeyup="arrangeQuotes()"></div>	
 							</div>
-							<div id="toolbar">
-								<div id="whoistyping"></div>
-								<div id="right-toolbar">
-									<span class="glyphicon glyphicon-upload toolbar-item" onclick="manualUpload();"></span>
-								</div>
-								<br class="clear">
+							<div class="tab" id="tab-settings">
+								<?php include('pages/settings.php'); ?>
 							</div>
-							<div id="message-text-field" contenteditable="true" onkeyup="arrangeQuotes()"></div>	
+							<div class="tab" id="tab-stats">
+								<?php include('pages/stats.php'); ?>
+							</div>
 						</div>
 						<input id="fileupload" class="hidden" onchange="submitUpload()" type="file" name="files[]" multiple />
 					</form>
@@ -73,7 +71,7 @@ $user = $_SESSION['user'];
 		<script src="js/ajax.js"></script>
 		<script src="js/listeners.js"></script>
 		<script src="js/upload.js"></script>
-		<script src="js/submenu.js"></script>
+		<script src="js/tabs.js"></script>
 		<script src="js/initialize.js"></script>
 	</body>
 </html>

@@ -291,8 +291,8 @@ function resizeWindow() {
 		userbarOffset = $('#sidebar').outerHeight();
 		
 	}
-	$('#chat-bottom').css({'height':$(window).height() - $('#chat-top').outerHeight()});
-	$('#main-window').css({'height':$('#chat-bottom').height() - $('#toolbar').height() - $('#message-text-field').outerHeight() - userbarOffset});
+	$('#chat-bottom, #tabs > div').css({'height':$(window).height() - $('#chat-top').outerHeight()});
+	$('#messages').css({'height':$('#chat-bottom').height() - $('#toolbar').height() - $('#message-text-field').outerHeight() - userbarOffset});
 }
 
 function toggleMenu() {

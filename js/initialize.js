@@ -47,9 +47,10 @@ function generateUserBar(fullsize) {
 
 function generateTopBar(fullsize) {
 	var topHTML = "";
-	
-	var menuItems = [["settings", "cog", "#", "toggleSubmenu('settings')"],
-		["stats", "stats", "#", "toggleSubmenu('stats')"],
+
+	var menuItems = [["chat", "comment", "#", "changeTab('chat')"],
+		["settings", "cog", "#", "changeTab('settings')"],
+		["stats", "stats", "#", "changeTab('stats')"],
 		["logout", "log-out", "index.php?logout=1", ""]];
 
 	if(fullsize) {
@@ -63,7 +64,9 @@ function generateTopBar(fullsize) {
 			  <div id="top-right">';
 		  
 		  for(var i = 0; i < menuItems.length; i++) {
-			  topHTML += '<div class="top-link-wrapper" onclick="' + menuItems[i][3] + '"><div class="top-link">\
+			  var className = " tab-button-" + menuItems[i][0];
+			  var activeTab = menuItems[i][0] == activeTabButton ? " active-tab-button" : "";
+			  topHTML += '<div class="top-link-wrapper' + className + activeTab + '" onclick="' + menuItems[i][3] + '"><div class="top-link">\
 				<a href="' + menuItems[i][2] + '" >\
 					<span class="top-link-a glyphicon glyphicon-' + menuItems[i][1] + ' top-glyph"></span>\
 					 ' + language[menuItems[i][0]] + '\
@@ -77,7 +80,9 @@ function generateTopBar(fullsize) {
 		menuHTML = "";
 		
 		for(var i = 0; i < menuItems.length; i++) {
-			menuHTML += '<a class="menu-link" href="' + menuItems[i][2] + '" onclick="' + menuItems[i][3] + '; toggleMenu()">\
+			var className = " tab-button-" + menuItems[i][0];
+			var activeTab = menuItems[i][0] == activeTabButton ? " active-tab-button" : "";
+			menuHTML += '<a class="menu-link' + className + activeTab + '" href="' + menuItems[i][2] + '" onclick="' + menuItems[i][3] + '; toggleMenu()">\
 					<span class="glyphicon glyphicon-' + menuItems[i][1] + ' menu-glyph"></span>\
 					 ' + language[menuItems[i][0]] + '\
 				</a>';
