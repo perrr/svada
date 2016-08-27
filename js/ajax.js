@@ -11,7 +11,6 @@ function getUserArray() {
 			for(var j = 0; j < keys.length; j++) {
 				user[keys[j]] = json[id][keys[j]];
 			}
-			user.image = getUserImage(user.image);
 			userArray[id+1] = user;
 		}
 
@@ -30,7 +29,6 @@ function getUserArray() {
 function getUser() {
 	$.ajax({url: getFormattedDataURL(["action=getUser"]), success: function(json){
 		user = json;
-		user.image = getUserImage(user.image);
 		//Report variabel as initialized
 		if(!initialized.getUser)
 			setAsInitialized("getUser");
@@ -70,8 +68,7 @@ function getChatInformation() {
 		//copy old chat information
 		var oldChatInformation = jQuery.extend({}, chatInformation);
 		//new chatInformation
-		chatInformation = {topic:json[0]["topic"], name:json[0]["name"]};
-		chatInformation.chatImage = json[0]["image"] != null ? 'res/images/uploads/' . imgArray[chatInformation.chatImage] : 'res/images/default/default_chat_image.png';
+		chatInformation = {topic:json[0]["topic"], chatImage:[0]["image"], name:json[0]["name"]};
 
 		var changes = getChatInformationChanges(oldChatInformation, chatInformation);
 		var somethingChanged = false;
@@ -129,7 +126,7 @@ function getNewMessages() {
 }
 
 function displayMessage(message) {
-	var messageHTML = '<div class="message"><div class="message-image"><img class="img-rounded" src="' + userArray[message["author"]].image + '"></div><div class="message-data"><div class="message-author">'+ userArray[message["author"]].display_name + '</div><div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div><br class="clear"><pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre></div><br class="clear"></div>';
+	var messageHTML = '<div class="message"><div class="message-image"><img class="img-rounded" src="' + getUserImage(userArray[message["author"]].image) + '"></div><div class="message-data"><div class="message-author">'+ userArray[message["author"]].display_name + '</div><div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div><br class="clear"><pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre></div><br class="clear"></div>';
 	$("#messages").append(messageHTML);
 	scrollToBottom("#messages");
 }

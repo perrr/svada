@@ -450,5 +450,9 @@ function successNotification(content) {
 }
 
 function getUserImage(imageId) {
-	return imageId != null ? 'res/images/uploads/' . imgArray[imageId] : 'res/images/default/default_user_image.png';
+	return imageId != null ? 'res/images/uploads/' + imgArray[imageId] : 'res/images/default/default_user_image.png';
+}
+
+function getChatImage(imageId) {
+	return imageId != null ? 'res/images/uploads/' + imgArray[imageId] : 'res/images/default/default_chat_image.png';
 }
