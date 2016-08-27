@@ -11,3 +11,5 @@ var initialized = {"getUser":false, "getUserArray":false, "getEmoticonArray":fal
 var titleAlert = false;
 var isActive = true;
 var activeTabButton = "chat";
+var customScrollbarOptionsDefault = { theme: "minimal-dark", scrollInertia: 100, scrollButtons:{ enable: true } };
+var customScrollbarOptionsMessages = { theme: "dark-3", scrollInertia: 100, scrollButtons:{ enable: true } };

@@ -61,15 +61,20 @@ a, a:active, a:focus {
 }
 
 #messages{
-	overflow-y: scroll;
+}
+
+#write-message {
+	overflow-y: auto;
+	height: 151px;
+	border-top: 1px solid #428BCA;
+	padding-right: 12px;
 }
 
 #message-text-field {
 	width: 100%;
-	border-top: 1px solid #428BCA;
-	overflow-y: auto;
+	min-height: 150px;
+
 	padding: 3px;
-	height: 150px;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	outline: 0px solid transparent;

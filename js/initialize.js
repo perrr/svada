@@ -14,7 +14,7 @@ function initializeChatPhaseTwo() {
 
 function generateUserBar(fullsize) {
 	
-	$('#sidebar').html("");
+	$('#users').html("");;
 	var userHTML = "";
 	
 	for(var i in userArray) {
@@ -41,7 +41,7 @@ function generateUserBar(fullsize) {
 		
 	}
 
-	$('#sidebar').append(userHTML);
+	$('#users').append(userHTML);
 }
 
 
@@ -109,3 +109,5 @@ getChatInformation();
 //Various setup
 Notification.requestPermission();
 $.ajaxSetup({ cache: false });
+$('#sidebar, #write-message, .tab').mCustomScrollbar(customScrollbarOptionsDefault);
+$('#messages').mCustomScrollbar(customScrollbarOptionsMessages);

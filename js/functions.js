@@ -292,7 +292,7 @@ function resizeWindow() {
 		
 	}
 	$('#chat-bottom, #tabs > div').css({'height':$(window).height() - $('#chat-top').outerHeight()});
-	$('#messages').css({'height':$('#chat-bottom').height() - $('#toolbar').height() - $('#message-text-field').outerHeight() - userbarOffset});
+	$('#messages').css({'height':$('#chat-bottom').height() - $('#toolbar').height() - $('#write-message').outerHeight() - userbarOffset});
 }
 
 function toggleMenu() {
