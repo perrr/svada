@@ -105,4 +105,7 @@ getUserArray();
 getEmoticonArray();
 getImageArray();
 getChatInformation();
+
+//Various setup
 Notification.requestPermission();
+$.ajaxSetup({ cache: false });
