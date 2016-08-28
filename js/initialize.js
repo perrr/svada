@@ -67,7 +67,7 @@ function generateTopBar(fullsize) {
 			  var className = " tab-button-" + menuItems[i][0];
 			  var activeTab = menuItems[i][0] == activeTabButton ? " active-tab-button" : "";
 			  topHTML += '<div class="top-link-wrapper' + className + activeTab + '" onclick="' + menuItems[i][3] + '"><div class="top-link">\
-				<a href="' + menuItems[i][2] + '" >\
+				<a href="' + menuItems[i][2] + '" tabindex="' + (i+1) + '">\
 					<span class="top-link-a glyphicon glyphicon-' + menuItems[i][1] + ' top-glyph"></span>\
 					 ' + language[menuItems[i][0]] + '\
 				</a>\

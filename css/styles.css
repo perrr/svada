@@ -242,12 +242,13 @@ a, a:active, a:focus {
 .top-link-wrapper{
 	float: left;
 	margin-right: 20px;
-	border-radius: 25px;
+
 }
 
 .top-link-wrapper a{
 	padding: 10px 15px;
 	display: block;
+	border-radius: 25px;
 }
 
 .top-link{
@@ -262,17 +263,14 @@ a, a:active, a:focus {
 	text-decoration: none;
 }
 
-.top-link-wrapper:hover,
-.active-tab-button{
-	background: white;
-}
-
 .menu-link.active-tab-button{
 	border-radius: 0;
 }
 
 .top-link-wrapper:hover a,
+.top-link a:focus,
 .active-tab-button a{
+	background: white;
 	color: #428BCA;
 }
 
