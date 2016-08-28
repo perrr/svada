@@ -109,5 +109,4 @@ getChatInformation();
 //Various setup
 Notification.requestPermission();
 $.ajaxSetup({ cache: false });
-$('#sidebar, #write-message, .tab').mCustomScrollbar(customScrollbarOptionsDefault);
-$('#messages').mCustomScrollbar(customScrollbarOptionsMessages);
+$('#messages, #sidebar, #write-message, .tab').mCustomScrollbar(customScrollbarOptions);

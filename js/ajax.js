@@ -96,6 +96,7 @@ function getRecentMessagesOnLogin() {
 			messages[id].parsedContent = parseMessage(messages[id].content);
 			displayMessage(json[i]);
 		}
+		scrollToBottom("#messages");
 		fetchNews();
     }});
 }
@@ -118,6 +119,7 @@ function getNewMessages() {
 				messages[id].parsedContent = parseMessage(messages[id].content);
 				displayMessage(json[i]);
 			}
+			scrollToBottom("#messages");
 		}
 		if(!isActive && aChange && !initialLoading){
 			alertNewMessages();
@@ -128,7 +130,6 @@ function getNewMessages() {
 function displayMessage(message) {
 	var messageHTML = '<div class="message"><div class="message-image"><img class="img-rounded" src="' + getUserImage(userArray[message["author"]].image) + '"></div><div class="message-data"><div class="message-author">'+ userArray[message["author"]].display_name + '</div><div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div><br class="clear"><pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre></div><br class="clear"></div>';
 	$("#message-container").append(messageHTML);
-	scrollToBottom("#messages");
 }
 
 function postMessage(content, userId) {

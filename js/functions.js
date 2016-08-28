@@ -323,8 +323,7 @@ function escapeHtml(unsafe) {
  }
 
 function scrollToBottom(id) {
-	var container = $(id);
-	container.scrollTop(container.prop("scrollHeight"));	
+	$(id).mCustomScrollbar().mCustomScrollbar("scrollTo", "bottom", {scrollInertia: 0});
 }
 
 function setAsInitialized(functionName) {

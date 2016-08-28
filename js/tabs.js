@@ -10,5 +10,5 @@ function changeTab(tab) {
 	if(tab != "chat")
 		disableUploadForm();
 	else
-		activateUploadForm() 
+		activateUploadForm();
 }
