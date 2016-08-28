@@ -111,10 +111,11 @@ a, a:active, a:focus {
 .message{
 	margin-bottom: 10px;
 	padding: 2px;
+	width: 100%;
 }
 
 .message-author{
-	color: blue;
+	color: #428BCA;
 	float: left;
 }
 
@@ -125,7 +126,7 @@ a, a:active, a:focus {
 
 .message-image{
 	float: left;
-	width: 10%;
+	width: 45px;
 	padding: 3px;
 }
 
@@ -135,7 +136,6 @@ a, a:active, a:focus {
 
 .message-data{
 	float: left;
-	width: 90%;
 	padding-left: 10px;
 }
 
