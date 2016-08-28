@@ -12,11 +12,11 @@ pre {
 	display: inline-block;
 	white-space: pre;
 	margin: 0;
-	padding: initial;
+	padding: 0;
 	line-height: initial;
 	color: initial;
-	background-color: initial;
-	border: initial;
+	background-color: transparent;
+	border: transparent;
 	overflow: initial;
 	word-break: initial;
 	word-wrap: initial;
