@@ -167,7 +167,7 @@ $("#message-text-field").bind('paste', function(e) {
 		insertToMessageField(clipboard);
 	}
 
-	scrollToBottom("#message-text-field");
+	scrollToBottom("#write-message");
 });
 
 function getQuoteSignature(id) {
