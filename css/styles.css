@@ -204,6 +204,7 @@ a, a:active, a:focus {
 
 #top-left{
 	float: left;
+	overflow: hidden;
 }
 
 #top-right{
@@ -224,14 +225,15 @@ a, a:active, a:focus {
 
 #chat-name{
 	font-size: 40px;
-	margin: 0;
-	margin-bottom: 10px; 
-	margin-top: 5px;
+	line-height: 40px;
+	padding: 5px;
 }
 
 #chat-topic{
 	font-size: 30px;
-	margin: 0;
+	line-height: 30px;
+	padding: 5px;
+	height: 30px;
 }
 
 #chat-small-title{
@@ -430,6 +432,15 @@ a, a:active, a:focus {
 
 #tabs  > div:not(.active-tab):not(#tab-chat) {
 	display: none;
+}
+
+/* Text fields */
+
+.edit-value{
+	color: black;
+	border: 0;
+	line-height: 0;
+	min-width: 10px;
 }
 
 /* General */

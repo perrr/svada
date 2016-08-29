@@ -54,14 +54,14 @@ function generateTopBar(fullsize) {
 		["logout", "log-out", "index.php?logout=1", ""]];
 
 	if(fullsize) {
-		topHTML = '<div id="top-left">\
+		topHTML = '<form><div id="top-left">\
 			<img id="chat-image" src="' + getChatImage(chatInformation.chatImage) + '" class="img-circle">\
 				<div id="top-header">\
-					<h1 id="chat-name">' + chatInformation.name + '</h1>\
-					<h2 id="chat-topic">' + chatInformation.topic + '</h2>\
+					<div id="chat-name" class="editable">' + chatInformation.name + '</div>\
+					<div id="chat-topic" class="editable">' + chatInformation.topic + '</div>\
 				</div>\
 			  </div>\
-			  <div id="top-right">';
+			  <div id="top-right"></form>';
 		  
 		  for(var i = 0; i < menuItems.length; i++) {
 			  var className = " tab-button-" + menuItems[i][0];
@@ -89,8 +89,9 @@ function generateTopBar(fullsize) {
 		}
 		  
 		topHTML = '<div id="top-left">\
-			<h1 id="chat-small-title">' + chatInformation.name + (chatInformation.topic != "" ? ": " + chatInformation.topic : "") + '</h1>\
-			</div>\
+				<div id="chat-small-title" class="editable">' + chatInformation.name + '</div>' + 
+				(chatInformation.topic != '' ? ': <div id="chat-small-title" class="editable">' + chatInformation.topic + '</div>' : "") +
+			'</div>\
 			<span id="chat-small-menu" onclick="toggleMenu()" class="glyphicon glyphicon-menu-hamburger top-glyph"></span>';
 		$('#chat-menu').html(menuHTML);
 	}

@@ -280,6 +280,22 @@ function resizeWindow() {
 		$('#sidebar').css({'height':$(window).height() - $('#chat-top').outerHeight()});
 		hideMenu();
 		userbarOffset = 0;
+		
+		//Adjust title size
+		var fontSize = 35;
+		while($('#top-left').outerWidth() + $('#top-right').outerWidth() > $('#chat-top').innerWidth() - 10) {
+			if(fontSize == 10){
+				$('#chat-name').css({'width': '190px'});
+				break;
+			}
+			
+			var nameTopicDifference = fontSize >= 30 ? 10 : fontSize >= 20 ? 5 : 0;
+			
+			$('#chat-name').css({'font-size': fontSize + 'px'});
+			$('#chat-topic').css({'font-size': (fontSize-nameTopicDifference) + 'px'});
+			fontSize -= 5;
+			
+		}
 	}
 	else {
 		generateUserBar(false);

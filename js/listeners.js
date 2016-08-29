@@ -18,6 +18,72 @@ function reportActivity() {
 	}, 240000);
 }
 
+//Listen to various editable fields for clicks
+$("body").on("click", ".editable", function(event) {
+	var originalField = this;
+	
+	//If already in edit mode, do nothing
+	if ($(this).find(">:first-child").is("input"))
+		return;
+	
+	//Create and style the text field
+	var textField = $('<input type="text" class="edit-value" value="' + $(this).html() + '" />');
+	var padding = $(this).css('padding-top');
+	textField.css({
+		'width': $(this).outerWidth(),
+		'padding': padding,
+		'line-height': 0
+	});
+	
+	$(this).css({
+		'padding': 0
+	});
+	
+	//Spawn the text field
+	$(this).html(textField);
+
+	//Set focus to end of field
+	var temp = textField.focus().val();
+	textField.val('').val(temp);
+	
+	textField.keyup(function(e){
+		if(e.keyCode == 13){
+			textField.endEdit(true);
+		}
+		else if(e.keyCode == 27){
+			textField.endEdit(false);
+		}
+	});
+
+	
+});
+
+$(window).click(function(event) {
+	$(".edit-value").each(function() {
+		var textField = $(this);
+		
+		if($(event.target).closest('.editable').length && ($(event.target).find(">:first-child").get(0) === textField.get(0) || $(event.target).get(0) === textField.get(0))) {
+			return;
+		}
+
+		textField.endEdit(true);
+	});
+});
+
+(function( $ ){
+	$.fn.endEdit = function(save) {
+		var container = this.parent();
+	
+		$(container).css({
+			'padding': this.css('padding-top')
+		});
+		
+		this.replaceWith(this.val());
+		resizeWindow();
+		return this;
+   }; 
+})( jQuery );
+
 //Regularly listen to the message field to determine if the user is currently typing
 function isTyping() {
 	var message = $('#message-text-field').html();
