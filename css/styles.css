@@ -266,7 +266,9 @@ a, a:active, a:focus {
 }
 
 .menu-link.active-tab-button{
-	border-radius: 0;
+	background: white;
+	border-top: 1px solid #428BCA;
+	border-bottom: 1px solid #428BCA;
 }
 
 .top-link-wrapper:hover a,
