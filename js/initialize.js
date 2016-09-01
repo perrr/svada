@@ -57,8 +57,8 @@ function generateTopBar(fullsize) {
 		topHTML = '<form><div id="top-left">\
 			<img id="chat-image" src="' + getChatImage(chatInformation.chatImage) + '" class="img-circle">\
 				<div id="top-header">\
-					<div id="chat-name" class="editable">' + chatInformation.name + '</div>\
-					<div id="chat-topic" class="editable">' + chatInformation.topic + '</div>\
+					<div id="chat-name" class="editable" data-global-variable="chatInformationName">' + chatInformation.name + '</div>\
+					<div id="chat-topic" class="editable" data-global-variable="chatInformationTopic">' + chatInformation.topic + '</div>\
 				</div>\
 			  </div>\
 			  <div id="top-right"></form>';
@@ -89,8 +89,8 @@ function generateTopBar(fullsize) {
 		}
 		  
 		topHTML = '<div id="top-left">\
-				<div id="chat-small-title" class="editable">' + chatInformation.name + '</div>' + 
-				(chatInformation.topic != '' ? ': <div id="chat-small-title" class="editable">' + chatInformation.topic + '</div>' : "") +
+				<div id="chat-small-title" class="editable" data-global-variable="chatInformationName">' + chatInformation.name + '</div>' + 
+				(chatInformation.topic != '' ? ': <div id="chat-small-title" class="editable" data-global-variable="chatInformationTopic">' + chatInformation.topic + '</div>' : "") +
 			'</div>\
 			<span id="chat-small-menu" onclick="toggleMenu()" class="glyphicon glyphicon-menu-hamburger top-glyph"></span>';
 		$('#chat-menu').html(menuHTML);

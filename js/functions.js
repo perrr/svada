@@ -471,3 +471,8 @@ function getUserImage(imageId) {
 function getChatImage(imageId) {
 	return imageId != null ? 'res/images/uploads/' + imgArray[imageId] : 'res/images/default/default_chat_image.png';
 }
+
+function handleDirectFieldEdit(field, value) {
+	//Insert code here
+	return true;
+}
