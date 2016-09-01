@@ -217,6 +217,7 @@ a, a:active, a:focus {
 	float: left;
 	margin-right: 20px;
 	border: 2px solid white;
+	cursor: pointer;
 }
 
 #top-header{
@@ -317,6 +318,10 @@ a, a:active, a:focus {
 	float: left;
 	width: 80px;
 	padding: 3px;
+}
+
+.userbox-my-image{
+	cursor: pointer;	
 }
 
 .userbox-image img{

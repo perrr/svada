@@ -48,7 +48,7 @@ $user = $_SESSION['user'];
 								<div id="toolbar">
 									<div id="whoistyping"></div>
 									<div id="right-toolbar">
-										<span class="glyphicon glyphicon-upload toolbar-item" onclick="manualUpload();"></span>
+										<span class="glyphicon glyphicon-upload toolbar-item" onclick="manualUpload('file')"></span>
 									</div>
 									<br class="clear">
 								</div>

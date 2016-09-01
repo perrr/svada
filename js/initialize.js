@@ -33,9 +33,10 @@ function generateUserBar(fullsize) {
 			statusClass = 'occupied';
 		}
 		
+		var editImage = i == user.id ? ' userbox-my-image" onclick="manualUpload(\'userImage\')' : "";
 		var userStatus = '<span class="status-circle status-' + statusClass + '"></span>';
 		if(fullsize)
-			userHTML += '<div class="userbox"><div class="userbox-image"><img class="img-rounded" src="' + getUserImage(userArray[i].image) + '"></div><div id="userbox' + i + '" class="userbox-data"><div class="userbox-username">' + userStatus + userArray[i].display_name + '</div><div class="userbox-statusmessage">' + userArray[i].status_message +'</div></div><br class="clear"></div></div>';
+			userHTML += '<div class="userbox"><div class="userbox-image"><img class="img-rounded' + editImage + '" src="' + getUserImage(userArray[i].image) + '"></div><div id="userbox' + i + '" class="userbox-data"><div class="userbox-username">' + userStatus + userArray[i].display_name + '</div><div class="userbox-statusmessage">' + userArray[i].status_message +'</div></div><br class="clear"></div></div>';
 		else
 			userHTML += '<span class="status-circled-background status-' + statusClass + '">' + userArray[i].display_name + '</span> ';
 		
@@ -55,7 +56,7 @@ function generateTopBar(fullsize) {
 
 	if(fullsize) {
 		topHTML = '<form><div id="top-left">\
-			<img id="chat-image" src="' + getChatImage(chatInformation.chatImage) + '" class="img-circle">\
+			<img id="chat-image" src="' + getChatImage(chatInformation.chatImage) + '" class="img-circle" onclick="manualUpload(\'chatImage\')">\
 				<div id="top-header">\
 					<div id="chat-name" class="editable" data-global-variable="chatInformationName">' + chatInformation.name + '</div>\
 					<div id="chat-topic" class="editable" data-global-variable="chatInformationTopic">' + chatInformation.topic + '</div>\

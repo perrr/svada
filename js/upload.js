@@ -5,7 +5,8 @@ var isAdvancedUpload = function() {
 	return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
 }();
 
-function manualUpload() {
+function manualUpload(type) {
+	$("#fileupload").data("type", type);
 	$("#fileupload").trigger('click');
 }
 
@@ -48,6 +49,7 @@ function activateUploadForm() {
 			var ajaxData;
 
 			if(droppedFiles) {
+				$("#fileupload").data("type", "file");
 				ajaxData = new FormData();
 				$.each(droppedFiles, function(i, file) {
 					$input = $form.find('input[type="file"]');
@@ -57,6 +59,14 @@ function activateUploadForm() {
 			else{
 				ajaxData = new FormData($form.get(0))	
 			}
+			
+			ajaxData.append("uploadType", $("#fileupload").data("type"));
+			if($("#fileupload").data("type") == "file")
+				ajaxData.append("share", 1);
+			else
+				ajaxData.append("share", 0);
+			
+			droppedFiles = false;
 
 			$.ajax({
 				url: "data.php?action=upload",
