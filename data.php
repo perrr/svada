@@ -183,22 +183,30 @@ function getChatInformation() {
 }
 
 function uploadFile($file, $uploader, $share){
-	$save_path="uploads/"; 
-	$originalFileName = $file["name"][0];
-  	$uploadTime = time();
+	$save_path="uploads/";
+	for ($i=0; $i < count($file["name"]) ; $i++) { 
+	 	$originalFileName = $file["name"][$i];
+  		$uploadTime = time();
+  		
+  		//Create unique id for file
+		$fileIdresult = getQuery("SELECT * FROM file WHERE id=(SELECT MAX(id) FROM file)");
+		$newFileIdAssoc = $fileIdresult -> fetch_assoc();
+		$newFileId = $newFileIdAssoc["id"] + 1;
 
-  	//Create unique id for file
-	$fileIdresult = getQuery("SELECT * FROM file WHERE id=(SELECT MAX(id) FROM file)");
-	$newFileIdAssoc = $fileIdresult ->fetch_assoc();
-	$newFileId = $newFileIdAssoc["id"] + 1;
-
-	//Format for filename 'id.fileExtension'
-  	$newFileName = $newFileId.substr($originalFileName, strrpos($originalFileName, '.'));
+		//Format for filename 'id.fileExtension'
+  		$newFileName = $newFileId.substr($originalFileName, strrpos($originalFileName, '.'));
   	
-  	//Add to database 
-  	setQuery("INSERT INTO file (path, uploader, timestamp) VALUES ('$newFileName', '$uploader', '$uploadTime')");
+  		//Add to database 
+  		setQuery("INSERT INTO file (path, uploader, timestamp) VALUES ('$newFileName', '$uploader', '$uploadTime')");
 
-  	$success = move_uploaded_file($file['tmp_name'][0], $save_path.$newFileName);
+  		$success = move_uploaded_file($file['tmp_name'][$i], $save_path.$newFileName);
+  		/*if($share == 1){
+  			$content = '<username|'.$uploader.'> <lang|'."userUploadedFile".'> <span class="message-strong">' . $file["name"][$i] .'. </span>';
+  			postMessage($content, 0);
+  		}*/
+
+	 } 
+
 	printJson('{"status": "success", "message": "' . getString('uploadSuccessful') . '"}');
 }
 
@@ -287,8 +295,7 @@ elseif($_GET['action'] == 'getUser') {
 	getUser();
 }
 elseif($_GET['action'] == 'upload') {
-	uploadFile($_FILES["files"], "1", "0");
-	
+	uploadFile($_FILES['files'], $_SESSION['user']['id'], $_POST['share']);
 }
 
 //Close connection to database

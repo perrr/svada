@@ -35,5 +35,6 @@
 	"uploadSuccessful": "Upload successful.",
 	"alreadyUploading": "You are already uploading a file.",
 	"leftQuote": "&ldquo;",
-	"rightQuote": "&rdquo;"
+	"rightQuote": "&rdquo;",
+	"userUploadedFile": " shares the file "
 }

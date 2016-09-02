@@ -35,5 +35,6 @@
 	"uploadSuccessful": "Vellykket opplasting.",
 	"alreadyUploading": "Du er allerede i gang med å laste opp en fil.",
 	"leftQuote": "&laquo;",
-	"rightQuote": "&raquo;"
+	"rightQuote": "&raquo;",
+	"userUploadedFile": " lastet opp filen "
 }
