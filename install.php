@@ -1,5 +1,15 @@
 <?php
 
+function createIniFile($host, $username, $password) {
+	$content = "host = ".$host;
+	$content.= "\nusername = ".$username;
+	$content.= "\npassword = ".$password;
+
+	$file = fopen("./conf/settings.ini", "w");
+	fwrite($file, $content);
+	fclose($file);
+}
+
 if (isset($_POST["ip"])) {
 	//Connect to database
 	// THIS DOES NOT WORK BECAUSE WE HAVE NO CONNECTION YET, NEED TO FIX THIS
@@ -12,6 +22,8 @@ if (isset($_POST["ip"])) {
 	mysqli_query($connection, "CREATE DATABASE svada" or die(mysqli_error($connection)));
 
 	require('util.php');
+	setConnection($connection);
+	setQuery("USE svada");
 
 	//Create tables
 	setQuery("DROP TABLE IF EXISTS `chat`");
@@ -22,7 +34,7 @@ if (isset($_POST["ip"])) {
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 	setQuery('INSERT INTO `chat` (`name`) VALUES
 	("'.$connection->real_escape_string($_POST["chat"]).'")');
-
+	
 	setQuery("DROP TABLE IF EXISTS `emoticon`");
 	setQuery("CREATE TABLE `emoticon` (
 	  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -88,6 +100,12 @@ if (isset($_POST["ip"])) {
 	  `token` varchar(33) DEFAULT NULL
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1");
 
+	//Write to .ini file
+	createIniFile($_POST["ip"], $_POST["db_user"], $_POST["db_password"]);
+
+	// Redirect browser
+	header("Location: ./index.php");
+
 	//Delete this file upon completion
 	//unlink(__FILE__);
 }
@@ -112,11 +130,11 @@ if (isset($_POST["ip"])) {
 		<form action="install.php" method="post">
 			Database host: <input type="text" name="ip"><br>
 			Database username: <input type="text" name="db_user"><br>
-			Database password: <input type="text" name="db_password"><br>
+			Database password: <input type="password" name="db_password"><br>
 			Name of chat: <input type="text" name="chat"><br>
 			Your username: <input type="text" name="username"><br>
 			Your displayname: <input type="text" name="display"><br>
-			Your password: <input type="text" name="password"><br>
+			Your password: <input type="password" name="password"><br>
 			<!--Repeat password: <input type="text" name="password2"><br>-->
 			<input type="submit">
 		</form>
