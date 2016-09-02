@@ -2,7 +2,7 @@
 session_start();
 require('util.php');
 $message = '';
-if(isset($_GET['logout'])){
+if(isLoggedIn() && isset($_GET['logout'])){
 	setcookie('usercookie', '', time()-3600);
 	$id = $_SESSION['user']['id'];
 	setQuery("UPDATE user_session SET token = NULL WHERE id = '$id'");
@@ -35,7 +35,7 @@ if(isset($_POST['username'])){
 		$_SESSION['user'] = $user;
 		$token = $_SESSION['user']['id'].md5(strval(time()));
 		$id = $_SESSION['user']['id'];
-		setQuery("UPDATE user_session SET token = '$token' WHERE id = '$id'");
+		setQuery("INSERT INTO user_session VALUES ($id, '$token')");
 		//Close connection to database
 		mysqli_close($connection);
 		setcookie('usercookie', $token, 86400*365*100);
@@ -58,7 +58,7 @@ if(isset($_POST['username'])){
 		<title>Svada Chat Client</title>
 		<meta name="generator" content="Bootply" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/plugins/bootstrap.min.css" rel="stylesheet">
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
@@ -90,7 +90,7 @@ if(isset($_POST['username'])){
 		</div>
 		
 		<!-- Scripts -->
-		<script src="js/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
+		<script src="js/plugins/jquery.min.js"></script>
+		<script src="js/plugins/bootstrap.min.js"></script>
 	</body>
 </html>

@@ -4,14 +4,14 @@ function getUserArray() {
 		var oldUserArray = jQuery.extend({}, userArray);
 		//Update the userArray
 		for(var i = 0; i < Object.keys(json).length; i++) {
-			var users = {};
+			var user = {};
 			var id = parseInt(Object.keys(json)[i]);
 
 			var keys = Object.keys(json[id]);
 			for(var j = 0; j < keys.length; j++) {
-				users[keys[j]] = json[id][keys[j]];
+				user[keys[j]] = json[id][keys[j]];
 			}
-			userArray[id+1] = users;
+			userArray[id+1] = user;
 		}
 
 		
@@ -29,9 +29,9 @@ function getUserArray() {
 function getUser() {
 	$.ajax({url: getFormattedDataURL(["action=getUser"]), success: function(json){
 		user = json;
-	//Report variabel as initialized
-	if(!initialized.getUser)
-		setAsInitialized("getUser");
+		//Report variabel as initialized
+		if(!initialized.getUser)
+			setAsInitialized("getUser");
 	}});
 }
 
@@ -68,7 +68,8 @@ function getChatInformation() {
 		//copy old chat information
 		var oldChatInformation = jQuery.extend({}, chatInformation);
 		//new chatInformation
-		chatInformation = {topic:json[0]["topic"], chatImage:json[0]["image"], name:json[0]["name"]};
+		chatInformation = {topic:json[0]["topic"], chatImage:[0]["image"], name:json[0]["name"]};
+
 		var changes = getChatInformationChanges(oldChatInformation, chatInformation);
 		var somethingChanged = false;
 		for(var i = 0; i < changes.length; i++) {
@@ -84,6 +85,20 @@ function getChatInformation() {
 		if(!initialized.getChatInformation)
 			setAsInitialized("getChatInformation");
 	}});
+}
+
+function getRecentMessagesOnLogin() {
+	$.ajax({url: getFormattedDataURL(["action=getRecentMessages"]), success: function(json){
+		for(var i = 0; i < json.length; i++) {
+			var id = json[i]['id'];
+			lastReceivedId = json[i]['id'];
+			messages[id] = json[i];
+			messages[id].parsedContent = parseMessage(messages[id].content);
+			displayMessage(json[i]);
+		}
+		scrollToBottom("#messages");
+		fetchNews();
+    }});
 }
 
 function getNewMessages() {
@@ -104,6 +119,7 @@ function getNewMessages() {
 				messages[id].parsedContent = parseMessage(messages[id].content);
 				displayMessage(json[i]);
 			}
+			scrollToBottom("#messages");
 		}
 		if(!isActive && aChange && !initialLoading){
 			alertNewMessages();
@@ -112,9 +128,19 @@ function getNewMessages() {
 }
 
 function displayMessage(message) {
-	var messageHTML = '<div class="message"><div class="message-image"><img class="img-rounded" src="res/images/uploads/'+ imgArray[userArray[message["author"]].image] + '"></div><div class="message-data"><div class="message-author">'+ userArray[message["author"]].display_name + '</div><div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div><br class="clear"><pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre></div><br class="clear"></div>';
-	$("#messages").append(messageHTML);
-	scrollToBottom("#messages");
+	var messageHTML = '<div class="message">\
+		<div class="message-image">\
+			<img class="img-rounded" src="' + getUserImage(userArray[message["author"]].image) + '">\
+		</div>\
+		<div class="message-data">\
+			<div class="message-author">'+ userArray[message["author"]].display_name + '</div>\
+			<br>\
+			<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
+		</div>\
+		<div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>\
+		<br class="clear">\
+	</div>';
+	$("#message-container").append(messageHTML);
 }
 
 function postMessage(content, userId) {

@@ -73,10 +73,9 @@ function timestampToDateAndTime(timestamp) {
 
 function timestampToTextualDateAndTime(timestamp) {
 	var thatDay = new Date(timestamp*1000);
-	var thisDay = getCurrentTimestamp()*1000;
-	var difference = thisDay-thatDay;
-	difference = difference/(1000*60*60*24)
-	if (difference > 2 || difference <0){
+	var thisDay = new Date();
+	var difference = thisDay.getDate()-thatDay.getDate();
+	if (difference >= 2 || difference <0){
 		return timestampToDateAndTime(timestamp);
 	}
 	else{
@@ -94,7 +93,7 @@ function timestampToTextualDateAndTime(timestamp) {
 		}
 		
 		var beginning = "";
-		if (difference >1){
+		if (difference ==1){
 			beginning = language["yesterday"];
 		}
 		else{
@@ -281,6 +280,22 @@ function resizeWindow() {
 		$('#sidebar').css({'height':$(window).height() - $('#chat-top').outerHeight()});
 		hideMenu();
 		userbarOffset = 0;
+		
+		//Adjust title size
+		var fontSize = 35;
+		while($('#top-left').outerWidth() + $('#top-right').outerWidth() > $('#chat-top').innerWidth() - 10) {
+			if(fontSize == 10){
+				$('#chat-name').css({'width': '190px'});
+				break;
+			}
+			
+			var nameTopicDifference = fontSize >= 30 ? 10 : fontSize >= 20 ? 5 : 0;
+			
+			$('#chat-name').css({'font-size': fontSize + 'px'});
+			$('#chat-topic').css({'font-size': (fontSize-nameTopicDifference) + 'px'});
+			fontSize -= 5;
+			
+		}
 	}
 	else {
 		generateUserBar(false);
@@ -292,12 +307,12 @@ function resizeWindow() {
 		userbarOffset = $('#sidebar').outerHeight();
 		
 	}
-	$('#chat-bottom').css({'height':$(window).height() - $('#chat-top').outerHeight()});
-	$('#messages').css({'height':$('#chat-bottom').height() - $('#toolbar').height() - $('#message-text-field').outerHeight() - userbarOffset});
+	$('#chat-bottom, #tabs > div').css({'height':$(window).height() - $('#chat-top').outerHeight()});
+	$('#messages').css({'height':$('#chat-bottom').height() - $('#toolbar').height() - $('#write-message').outerHeight() - userbarOffset});
 }
 
-function toggleMenu(items) {
-	$('#chat-menu').html(items).slideToggle(500);
+function toggleMenu() {
+	$('#chat-menu').slideToggle(500);
 }
 
 function hideMenu(){
@@ -324,8 +339,7 @@ function escapeHtml(unsafe) {
  }
 
 function scrollToBottom(id) {
-	var container = $(id);
-	container.scrollTop(container.prop("scrollHeight"));	
+	$(id).mCustomScrollbar().mCustomScrollbar("scrollTo", "bottom", {scrollInertia: 0});
 }
 
 function setAsInitialized(functionName) {
@@ -448,4 +462,17 @@ function successNotification(content) {
 	var $notification = $('<div class="notification notification-success">' + content + '</div>');
 	$("#notifications" ).append($notification);
 	$notification.slideDown("slow").delay(5000).slideUp("slow", function() { $(this).remove(); } );
+}
+
+function getUserImage(imageId) {
+	return imageId != null ? 'uploads/' + imgArray[imageId] : 'res/images/default/default_user_image.png';
+}
+
+function getChatImage(imageId) {
+	return imageId != null ? 'uploads/' + imgArray[imageId] : 'res/images/default/default_chat_image.png';
+}
+
+function handleDirectFieldEdit(field, value) {
+	//Insert code here
+	return true;
 }

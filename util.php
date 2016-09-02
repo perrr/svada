@@ -1,7 +1,8 @@
 <?php
 //Connect to database
 require('db.php');
-$connection = getConnection();
+if ($_SERVER['PHP_SELF'] != '/svada/install.php')
+	$connection = getConnection();
 
 // If user is not logged in, set English as default
 if(isset($_SESSION['user'])){
@@ -11,6 +12,20 @@ else{
 	$language = 'english';
 }
 $language = loadLanguage($language);
+
+// To be used if we want to use a specified connection
+function setConnection($conn) {
+	$connection = $conn;
+}
+
+function isLoggedIn() {
+	if (!isset($_SESSION['user'])) {
+		return false;
+	}
+
+	$databaseSession = mysqli_fetch_array(getQuery("SELECT * FROM user_session WHERE id = ".$_SESSION['user']['id']));
+	return !empty($databaseSession);
+}
 
 function sqlToJson($sql) {
 	$json = array();

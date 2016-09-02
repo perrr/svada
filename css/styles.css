@@ -12,11 +12,11 @@ pre {
 	display: inline-block;
 	white-space: pre;
 	margin: 0;
-	padding: initial;
+	padding: 0;
 	line-height: initial;
 	color: initial;
-	background-color: initial;
-	border: initial;
+	background-color: transparent;
+	border: transparent;
 	overflow: initial;
 	word-break: initial;
 	word-wrap: initial;
@@ -25,6 +25,10 @@ pre {
 	white-space: -moz-pre-wrap;
 	white-space: -pre-wrap;
 	white-space: -o-pre-wrap;
+}
+
+a, a:active, a:focus {
+   outline: 0;
 }
 
 .login-wrapper {
@@ -43,24 +47,25 @@ pre {
 #mainbar {
 	background-color: white;
 	padding: 0;
-}
-
-#mainbar-wrapper {
-	max-width: 800px;
-	margin-left: auto;
-	margin-right: auto;	
+	height: 100%;
+	position: relative;
 }
 
 #messages{
-	overflow-y: scroll;
+	padding-right: 18px;
+}
+
+#write-message {
+	overflow-y: auto;
+	height: 151px;
+	border-top: 1px solid #428BCA;
+	padding-right: 12px;
 }
 
 #message-text-field {
 	width: 100%;
-	border-top: 1px solid #428BCA;
-	overflow-y: auto;
+	min-height: 150px;
 	padding: 3px;
-	height: 150px;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	outline: 0px solid transparent;
@@ -106,10 +111,11 @@ pre {
 .message{
 	margin-bottom: 10px;
 	padding: 2px;
+	width: 100%;
 }
 
 .message-author{
-	color: blue;
+	color: #428BCA;
 	float: left;
 }
 
@@ -120,7 +126,7 @@ pre {
 
 .message-image{
 	float: left;
-	width: 10%;
+	width: 45px;
 	padding: 3px;
 }
 
@@ -130,7 +136,6 @@ pre {
 
 .message-data{
 	float: left;
-	width: 90%;
 	padding-left: 10px;
 }
 
@@ -138,10 +143,6 @@ pre {
 	word-wrap: break-word;    
 	overflow-wrap: break-word;
 	width: 100%;	
-}
-
-.clear{
-	clear: both;
 }
 
 /* Message elements */
@@ -203,6 +204,7 @@ pre {
 
 #top-left{
 	float: left;
+	overflow: hidden;
 }
 
 #top-right{
@@ -215,6 +217,7 @@ pre {
 	float: left;
 	margin-right: 20px;
 	border: 2px solid white;
+	cursor: pointer;
 }
 
 #top-header{
@@ -223,14 +226,15 @@ pre {
 
 #chat-name{
 	font-size: 40px;
-	margin: 0;
-	margin-bottom: 10px; 
-	margin-top: 5px;
+	line-height: 40px;
+	padding: 5px;
 }
 
 #chat-topic{
 	font-size: 30px;
-	margin: 0;
+	line-height: 30px;
+	padding: 5px;
+	height: 30px;
 }
 
 #chat-small-title{
@@ -239,33 +243,40 @@ pre {
 }
 
 .top-link-wrapper{
-	padding: 10px;
 	float: left;
-	border-radius: 25px;
-	margin-right: 10px;
+	margin-right: 20px;
+
+}
+
+.top-link-wrapper a{
+	padding: 10px 15px;
 	display: block;
+	border-radius: 25px;
 }
 
 .top-link{
 	text-align: center;
-	width: 80px;
+	width: 100px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
-.top-link-wrapper:hover{
-	background: white;
-	padding: 10px;
-	border-radius: 25px;
-	color: #428BCA;
-}
-
-.top-link-wrapper:hover a{
-	color: #428BCA;
-}
-
 .top-link a{
 	color: white;
+	text-decoration: none;
+}
+
+.menu-link.active-tab-button{
+	background: white;
+	border-top: 1px solid #428BCA;
+	border-bottom: 1px solid #428BCA;
+}
+
+.top-link-wrapper:hover a,
+.top-link a:focus,
+.active-tab-button a{
+	background: white;
+	color: #428BCA;
 }
 
 .top-link :hover{
@@ -299,10 +310,18 @@ pre {
 	margin-bottom: 10px;
 }
 
+.userbox-username{
+	font-size: 14px;
+}
+
 .userbox-image{
 	float: left;
 	width: 80px;
 	padding: 3px;
+}
+
+.userbox-my-image{
+	cursor: pointer;	
 }
 
 .userbox-image img{
@@ -322,9 +341,9 @@ pre {
 }
 
 .status-circle {
-	border-radius: 0.8em;
-	-moz-border-radius: 0.8em;
-	-webkit-border-radius: 0.8em;
+	border-radius: 0.6em;
+	-moz-border-radius: 0.6em;
+	-webkit-border-radius: 0.6em;
 	color: #fff;
 	display: inline-block;
 	font-weight: bold;
@@ -332,6 +351,8 @@ pre {
 	text-align: center;
 	width: 14px;
 	height: 14px;
+	margin-right: 5px; 
+	margin-bottom: -2px;
 }
 
 .status-circled-background {
@@ -394,8 +415,47 @@ pre {
 	background-color: #F5F5F5;
 }
 
+/* Tabs */
+
+#tabs {
+	max-width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#tabs > div {
+	overflow-y: auto;
+}
+
+#tab-chat{
+	position: absolute;
+	visibility: hidden;
+}
+
+#tab-chat.active-tab {
+	position: static;
+	visibility: visible;
+}
+
+#tabs  > div:not(.active-tab):not(#tab-chat) {
+	display: none;
+}
+
+/* Text fields */
+
+.edit-value{
+	color: black;
+	border: 0;
+	line-height: 0;
+	min-width: 10px;
+}
+
 /* General */
 
 .invisible{
 	display: none;
+}
+
+.clear{
+	clear: both;
 }

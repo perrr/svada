@@ -30,6 +30,16 @@ function getMessagesNewerThan($timeLimit) {
 	printJson(sqlToJson($limitMessages));
 }
 
+function getRecentMessages() {
+	$lastDate = mysqli_fetch_array(getQuery("SELECT timestamp FROM message ORDER BY timestamp DESC LIMIT 1"));
+	$date = new DateTime();
+	$date->setTimestamp($lastDate['timestamp']);
+	$date->setTime(0,0,0);
+	$timestamp= $date->getTimestamp();
+	$recentMessages = getQuery("SELECT * FROM message WHERE message .timestamp > $timestamp");
+	printJson(sqlToJson($recentMessages));
+}
+
 function getOnlineUsers() {
 	$onlineUsers = getQuery("SELECT id, status FROM user WHERE status != 0");
 	printJson(sqlToJson($onlineUsers));
@@ -230,6 +240,9 @@ if($_GET['action'] == 'postMessage') {
 }
 elseif($_GET['action'] == 'getMessages') {
 	getMessages($_GET['lastReceivedId']);
+}
+elseif($_GET['action'] == 'getRecentMessages') {
+	getRecentMessages();
 }
 elseif($_GET['action'] == 'setStatus') {
 	setStatus($_SESSION['user']['id'], $_GET['status']);
