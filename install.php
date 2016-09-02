@@ -4,6 +4,7 @@ function createIniFile($host, $username, $password) {
 	$content = "host = ".$host;
 	$content.= "\nusername = ".$username;
 	$content.= "\npassword = ".$password;
+	$content.= "\ndb_name = ".$password;
 
 	mkdir("./conf");
 	$file = fopen("./conf/settings.ini", "w");
@@ -20,21 +21,21 @@ if (isset($_POST["ip"])) {
 	    die("Connection failed: " . $connection->connect_error);
 	}
 	//Create database
-	mysqli_query($connection, "CREATE DATABASE svada" or die(mysqli_error($connection)));
+	mysqli_query($connection, "CREATE DATABASE ".$_POST["db_name"] or die(mysqli_error($connection)));
 
 	require('util.php');
 	setConnection($connection);
-	setQuery("USE svada");
+	setQuery("USE ".$_POST["db_name"]);
 
 	//Create tables
 	setQuery("DROP TABLE IF EXISTS `chat`");
 	setQuery("CREATE TABLE `chat` (
 	  `name` varchar(20) NOT NULL,
-	  `topic` text NOT NULL DEFAULT '',
+	  `topic` text NOT NULL,
 	  `image` int(11) DEFAULT NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1");
-	setQuery('INSERT INTO `chat` (`name`) VALUES
-	("'.$connection->real_escape_string($_POST["chat"]).'")');
+	setQuery('INSERT INTO `chat` (`name`, `topic`) VALUES
+	("'.$connection->real_escape_string($_POST["chat"]).'")', "");
 
 	setQuery("DROP TABLE IF EXISTS `emoticon`");
 	setQuery("CREATE TABLE `emoticon` (
@@ -92,8 +93,8 @@ if (isset($_POST["ip"])) {
 	  `style` int(11) NOT NULL DEFAULT '1',
 	  PRIMARY KEY (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1");
-	setQuery('INSERT INTO `user` (`username`, `display_name`, `password`) VALUES 
-		("'.strtolower($connection->real_escape_string($_POST['username'])).'", "'.$connection->real_escape_string($_POST["display"]).'", "'.md5(salt($connection->real_escape_string($_POST['password']), $_POST['username'])).'")');
+	setQuery('INSERT INTO `user` (`username`, `display_name`, `password`, `status_message`) VALUES 
+		("'.strtolower($connection->real_escape_string($_POST['username'])).'", "'.$connection->real_escape_string($_POST["display"]).'", "'.md5(salt($connection->real_escape_string($_POST['password']), $_POST['username'])).'")', "");
 	
 	setQuery("DROP TABLE IF EXISTS `user_session`");
 	setQuery("CREATE TABLE `user_session` (
@@ -102,7 +103,7 @@ if (isset($_POST["ip"])) {
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1");
 
 	//Write to .ini file
-	createIniFile($_POST["ip"], $_POST["db_user"], $_POST["db_password"]);
+	createIniFile($_POST["ip"], $_POST["db_user"], $_POST["db_password"], $_POST["db_name"]);
 
 	// Redirect browser
 	header("Location: ./index.php");

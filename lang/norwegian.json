@@ -37,5 +37,6 @@
 	"alreadyUploading": "Du er allerede i gang med å laste opp en fil.",
 	"leftQuote": "&laquo;",
 	"rightQuote": "&raquo;",
-	"changedchatname": "endret samtalenavn til"
+	"changedchatname": "endret samtalenavn til",
+	"userUploadedFile": " lastet opp filen "
 }

@@ -37,5 +37,6 @@
 	"alreadyUploading": "You are already uploading a file.",
 	"leftQuote": "&ldquo;",
 	"rightQuote": "&rdquo;",
-	"changedchatname": "changed chat name to"
+	"changedchatname": "changed chat name to",
+	"userUploadedFile": " shares the file "
 }
