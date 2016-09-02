@@ -49,6 +49,15 @@ function timestampToPreciseTimeOfDay(timestamp) {
 	return time;
 }
 
+function timestampToDate(timestamp){
+	var day = a.getDate();
+	var month = a.getMonth();
+	var year = a.getFullYear();
+	var months = [language["january"], language["february"], language["march"], language["april"], language["may"], language["june"], language["july"], language["august"], language["september"], language["october"], language["november"], language["december"]];
+	var time =  day + '. ' + months[month] + ' ' + year;
+	return time;
+}
+
 function timestampToDateAndTime(timestamp) {
 	var a = new Date(timestamp*1000);
 	var sec = a.getSeconds();
@@ -63,18 +72,14 @@ function timestampToDateAndTime(timestamp) {
 	if(hour < 10){
 		hour = '0' + hour;
 	}
-	var day = a.getDate();
-	var month = a.getMonth();
-	var year = a.getFullYear();
-	var months = [language["january"], language["february"], language["march"], language["april"], language["may"], language["june"], language["july"], language["august"], language["september"], language["october"], language["november"], language["december"]];
-	var time =  day + '. ' + months[month] + ' ' + year + ', ' + hour + ':' + min + ':' + sec;
+	var time = timestampToDate(timestamp) + ', ' + hour + ':' + min + ':' + sec;
 	return time;
 }
 
 function timestampToTextualDateAndTime(timestamp) {
 	var thatDay = new Date(timestamp*1000);
 	var thisDay = new Date();
-	var difference = thisDay.getDate()-thatDay.getDate();
+	var difference = (thisDay.getFullYear()-thatDay.getFullYear())*100 (thisDay.getMonth()-thatDay.getMonth())*10 + thisDay.getDate()-thatDay.getDate();
 	if (difference >= 2 || difference <0){
 		return timestampToDateAndTime(timestamp);
 	}
