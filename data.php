@@ -162,6 +162,15 @@ function getAllImages() {
 	printJson(sqlToJson($images));
 }
 
+function setChatName($chatName, $userId) {
+	if ($chatName != null && $chatName != ""){
+		setQuery("UPDATE chat
+			SET name = '$chatName'");
+		$content='<username|'.$userId.'> <lang|'."changedChatName".'> <span class="message-strong">' . $chatName .'. </span>'; 
+		postMessage($content, 0);	
+	}
+}
+
 function setTopic($topic, $userId) {
 	setQuery("UPDATE chat
 		SET topic = '$topic'");
@@ -277,6 +286,9 @@ elseif($_GET['action'] == 'searchMessages') {
 }
 elseif($_GET['action'] == 'setTopic') {
 	setTopic($_GET['topic'], $_SESSION['user']['id']);
+}
+elseif($_GET['action'] == 'setChatName') {
+	setTopic($_GET['chatName'], $_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'setChatImage') {
 	setChatImage($_GET['image'], $_SESSION['user']['id']);

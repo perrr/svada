@@ -36,5 +36,6 @@
 	"uploadSuccessful": "Vellykket opplasting.",
 	"alreadyUploading": "Du er allerede i gang med å laste opp en fil.",
 	"leftQuote": "&laquo;",
-	"rightQuote": "&raquo;"
+	"rightQuote": "&raquo;",
+	"changedChatName": "endret samtalenavn til "
 }
