@@ -5,6 +5,7 @@ function createIniFile($host, $username, $password) {
 	$content.= "\nusername = ".$username;
 	$content.= "\npassword = ".$password;
 
+	mkdir("./conf");
 	$file = fopen("./conf/settings.ini", "w");
 	fwrite($file, $content);
 	fclose($file);
@@ -34,7 +35,7 @@ if (isset($_POST["ip"])) {
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 	setQuery('INSERT INTO `chat` (`name`) VALUES
 	("'.$connection->real_escape_string($_POST["chat"]).'")');
-	
+
 	setQuery("DROP TABLE IF EXISTS `emoticon`");
 	setQuery("CREATE TABLE `emoticon` (
 	  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -131,6 +132,7 @@ if (isset($_POST["ip"])) {
 			Database host: <input type="text" name="ip"><br>
 			Database username: <input type="text" name="db_user"><br>
 			Database password: <input type="password" name="db_password"><br>
+			Name of database: <input type="text" name="db_name"><br>
 			Name of chat: <input type="text" name="chat"><br>
 			Your username: <input type="text" name="username"><br>
 			Your displayname: <input type="text" name="display"><br>
