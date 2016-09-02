@@ -143,6 +143,17 @@ function displayMessage(message) {
 	$("#message-container").append(messageHTML);
 }
 
+function setTopic(value){
+	$.ajax({url: getFormattedDataURL(["action=setTopic", "topic="+htmlEncode(value)]), success: function(result){
+	}});
+}
+
+function setChatName(value){
+	$.ajax({url: getFormattedDataURL(["action=setChatName", "chatName="+htmlEncode(value)]), success: function(result){
+	}});
+}
+
+
 function postMessage(content, userId) {
 	$.ajax({url: getFormattedDataURL(["action=postMessage", "content="+htmlEncode(content), "user="+userId, "timestamp="+getCurrentTimestamp()]), success: function(result){
 	}});
@@ -180,7 +191,7 @@ function setPassword(newPassword, oldPassword, userId) {
 }
 
 function loadLanguage(newlanguage) {
-	$.ajax({url: "lang/"+ newlanguage+".json", success: function(result){
+	$.ajax({url: "lang/"+ newlanguage+".json?a=v", success: function(result){
 		language = result;
 		initializeChatPhaseTwo()
 	}});

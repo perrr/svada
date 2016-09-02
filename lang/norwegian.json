@@ -1,7 +1,7 @@
 {
     "language": "Språk",
     "incorrectOldPassword": "Feil passord",
-    "changedTopic": "endret emnet til ",
+    "changedtopic": "endret emnet til",
     "changedGroupImage": "endret gruppebildet",
     "incorrectUserOrPassword": "Feil brukernavn eller passord.",
 	"offline": "Avlogget",
@@ -37,5 +37,5 @@
 	"alreadyUploading": "Du er allerede i gang med å laste opp en fil.",
 	"leftQuote": "&laquo;",
 	"rightQuote": "&raquo;",
-	"changedChatName": "endret samtalenavn til "
+	"changedchatname": "endret samtalenavn til"
 }

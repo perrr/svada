@@ -169,6 +169,7 @@ function parseMessage(message) {
 				newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
 			}
 			else if(word.substr(0,6)=="<lang|"){
+				alert(word.slice(6,-1));
 				newmessage = newmessage + " " + language[word.slice(6,-1)];
 			}
 			else if(word.substr(0,10)=="<username|"){
@@ -473,6 +474,21 @@ function getChatImage(imageId) {
 }
 
 function handleDirectFieldEdit(field, value) {
-	//Insert code here
-	return true;
+	if (field == "chatInformationTopic"){
+		if (value != chatInformation.topic){
+			chatInformation.topic = value;
+			setTopic(value);
+			return true;
+		}
+	}
+	else if (field == "chatInformationName"){
+		if (value != null && value != ""){
+			if (value != chatInformation.name){
+				chatInformation.name = value;
+				setChatName(value);
+				return true;
+			}
+		}
+	}
+	return false;
 }

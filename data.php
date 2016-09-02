@@ -166,16 +166,16 @@ function setChatName($chatName, $userId) {
 	if ($chatName != null && $chatName != ""){
 		setQuery("UPDATE chat
 			SET name = '$chatName'");
-		$content='<username|'.$userId.'> <lang|'."changedChatName".'> <span class="message-strong">' . $chatName .'. </span>'; 
-		postMessage($content, 0);	
+		$content='<username|'.$userId.'> <lang|'."changedchatname".'>  <span class="message-strong">' . $chatName .'. </span>'; 
+		postMessage($content, 1);	
 	}
 }
 
 function setTopic($topic, $userId) {
 	setQuery("UPDATE chat
 		SET topic = '$topic'");
-	$content='<username|'.$userId.'> <lang|'."changedTopic".'> <span class="message-strong">' . $topic .'. </span>'; 
-	postMessage($content, 0);
+	$content='<username|'.$userId.'> <lang|'."changedtopic".'>  <span class="message-strong">' . $topic .'. </span>'; 
+	postMessage($content, 1);
 }
 
 function getTopic() {
@@ -288,7 +288,7 @@ elseif($_GET['action'] == 'setTopic') {
 	setTopic($_GET['topic'], $_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'setChatName') {
-	setTopic($_GET['chatName'], $_SESSION['user']['id']);
+	setChatName($_GET['chatName'], $_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'setChatImage') {
 	setChatImage($_GET['image'], $_SESSION['user']['id']);
