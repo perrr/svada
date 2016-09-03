@@ -39,6 +39,14 @@ $user = $_SESSION['user'];
 				</div>
 				<div class="col-sm-10" id="mainbar">
 					<form id="uploadform" method="post" action="" name="file" enctype="multipart/form-data">
+						<div id="search">
+							<div id="search-group" class="input-group">
+								<input type="text" class="form-control" placeholder="<?php echo getString('search'); ?>" name="srch-term" id="search-field">
+								<div class="input-group-btn">
+									<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+								</div>
+							</div>
+						</div>
 						<div id="notifications"></div>
 						<div id="tabs">
 							<div class="active-tab" id="tab-chat">

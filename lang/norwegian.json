@@ -38,5 +38,6 @@
 	"leftQuote": "&laquo;",
 	"rightQuote": "&raquo;",
 	"changedchatname": "endret samtalenavn til",
-	"userUploadedFile": " lastet opp filen "
+	"userUploadedFile": " lastet opp filen ",
+	"search": "Søk"
 }

@@ -450,6 +450,21 @@ a, a:active, a:focus {
 	min-width: 10px;
 }
 
+/* Search */
+
+#search{
+	position: absolute;
+	z-index: 2;	
+	width: 100%;
+	display: none;
+	background-color: #EDF9FC;
+	padding: 5px;
+}
+
+#search-group{
+	width: 30%;
+}
+
 /* General */
 
 .invisible{

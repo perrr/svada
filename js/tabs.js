@@ -7,8 +7,10 @@ function changeTab(tab) {
 	resizeWindow()
 	
 	// Disable upload form when not in chat
-	if(tab != "chat")
+	if(tab != "chat") {
 		disableUploadForm();
+		$("#search").hide();
+	}
 	else
 		activateUploadForm();
 }

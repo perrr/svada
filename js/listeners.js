@@ -505,6 +505,28 @@ messageTextField.keydown(function(e) {
 	}
 });
 
+//Listen for shortcuts
+document.onkeydown = function(e) {
+	//IE fix
+    e = e || event;
+    var keyCode = (window.event) ? e.which : e.keyCode;
+	
+	//Toggle search field on ctrl + f 
+    if (e.ctrlKey === true && keyCode === 70) {
+        e.preventDefault();
+		
+		if(!$("#search").is(":visible") && activeTabButton == "chat") {
+			$("#search").fadeIn(200);
+			$("#search-field").focus();
+		}
+		else if(activeTabButton == "chat") {
+			$("#search").fadeOut(200);
+		}
+
+        return false;
+    }
+}
+
 //Listen for activity in this tab
 window.onfocus = function () { 
 	isActive = true;
