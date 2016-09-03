@@ -1,10 +1,10 @@
 <?php
 
-function createIniFile($host, $username, $password) {
+function createIniFile($host, $username, $password, $databaseName) {
 	$content = "host = ".$host;
 	$content.= "\nusername = ".$username;
 	$content.= "\npassword = ".$password;
-	$content.= "\ndb_name = ".$password;
+	$content.= "\ndb_name = ".$databaseName;
 
 	mkdir("./conf");
 	$file = fopen("./conf/settings.ini", "w");
@@ -20,13 +20,12 @@ if (isset($_POST["ip"])) {
 	if ($connection->connect_error) {
 	    die("Connection failed: " . $connection->connect_error);
 	}
-	//Create database
-	mysqli_query($connection, "CREATE DATABASE ".$_POST["db_name"] or die(mysqli_error($connection)));
 
+	//Create database
+	mysqli_query($connection, "CREATE DATABASE IF NOT EXISTS ".$_POST["db_name"]) or die(mysqli_error($connection));
 	require('util.php');
 	setConnection($connection);
 	setQuery("USE ".$_POST["db_name"]);
-
 	//Create tables
 	setQuery("DROP TABLE IF EXISTS `chat`");
 	setQuery("CREATE TABLE `chat` (
@@ -35,7 +34,7 @@ if (isset($_POST["ip"])) {
 	  `image` int(11) DEFAULT NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 	setQuery('INSERT INTO `chat` (`name`, `topic`) VALUES
-	("'.$connection->real_escape_string($_POST["chat"]).'")', "");
+	("'.$connection->real_escape_string($_POST["chat"]).'", "")');
 
 	setQuery("DROP TABLE IF EXISTS `emoticon`");
 	setQuery("CREATE TABLE `emoticon` (
@@ -94,7 +93,7 @@ if (isset($_POST["ip"])) {
 	  PRIMARY KEY (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 	setQuery('INSERT INTO `user` (`username`, `display_name`, `password`, `status_message`) VALUES 
-		("'.strtolower($connection->real_escape_string($_POST['username'])).'", "'.$connection->real_escape_string($_POST["display"]).'", "'.md5(salt($connection->real_escape_string($_POST['password']), $_POST['username'])).'")', "");
+		("'.strtolower($connection->real_escape_string($_POST['username'])).'", "'.$connection->real_escape_string($_POST["display"]).'", "'.md5(salt($connection->real_escape_string($_POST['password']), $_POST['username'])).'", "")');
 	
 	setQuery("DROP TABLE IF EXISTS `user_session`");
 	setQuery("CREATE TABLE `user_session` (
