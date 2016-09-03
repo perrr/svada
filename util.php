@@ -1,7 +1,7 @@
 <?php
 //Connect to database
 require('db.php');
-if ($_SERVER['PHP_SELF'] != '/svada/install.php')
+if (basename($_SERVER["SCRIPT_FILENAME"]) != 'install.php')
 	$connection = getConnection();
 
 // If user is not logged in, set English as default
