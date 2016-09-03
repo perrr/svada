@@ -50,6 +50,7 @@ function timestampToPreciseTimeOfDay(timestamp) {
 }
 
 function timestampToDate(timestamp){
+	var a = new Date(timestamp*1000);
 	var day = a.getDate();
 	var month = a.getMonth();
 	var year = a.getFullYear();
@@ -174,7 +175,6 @@ function parseMessage(message) {
 				newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
 			}
 			else if(word.substr(0,6)=="<lang|"){
-				alert(word.slice(6,-1));
 				newmessage = newmessage + " " + language[word.slice(6,-1)];
 			}
 			else if(word.substr(0,10)=="<username|"){
@@ -447,7 +447,6 @@ function showTitleAlert(message) {
 }
 function displaySearchResults(results) {
 	//Insert code here
-	alert(results);
 }
 
 function alertNewMessages() {
