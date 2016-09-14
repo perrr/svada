@@ -128,6 +128,7 @@ function getNewMessages() {
 }
 
 function displayMessage(message) {
+	addDateLine(message);
 	var messageHTML = '<div class="message">\
 		<div class="message-image">\
 			<img class="img-rounded" src="' + getUserImage(userArray[message["author"]].image) + '">\
@@ -145,11 +146,17 @@ function displayMessage(message) {
 	
 }
 
-function addDateLine(){
-	var thatDay = new Date((messages[messages.length-2].timestamp)*1000).getDate();
-	var thisDay = new Date(message.timestamp*1000).getDate;
-	var difference = (thisDay.getFullYear()-thatDay.getFullYear())*100 + (thisDay.getMonth()-thatDay.getMonth())*10 + thisDay.getDate()-thatDay.getDate();
-	if (difference > 0){
+function addDateLine(message){
+	if (messages.length>2 && typeof messages[messages.length-2] !== 'undefined'){
+		var thatDay = new Date((messages[messages.length-2].timestamp)*1000);
+		var thisDay = new Date(message.timestamp*1000);
+		var difference = (thisDay.getFullYear()-thatDay.getFullYear())*100 + (thisDay.getMonth()-thatDay.getMonth())*10 + thisDay.getDate()-thatDay.getDate();
+		if (difference != 0){
+			$("#message-container").append('<div class="date-divider">'+timestampToDate(message.timestamp) +'</div>');
+		}	
+	}
+	//case of first message
+	else{
 		$("#message-container").append('<div class="date-divider">'+timestampToDate(message.timestamp) +'</div>');
 	}
 }
