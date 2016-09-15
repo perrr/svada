@@ -39,5 +39,6 @@
 	"rightQuote": "&raquo;",
 	"changedchatname": "endret samtalenavn til",
 	"userUploadedFile": " lastet opp filen ",
+	"fileIsTooLarge" : "er for stor.",
 	"search": "Søk"
 }

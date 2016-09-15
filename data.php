@@ -202,11 +202,15 @@ function getChatInformation() {
 }
 
 function uploadFile($file, $uploader, $share){
-	$save_path="uploads/";
+	$save_path = "uploads/";
+	$chatResult = getQuery("SELECT * FROM chat");
+	$chatAssoc = $chatResult -> fetch_assoc();
+	$maxSize = $chatAssoc["maximum_file_size"] * 1024 * 1024;
 	for ($i=0; $i < count($file["name"]) ; $i++) { 
 	 	$originalFileName = $file["name"][$i];
   		$uploadTime = time();
-  		
+  		$fileSize = $file["size"][$i];
+  		$v = print_r($file, true);
   		//Create unique id for file
 		$fileIdresult = getQuery("SELECT * FROM file WHERE id=(SELECT MAX(id) FROM file)");
 		$newFileIdAssoc = $fileIdresult -> fetch_assoc();
@@ -214,15 +218,18 @@ function uploadFile($file, $uploader, $share){
 
 		//Format for filename 'id.fileExtension'
   		$newFileName = $newFileId.substr($originalFileName, strrpos($originalFileName, '.'));
-  	
+  		
+  		if($fileSize > $maxSize){
+  			printJson('{"status": "failure", "message": " '. $originalFileName . ' ' . getString('fileIsTooLarge') . '"}');
+  			return;
+  		}
   		//Add to database 
-  		setQuery("INSERT INTO file (path, uploader, timestamp) VALUES ('$newFileName', '$uploader', '$uploadTime')");
-
+  		setQuery("INSERT INTO file (path, uploader, name, timestamp) VALUES ('$newFileName', '$uploader', '$originalFileName', '$uploadTime')");
   		$success = move_uploaded_file($file['tmp_name'][$i], $save_path.$newFileName);
-  		/*if($share == 1){
-  			$content = '<username|'.$uploader.'> <lang|'."userUploadedFile".'> <span class="message-strong">' . $file["name"][$i] .'. </span>';
+  		if($share == 1){
+  			$content = '<username|'.$uploader.'> <lang|'."userUploadedFile".'> <span class="message-strong"> <file|' . $newFileId .'>. </span>';
   			postMessage($content, 0);
-  		}*/
+  		}
 
 	 } 
 

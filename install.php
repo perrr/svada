@@ -31,7 +31,8 @@ if (isset($_POST["ip"])) {
 	setQuery("CREATE TABLE `chat` (
 	  `name` varchar(20) NOT NULL,
 	  `topic` text NOT NULL,
-	  `image` int(11) DEFAULT NULL
+	  `image` int(11) DEFAULT NULL,
+	  `maximum_file_size` int(11) NOT NULL DEFAULT '100'
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 	setQuery('INSERT INTO `chat` (`name`, `topic`) VALUES
 	("'.$connection->real_escape_string($_POST["chat"]).'", "")');
@@ -50,6 +51,7 @@ if (isset($_POST["ip"])) {
 	  `id` int(11) NOT NULL AUTO_INCREMENT,
 	  `path` varchar(30) NOT NULL,
 	  `uploader` int(11) NOT NULL,
+	  `name` varchar(30) NOT NULL,
 	  `timestamp` int(11) NOT NULL,
 	  PRIMARY KEY (`id`)
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1");

@@ -38,6 +38,7 @@ function getUser() {
 function getEmoticonArray() {
 	$.ajax({url: getFormattedDataURL(["action=getAllEmoticons"]), success: function(json){
 		for(var i = 0; i<json.length; i++) {
+			break;
 			var allShortcuts = json[i]["shortcut"].split(" ");
 			for(var d = 0; d<allShortcuts.length; d++){
 				emoticonArray[allShortcuts[d]]= {path:json[i]["path"], name:json[i]["name"]};
