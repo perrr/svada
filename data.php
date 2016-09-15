@@ -322,6 +322,9 @@ elseif($_GET['action'] == 'getUser') {
 elseif($_GET['action'] == 'upload') {
 	uploadFile($_FILES['files'], $_SESSION['user']['id'], $_POST['share']);
 }
+elseif($_GET['action'] == 'pingServer') {
+	return JSON.Stringify('{"running": "true"}');
+}
 
 //Close connection to database
 mysqli_close($connection);
