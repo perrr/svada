@@ -133,7 +133,6 @@ if (isset($_POST["ip"])) {
 			//unlink(__FILE__);
 		}
 	}
-}
 
 ?>
 
