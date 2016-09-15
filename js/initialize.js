@@ -4,12 +4,14 @@ function initializeChatPhaseOne() {
 
 function initializeChatPhaseTwo() {
 	getRecentMessagesOnLogin();
+	//fetchNews();
 	reportActivity();
 	resizeWindow();
 	if(userArray[user.id]["status"]==0){
 		sendStatus(1);
 	}
 	isTyping();
+	pingServer();
 }
 
 function generateUserBar(fullsize) {
