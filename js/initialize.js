@@ -11,6 +11,7 @@ function initializeChatPhaseTwo() {
 		sendStatus(1);
 	}
 	isTyping();
+	pingServer();
 }
 
 function generateUserBar(fullsize) {

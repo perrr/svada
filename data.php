@@ -323,7 +323,7 @@ elseif($_GET['action'] == 'upload') {
 	uploadFile($_FILES['files'], $_SESSION['user']['id'], $_POST['share']);
 }
 elseif($_GET['action'] == 'pingServer') {
-	return JSON.Stringify('{"running": "true"}');
+	return json_encode('{running: true}');
 }
 
 //Close connection to database

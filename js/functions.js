@@ -501,3 +501,7 @@ function handleDirectFieldEdit(field, value) {
 	}
 	return false;
 }
+
+function lostConnection(){
+	//what to do when there are no connection
+}

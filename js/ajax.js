@@ -213,3 +213,15 @@ function loadLanguage(newlanguage) {
 		initializeChatPhaseTwo()
 	}});
 }
+
+function pingServer(){
+	$.ajax({url: getFormattedDataURL(["action=pingServer"]), success: function(result){
+		if (result.running != true){
+			//alert(result);
+			lostConnection();
+		}
+		else{
+			//alert("it worked");
+		}
+	}});	
+}
