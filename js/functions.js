@@ -170,6 +170,11 @@ function parseMessage(message) {
 				}
 				
 			}
+			//file parsing
+			else if(word.substr(0,6)=="<file|"){
+				var id = parseInt(word.slice(6,-1));
+				newmessage = newmessage + " " + '<a href="download.php?id=' + id + '">' + imgArray[id] + '</a>'; 
+			}
 			//Replace emoticon shortcuts with HTML image
 			else if (shortcuts.indexOf(word) != -1){
 				newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
