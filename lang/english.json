@@ -38,7 +38,7 @@
 	"leftQuote": "&ldquo;",
 	"rightQuote": "&rdquo;",
 	"changedchatname": "changed chat name to",
-	"userUploadedFile": " shares the file ",
+	"userUploadedFile": "shares the file",
 	"fileIsTooLarge" : "is too large.",
 	"search": "Search"
 }
