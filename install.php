@@ -108,7 +108,7 @@ if (isset($_POST["ip"])) {
 			  `status_message` varchar(100) NOT NULL,
 			  `image` int(11) DEFAULT NULL,
 			  `is_typing` int(11) NOT NULL DEFAULT '0',
-			  `language` varchar(20) NOT NULL DEFAULT 'english',
+			  `language` int(11) NOT NULL DEFAULT '1',
 			  `mute_sounds` int(11) NOT NULL DEFAULT '0',
 			  `last_activity` int(11) NOT NULL DEFAULT '0',
 			  `style` int(11) NOT NULL DEFAULT '1',
@@ -122,7 +122,17 @@ if (isset($_POST["ip"])) {
 			  `id` int(11) NOT NULL,
 			  `token` varchar(33) DEFAULT NULL
 			) ENGINE=MyISAM DEFAULT CHARSET=latin1");
-
+			
+			setQuery("DROP TABLE IF EXISTS `language`");
+			setQuery("CREATE TABLE `language` (
+			  `id` int(11) NOT NULL AUTO_INCREMENT,
+			  `name` varchar(30) DEFAULT NULL,
+			  `local_name` varchar(30) DEFAULT NULL,
+			  PRIMARY KEY(`id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=latin1");
+			setQuery('INSERT INTO `language` (`name`, `local_name`) VALUES ("english", "English")');
+			setQuery('INSERT INTO `language` (`name`, `local_name`) VALUES ("norwegian", "Norsk")');
+			
 			//Write to .ini file
 			createIniFile($_POST["ip"], $_POST["db_user"], $_POST["db_password"], $_POST["db_name"]);
 

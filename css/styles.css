@@ -441,7 +441,27 @@ a, a:active, a:focus {
 	display: none;
 }
 
-/* Text fields */
+.tab-header {
+	border-bottom: 1px solid #428BCA;
+	margin-bottom: 15px;
+	padding-bottom: 5px;
+}
+
+/* Forms */
+
+.dropdown-form-group {
+	line-height: 35px;
+}
+
+.button {
+	background-color: #428BCA;
+	color: white;
+}
+
+.button:hover {
+	background-color: #286090;
+	color: white;
+}
 
 .edit-value{
 	color: black;

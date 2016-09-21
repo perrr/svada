@@ -209,7 +209,7 @@ function setPassword(newPassword, oldPassword, userId) {
 }
 
 function loadLanguage(newlanguage) {
-	$.ajax({url: "lang/"+ newlanguage+".json?a=v", dataType: "json", success: function(result){
+	$.ajax({url: "lang/"+ newlanguage+".json", dataType: "json", success: function(result){
 		language = result;
 		initializeChatPhaseTwo()
 	}});

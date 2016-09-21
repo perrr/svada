@@ -81,7 +81,7 @@ function getAllUsers() {
 
 function getUser() {
 	$user = $_SESSION['user']['id'];
-	$userData = getQuery("SELECT id, username, display_name, status, status_message, image, is_typing, language, mute_sounds FROM user WHERE id = '$user'");
+	$userData = getQuery("SELECT u.id, username, display_name, status, status_message, image, is_typing, l.name AS language, mute_sounds FROM user AS u, language AS l WHERE u.id = '$user' AND u.language = l.id");
 	$userData = $userData->fetch_assoc();
 	printJson(json_encode($userData, JSON_NUMERIC_CHECK));
 
