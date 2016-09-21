@@ -166,7 +166,7 @@ function setChatName($chatName, $userId) {
 	if ($chatName != null && $chatName != ""){
 		setQuery("UPDATE chat
 			SET name = '$chatName'");
-		$content='<username|'.$userId.'> <lang|'."changedchatname".'>  <span class="message-strong">' . $chatName .'. </span>'; 
+		$content='{username|'.$userId.'} {lang|'."changedchatname".'}  <span class="message-strong">' . $chatName .'. </span>'; 
 		postMessage($content, 1);	
 	}
 }
@@ -174,7 +174,7 @@ function setChatName($chatName, $userId) {
 function setTopic($topic, $userId) {
 	setQuery("UPDATE chat
 		SET topic = '$topic'");
-	$content='<username|'.$userId.'> <lang|'."changedtopic".'>  <span class="message-strong">' . $topic .'. </span>'; 
+	$content='{username|'.$userId.'} {lang|'."changedtopic".'}  <span class="message-strong">' . $topic .'. </span>'; 
 	postMessage($content, 1);
 }
 
@@ -186,7 +186,7 @@ function getTopic() {
 function setChatImage($image, $userId) {
 	setQuery("UPDATE chat
 		SET image = '$image'");
-	$content='<username|'.$userId.'> <lang|'."changedGroupImage".'>'; 
+	$content='{username|'.$userId.'} {lang|'."changedGroupImage".'}'; 
 	postMessage($content, 0);
 }
 
@@ -227,7 +227,7 @@ function uploadFile($file, $uploader, $share){
   		setQuery("INSERT INTO file (path, uploader, name, timestamp) VALUES ('$newFileName', '$uploader', '$originalFileName', '$uploadTime')");
   		$success = move_uploaded_file($file['tmp_name'][$i], $save_path.$newFileName);
   		if($share == 1){
-  			$content = '<username|'.$uploader.'> <lang|'."userUploadedFile".'> <span class="message-strong"> <file|' . $newFileId .'>. </span>';
+  			$content = '{username|'.$uploader.'} {lang|'."userUploadedFile".'} {file|' . $newFileId .'}.';
   			postMessage($content, 1);
   		}
 

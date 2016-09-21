@@ -157,6 +157,7 @@ function parseMessage(message) {
 	else{
 		for (var wordindex in allWords){
 			var word = allWords[wordindex];
+			filePattern = /(.*)\{file\|(.*)\}(.*)/;
 			//Make URL's clickable with HTML
 			if (isUrl(word)){
 				//Checks if the link do or do not start with http, https or ftp
@@ -171,18 +172,19 @@ function parseMessage(message) {
 				
 			}
 			//file parsing
-			else if(word.substr(0,6)=="<file|"){
-				var id = parseInt(word.slice(6,-1));
-				newmessage = newmessage + " " + '<a href="download.php?id=' + id + '">' + imgArray[id] + '</a>'; 
+			else if(filePattern.test(word)){
+				var match = filePattern.exec(word);
+				var id = parseInt(match[2]);
+				newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '">' + imgArray[id].name + '</a>' + match[3]; 
 			}
 			//Replace emoticon shortcuts with HTML image
 			else if (shortcuts.indexOf(word) != -1){
 				newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
 			}
-			else if(word.substr(0,6)=="<lang|"){
+			else if(word.substr(0,6)=="{lang|"){
 				newmessage = newmessage + " " + language[word.slice(6,-1)];
 			}
-			else if(word.substr(0,10)=="<username|"){
+			else if(word.substr(0,10)=="{username|"){
 				for (var aUser in userArray){
 					if (userArray[aUser]["id"] ==parseInt(word.slice(10,-1))){
 						newmessage = newmessage + " " + userArray[aUser]["display_name"];
@@ -475,11 +477,11 @@ function successNotification(content) {
 }
 
 function getUserImage(imageId) {
-	return imageId != null ? 'uploads/' + imgArray[imageId] : 'res/images/default/default_user_image.png';
+	return imageId != null ? 'uploads/' + imgArray[imageId].path : 'res/images/default/default_user_image.png';
 }
 
 function getChatImage(imageId) {
-	return imageId != null ? 'uploads/' + imgArray[imageId] : 'res/images/default/default_chat_image.png';
+	return imageId != null ? 'uploads/' + imgArray[imageId].path : 'res/images/default/default_chat_image.png';
 }
 
 function handleDirectFieldEdit(field, value) {

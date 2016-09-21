@@ -111,5 +111,7 @@ getChatInformation();
 
 //Various setup
 Notification.requestPermission();
-$.ajaxSetup({ cache: false });
+$(document).ready(function() {
+  $.ajaxSetup({ cache: false });
+});
 $('#messages, #sidebar, #write-message, .tab').mCustomScrollbar(customScrollbarOptions);

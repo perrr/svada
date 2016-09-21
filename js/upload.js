@@ -79,6 +79,7 @@ function activateUploadForm() {
 					$form.removeClass('is-uploading');
 				},
 				success: function(json) {
+					getImageArray();
 					if(json["status"] == "success"){
 						successNotification(json['message']);
 					}

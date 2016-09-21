@@ -55,7 +55,7 @@ function getImageArray() {
 	$.ajax({url: getFormattedDataURL(["action=getAllImages"]), dataType: "json", success: function(json){
 		
 		for(var i = 0; i < Object.keys(json).length; i++) {
-			imgArray[json[i].id] = json[i].path;
+			imgArray[json[i].id] = { path: json[i].path, name: json[i].name };
 		}
 		
 		//Report array as initialized
@@ -69,7 +69,7 @@ function getChatInformation() {
 		//copy old chat information
 		var oldChatInformation = jQuery.extend({}, chatInformation);
 		//new chatInformation
-		chatInformation = {topic:json[0]["topic"], chatImage:[0]["image"], name:json[0]["name"]};
+		chatInformation = {topic:json[0]["topic"], chatImage:json[0]["image"], name:json[0]["name"]};
 
 		var changes = getChatInformationChanges(oldChatInformation, chatInformation);
 		var somethingChanged = false;
