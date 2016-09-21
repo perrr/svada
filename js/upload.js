@@ -78,7 +78,6 @@ function activateUploadForm() {
 				complete: function() {
 					$form.removeClass('is-uploading');
 				},
-				dataType: "json",
 				success: function(json) {
 					if(json["status"] == "success"){
 						successNotification(json['message']);

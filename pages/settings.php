@@ -20,7 +20,6 @@ while ($lang = mysqli_fetch_assoc($languages)) {
 
 ?>
 <h1 class="tab-header col-sm-12"><?php echo getString('settings'); ?></h1>
- <form class="form-horizontal" action="" method="post">
   <div class="form-group dropdown-form-group">
     <label for="language" class="control-label col-sm-4"><?php echo getString('changeLanguage'); ?>:</label>
 	<div class="col-sm-8">
@@ -34,5 +33,3 @@ while ($lang = mysqli_fetch_assoc($languages)) {
       <button type="submit" class="btn button" name="saveSettings"><?php echo getString('save'); ?></button>
     </div>
   </div>
-  
-  </form>

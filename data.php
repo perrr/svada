@@ -228,7 +228,7 @@ function uploadFile($file, $uploader, $share){
   		$success = move_uploaded_file($file['tmp_name'][$i], $save_path.$newFileName);
   		if($share == 1){
   			$content = '<username|'.$uploader.'> <lang|'."userUploadedFile".'> <span class="message-strong"> <file|' . $newFileId .'>. </span>';
-  			postMessage($content, 0);
+  			postMessage($content, 1);
   		}
 
 	 } 
