@@ -18,6 +18,13 @@ while ($lang = mysqli_fetch_assoc($languages)) {
 	$languageOptions .= '<option value="'.$lang['id'].'"'.$selected.'>'.$lang['local_name'].'</option>';
 }
 
+$styles = getQuery("SELECT * FROM style");
+$styleOptions = '';
+while ($style = mysqli_fetch_assoc($styles)) {
+	$selected = $style['id'] == $user['style'] ? " selected" : "";
+	$styleOptions .= '<option value="'.$style['id'].'"'.$selected.'>'.$style['name'].'</option>';
+}
+
 ?>
 <h1 class="tab-header col-sm-12"><?php echo getString('settings'); ?></h1>
   <div class="form-group dropdown-form-group">
@@ -25,6 +32,12 @@ while ($lang = mysqli_fetch_assoc($languages)) {
 	<div class="col-sm-8">
 		<select class="form-control" id="language" name="language">
 			<?php echo $languageOptions; ?>
+		</select>
+	</div>
+    <label for="style" class="control-label col-sm-4"><?php echo getString('changeStyle'); ?>:</label>
+	<div class="col-sm-8">
+		<select class="form-control" id="style" name="style">
+			<?php echo $styleOptions; ?>
 		</select>
 	</div>
   </div>

@@ -42,5 +42,6 @@
 	"fileIsTooLarge" : "is too large.",
 	"search": "Search",
 	"save": "Save",
-	"changeLanguage": "Change language"
+	"changeLanguage": "Change language",
+	"changeStyle": "Change style"
 }
