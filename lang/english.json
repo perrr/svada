@@ -43,5 +43,6 @@
 	"search": "Search",
 	"save": "Save",
 	"changeLanguage": "Change language",
-	"changeStyle": "Change style"
+	"changeStyle": "Change style",
+	"changeSound": "Mute/Unmute sound"
 }
