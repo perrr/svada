@@ -7,6 +7,7 @@ function initializeChatPhaseTwo() {
 	//fetchNews();
 	reportActivity();
 	resizeWindow();
+	sendActivity();
 	if(userArray[user.id]["status"]==0){
 		sendStatus(1);
 	}

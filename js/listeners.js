@@ -15,7 +15,7 @@ function fetchNews() {
 function reportActivity() {
 	 window.setInterval(function(){
 		sendActivity();
-	}, 240000);
+	}, 10000);
 }
 
 //Listen to various editable fields for clicks
