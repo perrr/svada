@@ -469,13 +469,15 @@ a, a:active, a:focus {
 	line-height: 0;
 	min-width: 10px;
 }
-.settings-form .control-label{
+
+.settings-form .control-label {
 	text-align: left;
 }
 
-.settings-form{
+.settings-form {
 	padding: 5px;
 }
+
 /* Search */
 
 #search{
@@ -489,6 +491,33 @@ a, a:active, a:focus {
 
 #search-group{
 	width: 30%;
+}
+
+/* Splashscreen */
+
+#splashscreen {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: #EDF9FC;
+	z-index: 1;
+}
+
+#splashscreen .loading-message {
+	position: absolute;
+	width: 100%;
+	font-size: 34px;
+	text-align: center;
+	top: 50%;
+	height: 100px;
+	margin-top: -200px;
+}
+
+#splashscreen .progress {
+	width: 50%;
+	height: 35px;
+	margin: 0 auto;
+	margin-top: 10px;
 }
 
 /* General */

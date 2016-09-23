@@ -358,15 +358,17 @@ function scrollToBottom(id) {
 function setAsInitialized(functionName) {
 	initialized[functionName] = true;
 	var check = true;
+	var numFinished = 0;
 	for(var i in initialized) {
 		if (initialized.hasOwnProperty(i)){
-			if (!initialized[i]){
-				check=false;
-				break;
+			if (initialized[i]){
+				numFinished++;
 			}
 		}
 	}
-	if (check){
+	var percentageFinished = numFinished / Object.keys(initialized).length * 100;
+	$('#loading-bar').css('width', percentageFinished+'%').attr('aria-valuenow', percentageFinished);    
+	if (percentageFinished == 100){
 		initializeChatPhaseOne();
 	}
 }

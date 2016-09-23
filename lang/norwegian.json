@@ -44,5 +44,6 @@
 	"save": "Lagre",
 	"changeLanguage": "Endre språk",
 	"changeStyle": "Endre utseende",
-	"changeSound": "Slå av/på lyd"
+	"changeSound": "Slå av/på lyd",
+	"loadingSvada": "Laster inn Svada"
 }

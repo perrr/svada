@@ -44,5 +44,6 @@
 	"save": "Save",
 	"changeLanguage": "Change language",
 	"changeStyle": "Change style",
-	"changeSound": "Mute/Unmute sound"
+	"changeSound": "Mute/Unmute sound",
+	"loadingSvada": "Loading Svada"
 }

@@ -30,6 +30,7 @@ $user = $_SESSION['user'];
 		<?php echo getStyle($user['style']); ?>
 	</head>
 	<body>
+		<?php include('pages/splashscreen.php'); ?>
 		<div class="container" id="chat-top"></div>
 		<div id="chat-menu"></div>
 		<div class="container" id="chat-bottom">

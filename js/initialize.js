@@ -12,6 +12,7 @@ function initializeChatPhaseTwo() {
 		sendStatus(1);
 	}
 	isTyping();
+	$('#splashscreen').hide();
 }
 
 function generateUserBar(fullsize) {
