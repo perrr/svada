@@ -139,7 +139,7 @@ function propagateUserChanges(changes) {
 					if (user["mute_sounds"]==0){
 						playSound("user.mp3");
 					}
-					browserNotification("","res/images/uploads/"+imgArray[userArray[i]["image"]],userArray[i]["display_name"]+" " +language["loggedon"]);
+					browserNotification("", getUserImage(userArray[i]["image"]) ,userArray[i]["display_name"]+" " +language["loggedon"]);
 				}
 			}
 		}
