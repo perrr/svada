@@ -166,7 +166,7 @@ function setChatName($chatName, $userId) {
 	if ($chatName != null && $chatName != ""){
 		setQuery("UPDATE chat
 			SET name = '$chatName'");
-		$content='{username|'.$userId.'} {lang|'."changedchatname".'}  <span class="message-strong">' . $chatName .'. </span>'; 
+		$content='{username|'.$userId.'} {lang|'."changedchatname".'} <span class="message-strong">' . $chatName .'.</span>'; 
 		postMessage($content, 1);	
 	}
 }
@@ -174,7 +174,7 @@ function setChatName($chatName, $userId) {
 function setTopic($topic, $userId) {
 	setQuery("UPDATE chat
 		SET topic = '$topic'");
-	$content='{username|'.$userId.'} {lang|'."changedtopic".'}  <span class="message-strong">' . $topic .'. </span>'; 
+	$content='{username|'.$userId.'} {lang|'."changedtopic".'} <span class="message-strong">' . $topic .'.</span>'; 
 	postMessage($content, 1);
 }
 
@@ -220,7 +220,7 @@ function uploadFile($file, $uploader, $share){
   		$newFileName = $newFileId.substr($originalFileName, strrpos($originalFileName, '.'));
   		
   		if($fileSize > $maxSize){
-  			printJson('{"status": "failure", "message": " '. $originalFileName . ' ' . getString('fileIsTooLarge') . '"}');
+  			printJson('{"status": "failure", "message": " '. getString('theFile') .' '. $originalFileName .' '. getString('fileIsTooLarge') .' ('.getString('maxFileSize').' '.$chatAssoc["maximum_file_size"].'MB)."}');
   			return;
   		}
   		//Add to database 
