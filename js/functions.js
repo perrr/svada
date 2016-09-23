@@ -293,22 +293,9 @@ function resizeWindow() {
 		$('#sidebar').css({'height':$(window).height() - $('#chat-top').outerHeight()});
 		hideMenu();
 		userbarOffset = 0;
-		
-		//Adjust title size
-		var fontSize = 35;
-		while($('#top-left').outerWidth() + $('#top-right').outerWidth() > $('#chat-top').innerWidth() - 10) {
-			if(fontSize == 10){
-				$('#chat-name').css({'width': '190px'});
-				break;
-			}
-			
-			var nameTopicDifference = fontSize >= 30 ? 10 : fontSize >= 20 ? 5 : 0;
-			
-			$('#chat-name').css({'font-size': fontSize + 'px'});
-			$('#chat-topic').css({'font-size': (fontSize-nameTopicDifference) + 'px'});
-			fontSize -= 5;
-			
-		}
+		var chatTitleId = '#chat-name';
+		var chatTopicId = '#chat-topic';
+		var topRightId = '#top-right';
 	}
 	else {
 		generateUserBar(false);
@@ -318,10 +305,23 @@ function resizeWindow() {
 		$('#sidebar').css({'height':'100%'});
 		$('#chat-top').css({'height':'45px'});
 		userbarOffset = $('#sidebar').outerHeight();
-		
+		var chatTitleId = '.chat-small-title';
+		var chatTopicId = '.chat-small-title';
+		var topRightId = '#chat-small-menu';
 	}
 	$('#chat-bottom, #tabs > div').css({'height':$(window).height() - $('#chat-top').outerHeight()});
 	$('#messages').css({'height':$('#chat-bottom').height() - $('#toolbar').height() - $('#write-message').outerHeight() - userbarOffset});
+	
+	//Adjust title size
+	var fontSize = 35;
+	while($('#top-left').outerWidth() + $(topRightId).outerWidth() > $('#chat-top').outerWidth() - 25) {
+		var nameTopicDifference = fontSize >= 30 ? 10 : fontSize >= 25 ? 7.5 : fontSize >= 20 ? 5 : 0;
+		console.log(nameTopicDifference);
+		$(chatTitleId).css({'font-size': fontSize + 'px'});
+		$(chatTopicId).css({'font-size': (fontSize-nameTopicDifference) + 'px'});
+		fontSize -= 2.5;
+		
+	}
 }
 
 function toggleMenu() {

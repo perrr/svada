@@ -73,6 +73,7 @@ a, a:active, a:focus {
 	color: white;
 	padding: 10px;
 	padding-right: 0;
+	overflow: hidden;
 }
 
 #chat-bottom{
@@ -200,7 +201,6 @@ a, a:active, a:focus {
 
 #top-left{
 	float: left;
-	overflow: hidden;
 }
 
 #top-right{
@@ -222,26 +222,35 @@ a, a:active, a:focus {
 
 #chat-name{
 	font-size: 40px;
-	line-height: 40px;
+	line-height: 46px;
 	padding: 5px;
 }
 
 #chat-topic{
 	font-size: 30px;
-	line-height: 30px;
+	line-height: 35px;
 	padding: 5px;
-	height: 30px;
+	height: 45px;
+	float: left;
 }
 
-#chat-small-title{
+.chat-small-title{
 	font-size: 20px;
 	margin: 0;
+	float: left;
+	line-height: 30px;
 }
+
+#chat-small-colon{
+	font-size: 20px;
+	float: left;
+	margin-right: 6px;
+}
+
 
 .top-link-wrapper{
 	float: left;
 	margin-right: 20px;
-
 }
 
 .top-link-wrapper a{
@@ -297,6 +306,7 @@ a, a:active, a:focus {
 	font-size: 20px;
 	float: right;
 	margin-right: 10px;
+	margin-top: 2px;
 	cursor: pointer;
 }
 

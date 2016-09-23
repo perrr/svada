@@ -33,7 +33,7 @@ $("body").on("click", ".editable", function(event) {
 	textField.css({
 		'width': $(this).outerWidth(),
 		'padding': padding,
-		'line-height': 0
+		'line-height': $(this).css('lineHeight')
 	});
 	
 	$(this).css({
@@ -47,7 +47,7 @@ $("body").on("click", ".editable", function(event) {
 	var temp = textField.focus().val();
 	textField.val('').val(temp);
 	
-	textField.keyup(function(e){
+	textField.keydown(function(e){
 		if(e.keyCode == 13){
 			textField.endEdit(true);
 		}
