@@ -42,5 +42,7 @@
 	"fileIsTooLarge" : "er for stor.",
 	"search": "Søk",
 	"save": "Lagre",
-	"changeLanguage": "Endre språk"
+	"changeLanguage": "Endre språk",
+	"changeStyle": "Endre utseende",
+	"changeSound": "Slå av/på lyd"
 }

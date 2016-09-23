@@ -469,7 +469,13 @@ a, a:active, a:focus {
 	line-height: 0;
 	min-width: 10px;
 }
+.settings-form .control-label{
+	text-align: left;
+}
 
+.settings-form{
+	padding: 5px;
+}
 /* Search */
 
 #search{

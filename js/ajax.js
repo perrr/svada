@@ -129,22 +129,36 @@ function getNewMessages() {
 }
 
 function displayMessage(message) {
-	addDateLine(message);
-	var messageHTML = '<div class="message">\
-		<div class="message-image">\
-			<img class="img-rounded" src="' + getUserImage(userArray[message["author"]].image) + '">\
-		</div>\
-		<div class="message-data">\
-			<div class="message-author">'+ userArray[message["author"]].display_name + '</div>\
-			<br>\
-			<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
-		</div>\
-		<div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>\
-		<br class="clear">\
-	</div>';
-	$("#message-container").append(messageHTML);
+	//if (newAuthor(message)){
+		addDateLine(message);
+		var messageHTML = '<div class="message">\
+			<div class="message-image">\
+				<img class="img-rounded" src="' + getUserImage(userArray[message["author"]].image) + '">\
+			</div>\
+			<div class="message-data">\
+				<div class="message-author">'+ userArray[message["author"]].display_name + '</div>\
+				<br>\
+				<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
+			</div>\
+			<div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>\
+			<br class="clear">\
+		</div>';
+		$("#message-container").append(messageHTML);		
 	
-	
+}
+
+function newAuthor(message){
+	if (messages.length>2 && typeof messages[messages.length-2] !== 'undefined'){
+		if (message["author"]==messages[messages.length-2].author){
+			//$('.pre').after('<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\');
+			return false;
+		}
+		else {return true;}
+	}
+		
+	else {
+		return true;
+	}
 }
 
 function addDateLine(message){
