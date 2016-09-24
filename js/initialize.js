@@ -37,9 +37,11 @@ function generateUserBar(fullsize) {
 		}
 		
 		var editImage = i == user.id ? ' userbox-my-image" onclick="manualUpload(\'userImage\')' : "";
+		var editName = i == user.id ? ' class="editable" data-global-variable="userDisplayName"' : "";
+		var editStatusMessage = i == user.id ? ' editable" data-global-variable="userStatusMessage' : "";
 		var userStatus = '<span class="status-circle status-' + statusClass + '"></span>';
 		if(fullsize)
-			userHTML += '<div class="userbox"><div class="userbox-image"><img class="img-rounded' + editImage + '" src="' + getUserImage(userArray[i].image) + '"></div><div id="userbox' + i + '" class="userbox-data"><div class="userbox-username">' + userStatus + userArray[i].display_name + '</div><div class="userbox-statusmessage">' + userArray[i].status_message +'</div></div><br class="clear"></div></div>';
+			userHTML += '<div class="userbox"><div class="userbox-image"><img class="img-rounded' + editImage + '" src="' + getUserImage(userArray[i].image) + '"></div><div id="userbox' + i + '" class="userbox-data"><div class="userbox-username">' + userStatus + '<span' + editName + '>' + userArray[i].display_name + '</span></div><div class="userbox-statusmessage' + editStatusMessage + '">' + userArray[i].status_message +'</div></div><br class="clear"></div></div>';
 		else
 			userHTML += '<span class="status-circled-background status-' + statusClass + '">' + userArray[i].display_name + '</span> ';
 		

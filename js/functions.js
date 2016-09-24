@@ -503,6 +503,22 @@ function handleDirectFieldEdit(field, value) {
 			}
 		}
 	}
+	else if (field == "userDisplayName"){
+		if (value != null && value != ""){
+			if (value != user.display_name){
+				user.display_name = value;
+				return true;
+			}
+		}
+	}
+	else if (field == "userStatusMessage"){
+		if (value != null && value != ""){
+			if (value != user.display_name){
+				user.status_message = value;
+				return true;
+			}
+		}
+	}
 	return false;
 }
 

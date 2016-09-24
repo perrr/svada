@@ -341,13 +341,15 @@ a, a:active, a:focus {
 .userbox-data{
 	float: left;
 	width: 200px;
-	height: 80px;
-	overflow: hidden;
+	height: 90px;
 	padding-left: 10px;
 }
 
 .userbox-statusmessage {
 	color: #ADADAD;
+	width: 200px;
+	height: 60px;
+	overflow: hidden;
 }
 
 .status-circle {
