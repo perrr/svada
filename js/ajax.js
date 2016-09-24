@@ -135,13 +135,11 @@ function displayMessage(message) {
 			<div class="message-image">\
 				<img class="img-rounded" src="' + getUserImage(userArray[message["author"]].image) + '">\
 			</div>\
-			<div class="message-data">\
+			<div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>\
+			<div class="message-text">\
 				<div class="message-author">'+ userArray[message["author"]].display_name + '</div>\
-				<br>\
 				<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
 			</div>\
-			<div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>\
-			<br class="clear">\
 		</div>';
 		$("#message-container").append(messageHTML);		
 	

@@ -113,7 +113,12 @@ a, a:active, a:focus {
 
 .message-author{
 	color: #428BCA;
-	float: left;
+	margin-bottom: 2px;
+}
+
+.message-text{
+	overflow: hidden;
+	padding-left: 10px;
 }
 
 .message-timestamp{
@@ -122,18 +127,13 @@ a, a:active, a:focus {
 }
 
 .message-image{
-	float: left;
+	float: left;    
 	width: 45px;
 	padding: 3px;
 }
 
 .message-image img{
 	width: 100%;
-}
-
-.message-data{
-	float: left;
-	padding-left: 10px;
 }
 
 .message-content{
