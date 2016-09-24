@@ -288,7 +288,7 @@ function resizeWindow() {
 		$('#chat-top').css({'height':'120px'});
 		generateUserBar(true);
 		generateTopBar(true);
-		$('#sidebar').css({'width':'270px'});
+		$('#sidebar').css({'width':'320px'});
 		$('#mainbar').css({'width':$(window).width() - $('#sidebar').outerWidth()});
 		$('#sidebar').css({'height':$(window).height() - $('#chat-top').outerHeight()});
 		hideMenu();
@@ -315,7 +315,7 @@ function resizeWindow() {
 	//Adjust title size
 	var fontSize = 35;
 	while($('#top-left').outerWidth() + $(topRightId).outerWidth() > $('#chat-top').outerWidth() - 25) {
-		var nameTopicDifference = fontSize >= 30 ? 10 : fontSize >= 25 ? 7.5 : fontSize >= 20 ? 5 : 0;
+		var nameTopicDifference = fontSize >= 30 ? 10 : fontSize >= 25 ? 7.5 : fontSize >= 20 ? 5 : fontSize >= 10 ? 2.5 : 0;
 		console.log(nameTopicDifference);
 		$(chatTitleId).css({'font-size': fontSize + 'px'});
 		$(chatTopicId).css({'font-size': (fontSize-nameTopicDifference) + 'px'});

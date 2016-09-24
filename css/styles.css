@@ -319,6 +319,9 @@ a, a:active, a:focus {
 
 .userbox-username{
 	font-size: 14px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .userbox-image{
@@ -337,7 +340,7 @@ a, a:active, a:focus {
 
 .userbox-data{
 	float: left;
-	width: 150px;
+	width: 200px;
 	height: 80px;
 	overflow: hidden;
 	padding-left: 10px;
