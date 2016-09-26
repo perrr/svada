@@ -250,7 +250,7 @@ function shareFiles($file, $uploader, $share, $maxSize){
   			}
   			//Add to database 
   			setQuery("INSERT INTO file (path, uploader, name, timestamp) VALUES ('$newFileName', '$uploader', '$originalFileName', '$uploadTime')");
-  			$success = move_uploaded_file($file['tmp_name'][0], $savePath.$newFileName);
+  			$success = move_uploaded_file($file['tmp_name'][$i], $savePath.$newFileName);
   			if(!$success){
   				printJson('{"status": "failure", "message": "' . getString('uploadFailed') . '"}');
   				return;
