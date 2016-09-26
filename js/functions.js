@@ -158,6 +158,7 @@ function parseMessage(message) {
 		for (var wordindex in allWords){
 			var word = allWords[wordindex];
 			filePattern = /(.*)\{file\|(.*)\}(.*)/;
+			langPattern = /(.*)\{lang\|(.*)\}(.*)/;
 			//Make URL's clickable with HTML
 			if (isUrl(word)){
 				//Checks if the link do or do not start with http, https or ftp
@@ -181,8 +182,9 @@ function parseMessage(message) {
 			else if (shortcuts.indexOf(word) != -1){
 				newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
 			}
-			else if(word.substr(0,6)=="{lang|"){
-				newmessage = newmessage + " " + language[word.slice(6,-1)];
+			else if(langPattern.test(word)){
+				var match = langPattern.exec(word);
+				newmessage += " " + match[1] +  language[match[2]] + match[3];
 			}
 			else if(word.substr(0,10)=="{username|"){
 				for (var aUser in userArray){
