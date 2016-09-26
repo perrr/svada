@@ -1,14 +1,28 @@
 //Fetch news from database regularly
 function fetchNews() {
+	return [
+		getUserArray(),
+		getChatInformation(),
+		getImageArray()
+	];
+}
+
+function fetchNewsRegularly() {
 	window.setInterval(function(){
-		getNewMessages();
-		getUserArray();
-		getUser();
+		var oldUserArray = jQuery.extend({}, userArray);
+		var oldChatInformation = jQuery.extend({}, chatInformation);
+		
+		var promises = fetchNews();
+		$.when.apply($, promises).then(function() {
+			getNewMessages();
+			
+			//Propagate changes
+			var userChanges = getUserChanges(oldUserArray, userArray);
+			var chatChanges = getChatInformationChanges(oldChatInformation, chatInformation);
+			propagateUserChanges(userChanges);
+			propagateChatInformationChanges(chatChanges);
+		});
 	}, 1000);
-	
-	window.setInterval(function(){
-		getChatInformation();
-	}, 60000);
 }
 
 //Regularly report activity
@@ -151,7 +165,9 @@ function propagateUserChanges(changes) {
 
 //Update chat information based on changes
 function propagateChatInformationChanges(changes) {
-	//Insert code here
+	if($.inArray(true, changes) !== -1){
+		generateTopBar(isFullsize());
+	}
 }
 
 //Store quote on copy

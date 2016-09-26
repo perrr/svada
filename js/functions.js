@@ -355,22 +355,9 @@ function scrollToBottom(id) {
 	$(id).mCustomScrollbar().mCustomScrollbar("scrollTo", "bottom", {scrollInertia: 0});
 }
 
-function setAsInitialized(functionName) {
-	initialized[functionName] = true;
-	var check = true;
-	var numFinished = 0;
-	for(var i in initialized) {
-		if (initialized.hasOwnProperty(i)){
-			if (initialized[i]){
-				numFinished++;
-			}
-		}
-	}
-	var percentageFinished = numFinished / Object.keys(initialized).length * 100;
-	$('#loading-bar').css('width', percentageFinished+'%').attr('aria-valuenow', percentageFinished);    
-	if (percentageFinished == 100){
-		initializeChatPhaseOne();
-	}
+function updateLoadingBar(a, b) {
+	var percentage = a/b*100;
+	$('#loading-bar').css('width', percentage+'%').attr('aria-valuenow', percentage);    	
 }
 
 function playSound(sound) {

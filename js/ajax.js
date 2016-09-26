@@ -1,7 +1,6 @@
 function getUserArray() {
-	$.ajax({url: getFormattedDataURL(["action=getAllUsers"]), dataType: "json", success: function(json){
+	return $.ajax({url: getFormattedDataURL(["action=getAllUsers"]), dataType: "json"}).done(function(json){
 		//Copy the old userArray
-		var oldUserArray = jQuery.extend({}, userArray);
 		//Update the userArray
 		for(var i = 0; i < Object.keys(json).length; i++) {
 			var user = {};
@@ -13,30 +12,17 @@ function getUserArray() {
 			}
 			userArray[id+1] = user;
 		}
-
-		
-		//Report array as initialized
-		if(!initialized.getUserArray)
-			setAsInitialized("getUserArray");
-		else {
-			//Get changes and propagate those
-			var changes = getUserChanges(oldUserArray, userArray);
-			propagateUserChanges(changes);
-		}
-	}});
+	});
 }
 
 function getUser() {
-	$.ajax({url: getFormattedDataURL(["action=getUser"]), dataType: "json", success: function(json){
+	return $.ajax({url: getFormattedDataURL(["action=getUser"]), dataType: "json"}).done(function(json){
 		user = json;
-		//Report variabel as initialized
-		if(!initialized.getUser)
-			setAsInitialized("getUser");
-	}});
+	});
 }
 
 function getEmoticonArray() {
-	$.ajax({url: getFormattedDataURL(["action=getAllEmoticons"]), dataType: "json", success: function(json){
+	return $.ajax({url: getFormattedDataURL(["action=getAllEmoticons"]), dataType: "json"}).done(function(json){
 		for(var i = 0; i<json.length; i++) {
 			break;
 			var allShortcuts = json[i]["shortcut"].split(" ");
@@ -44,52 +30,25 @@ function getEmoticonArray() {
 				emoticonArray[allShortcuts[d]]= {path:json[i]["path"], name:json[i]["name"]};
 			}
 		}
-		
-		//Report array as initialized
-		if(!initialized.getEmoticonArray)
-			setAsInitialized("getEmoticonArray");
-	}});
+	});
 }
 
 function getImageArray() {
-	$.ajax({url: getFormattedDataURL(["action=getAllImages"]), dataType: "json", success: function(json){
-		
+	return $.ajax({url: getFormattedDataURL(["action=getAllImages"]), dataType: "json"}).done(function(json){
 		for(var i = 0; i < Object.keys(json).length; i++) {
 			imgArray[json[i].id] = { path: json[i].path, name: json[i].name };
 		}
-		
-		//Report array as initialized
-		if(!initialized.getImageArray)
-			setAsInitialized("getImageArray");
-	}});
+	});
 }
 
 function getChatInformation() {
-	$.ajax({url: getFormattedDataURL(["action=getChatInformation"]), dataType: "json", success:function(json){
-		//copy old chat information
-		var oldChatInformation = jQuery.extend({}, chatInformation);
-		//new chatInformation
+	return $.ajax({url: getFormattedDataURL(["action=getChatInformation"]), dataType: "json"}).done(function(json){
 		chatInformation = {topic:json[0]["topic"], chatImage:json[0]["image"], name:json[0]["name"]};
-
-		var changes = getChatInformationChanges(oldChatInformation, chatInformation);
-		var somethingChanged = false;
-		for(var i = 0; i < changes.length; i++) {
-			if(changes[i]){
-				somethingChanged = true;
-				break;
-			}
-		}
-		if(somethingChanged && initialized.getChatInformation){
-			generateTopBar(isFullsize());
-		}
-		//Report array as initialized
-		if(!initialized.getChatInformation)
-			setAsInitialized("getChatInformation");
-	}});
+	});
 }
 
 function getRecentMessagesOnLogin() {
-	$.ajax({url: getFormattedDataURL(["action=getRecentMessages"]), dataType: "json", success: function(json){
+	$.ajax({url: getFormattedDataURL(["action=getRecentMessages"]), dataType: "json"}).done(function(json){
 		for(var i = 0; i < json.length; i++) {
 			var id = json[i]['id'];
 			lastReceivedId = json[i]['id'];
@@ -98,12 +57,11 @@ function getRecentMessagesOnLogin() {
 			displayMessage(json[i]);
 		}
 		scrollToBottom("#messages");
-		fetchNews();
-    }});
+    });
 }
 
 function getNewMessages() {
-	$.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), dataType: "json", success: function(json){
+	return $.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), dataType: "json"}).done(function(json){
 		var aChange = false;
 		var initialLoading = messages.length == 0;
 		for(var i = 0; i < json.length; i++) {
@@ -125,7 +83,7 @@ function getNewMessages() {
 		if(!isActive && aChange && !initialLoading){
 			alertNewMessages();
 		}
-    }});
+    });
 }
 
 function displayMessage(message) {
@@ -221,10 +179,9 @@ function setPassword(newPassword, oldPassword, userId) {
 }
 
 function loadLanguage(newlanguage) {
-	$.ajax({url: "lang/"+ newlanguage+".json", dataType: "json", success: function(result){
+	return $.ajax({url: "lang/"+ newlanguage+".json", dataType: "json"}).done(function(result){
 		language = result;
-		initializeChatPhaseTwo()
-	}});
+	});
 }
 
 function pingServer(){

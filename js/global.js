@@ -7,7 +7,6 @@ var imgArray = [];
 var chatInformation = {};
 var language;
 var currentQuote = {"content": ""};
-var initialized = {"getUser":false, "getUserArray":false, "getEmoticonArray":false, "getImageArray":false, "getChatInformation":false};
 var titleAlert = false;
 var isActive = true;
 var activeTabButton = "chat";

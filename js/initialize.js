@@ -1,18 +1,34 @@
 function initializeChatPhaseOne() {
-	loadLanguage(user.language);
+	var promise = getUser();
+	$.when(promise).then(function() {
+		updateLoadingBar(1, 3);
+		initializeChatPhaseTwo();
+	});
 }
 
 function initializeChatPhaseTwo() {
-	getRecentMessagesOnLogin();
-	//fetchNews();
-	reportActivity();
-	resizeWindow();
-	sendActivity();
-	if(userArray[user.id]["status"]==0){
-		sendStatus(1);
-	}
-	isTyping();
-	$('#splashscreen').hide();
+	var promise = loadLanguage(user.language);
+	$.when(promise).then(function() {
+		updateLoadingBar(2, 3);
+		initializeChatPhaseThree();
+	});
+}
+
+function initializeChatPhaseThree() {
+	var promises = fetchNews();
+	$.when.apply($, promises).then(function() {
+		updateLoadingBar(3, 3);
+		getRecentMessagesOnLogin();
+		fetchNewsRegularly();
+		reportActivity();
+		resizeWindow();
+		sendActivity();
+		if(userArray[user.id]["status"] == 0){
+			sendStatus(1);
+		}
+		isTyping();
+		$('#splashscreen').hide();
+	});
 }
 
 function generateUserBar(fullsize) {
@@ -106,12 +122,8 @@ function generateTopBar(fullsize) {
 	
 }
 
-//Run functions
-getUser();
-getUserArray();
-getEmoticonArray();
-getImageArray();
-getChatInformation();
+//Begin initialization
+initializeChatPhaseOne();
 
 //Various setup
 Notification.requestPermission();
