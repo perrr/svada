@@ -157,6 +157,7 @@ function parseMessage(message) {
 	else{
 		for (var wordindex in allWords){
 			var word = allWords[wordindex];
+			filePattern = /(.*)\{file\|(.*)\}(.*)/;
 			//Make URL's clickable with HTML
 			if (isUrl(word)){
 				//Checks if the link do or do not start with http, https or ftp
@@ -171,18 +172,19 @@ function parseMessage(message) {
 				
 			}
 			//file parsing
-			else if(word.substr(0,6)=="<file|"){
-				var id = parseInt(word.slice(6,-1));
-				newmessage = newmessage + " " + '<a href="download.php?id=' + id + '">' + imgArray[id] + '</a>'; 
+			else if(filePattern.test(word)){
+				var match = filePattern.exec(word);
+				var id = parseInt(match[2]);
+				newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '">' + imgArray[id].name + '</a>' + match[3]; 
 			}
 			//Replace emoticon shortcuts with HTML image
 			else if (shortcuts.indexOf(word) != -1){
 				newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
 			}
-			else if(word.substr(0,6)=="<lang|"){
+			else if(word.substr(0,6)=="{lang|"){
 				newmessage = newmessage + " " + language[word.slice(6,-1)];
 			}
-			else if(word.substr(0,10)=="<username|"){
+			else if(word.substr(0,10)=="{username|"){
 				for (var aUser in userArray){
 					if (userArray[aUser]["id"] ==parseInt(word.slice(10,-1))){
 						newmessage = newmessage + " " + userArray[aUser]["display_name"];
@@ -286,27 +288,14 @@ function resizeWindow() {
 		$('#chat-top').css({'height':'120px'});
 		generateUserBar(true);
 		generateTopBar(true);
-		$('#sidebar').css({'width':'270px'});
+		$('#sidebar').css({'width':'320px'});
 		$('#mainbar').css({'width':$(window).width() - $('#sidebar').outerWidth()});
 		$('#sidebar').css({'height':$(window).height() - $('#chat-top').outerHeight()});
 		hideMenu();
 		userbarOffset = 0;
-		
-		//Adjust title size
-		var fontSize = 35;
-		while($('#top-left').outerWidth() + $('#top-right').outerWidth() > $('#chat-top').innerWidth() - 10) {
-			if(fontSize == 10){
-				$('#chat-name').css({'width': '190px'});
-				break;
-			}
-			
-			var nameTopicDifference = fontSize >= 30 ? 10 : fontSize >= 20 ? 5 : 0;
-			
-			$('#chat-name').css({'font-size': fontSize + 'px'});
-			$('#chat-topic').css({'font-size': (fontSize-nameTopicDifference) + 'px'});
-			fontSize -= 5;
-			
-		}
+		var chatTitleId = '#chat-name';
+		var chatTopicId = '#chat-topic';
+		var topRightId = '#top-right';
 	}
 	else {
 		generateUserBar(false);
@@ -316,10 +305,23 @@ function resizeWindow() {
 		$('#sidebar').css({'height':'100%'});
 		$('#chat-top').css({'height':'45px'});
 		userbarOffset = $('#sidebar').outerHeight();
-		
+		var chatTitleId = '.chat-small-title';
+		var chatTopicId = '.chat-small-title';
+		var topRightId = '#chat-small-menu';
 	}
 	$('#chat-bottom, #tabs > div').css({'height':$(window).height() - $('#chat-top').outerHeight()});
 	$('#messages').css({'height':$('#chat-bottom').height() - $('#toolbar').height() - $('#write-message').outerHeight() - userbarOffset});
+	
+	//Adjust title size
+	var fontSize = 35;
+	while($('#top-left').outerWidth() + $(topRightId).outerWidth() > $('#chat-top').outerWidth() - 25) {
+		var nameTopicDifference = fontSize >= 30 ? 10 : fontSize >= 25 ? 7.5 : fontSize >= 20 ? 5 : fontSize >= 10 ? 2.5 : 0;
+		console.log(nameTopicDifference);
+		$(chatTitleId).css({'font-size': fontSize + 'px'});
+		$(chatTopicId).css({'font-size': (fontSize-nameTopicDifference) + 'px'});
+		fontSize -= 2.5;
+		
+	}
 }
 
 function toggleMenu() {
@@ -356,15 +358,17 @@ function scrollToBottom(id) {
 function setAsInitialized(functionName) {
 	initialized[functionName] = true;
 	var check = true;
+	var numFinished = 0;
 	for(var i in initialized) {
 		if (initialized.hasOwnProperty(i)){
-			if (!initialized[i]){
-				check=false;
-				break;
+			if (initialized[i]){
+				numFinished++;
 			}
 		}
 	}
-	if (check){
+	var percentageFinished = numFinished / Object.keys(initialized).length * 100;
+	$('#loading-bar').css('width', percentageFinished+'%').attr('aria-valuenow', percentageFinished);    
+	if (percentageFinished == 100){
 		initializeChatPhaseOne();
 	}
 }
@@ -475,11 +479,11 @@ function successNotification(content) {
 }
 
 function getUserImage(imageId) {
-	return imageId != null ? 'uploads/' + imgArray[imageId] : 'res/images/default/default_user_image.png';
+	return imageId != null ? 'uploads/' + imgArray[imageId].path : 'res/images/default/default_user_image.png';
 }
 
 function getChatImage(imageId) {
-	return imageId != null ? 'uploads/' + imgArray[imageId] : 'res/images/default/default_chat_image.png';
+	return imageId != null ? 'uploads/' + imgArray[imageId].path : 'res/images/default/default_chat_image.png';
 }
 
 function handleDirectFieldEdit(field, value) {
@@ -495,6 +499,22 @@ function handleDirectFieldEdit(field, value) {
 			if (value != chatInformation.name){
 				chatInformation.name = value;
 				setChatName(value);
+				return true;
+			}
+		}
+	}
+	else if (field == "userDisplayName"){
+		if (value != null && value != ""){
+			if (value != user.display_name){
+				user.display_name = value;
+				return true;
+			}
+		}
+	}
+	else if (field == "userStatusMessage"){
+		if (value != null && value != ""){
+			if (value != user.display_name){
+				user.status_message = value;
 				return true;
 			}
 		}

@@ -1,12 +1,18 @@
 <?php
 //Connect to database
 require('db.php');
-if (basename($_SERVER["SCRIPT_FILENAME"]) != 'install.php')
+if (basename($_SERVER["SCRIPT_FILENAME"]) != 'install.php') {
 	$connection = getConnection();
+
+	if(!isset($_SESSION['user']))
+		renewSession();
+}
 
 // If user is not logged in, set English as default
 if(isset($_SESSION['user'])){
-	$language = $_SESSION['user']['language'];
+	$language = getQuery("SELECT name FROM user AS u, language AS l WHERE l.id = u.language AND u.id = ".$_SESSION['user']['id']);
+	$language = $language->fetch_assoc();
+	$language = $language['name'];
 }
 else{
 	$language = 'english';
@@ -110,5 +116,20 @@ function verifyQuotes($message) {
 		}
 	}
 	return true;
+}
+
+function updateUserSession() {
+	$_SESSION['user'] = $user = mysqli_fetch_array(getQuery("SELECT * FROM user WHERE id = ".$_SESSION['user']['id']));
+}
+
+function renewSession() {
+	if(isset($_COOKIE['usercookie'])){
+		$cookie = $_COOKIE['usercookie'];
+		$cookieResult = mysqli_fetch_array(getQuery("SELECT id FROM user_session WHERE token ='$cookie'"));
+		if(!empty($cookieResult)){
+			$id = $cookieResult['id'];
+			$_SESSION['user'] = mysqli_fetch_array(getQuery("SELECT * FROM user WHERE id ='$id'"));
+		}
+	}
 }
 ?>

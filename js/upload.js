@@ -6,6 +6,10 @@ var isAdvancedUpload = function() {
 }();
 
 function manualUpload(type) {
+	if (type == "file") 
+		$("#fileupload").attr('accept', '*/*')
+	else
+		$("#fileupload").attr('accept', 'image/*')
 	$("#fileupload").data("type", type);
 	$("#fileupload").trigger('click');
 }
@@ -79,6 +83,7 @@ function activateUploadForm() {
 					$form.removeClass('is-uploading');
 				},
 				success: function(json) {
+					getImageArray();
 					if(json["status"] == "success"){
 						successNotification(json['message']);
 					}

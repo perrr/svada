@@ -15,7 +15,7 @@ function fetchNews() {
 function reportActivity() {
 	 window.setInterval(function(){
 		sendActivity();
-	}, 240000);
+	}, 10000);
 }
 
 //Listen to various editable fields for clicks
@@ -33,7 +33,7 @@ $("body").on("click", ".editable", function(event) {
 	textField.css({
 		'width': $(this).outerWidth(),
 		'padding': padding,
-		'line-height': 0
+		'line-height': $(this).css('lineHeight')
 	});
 	
 	$(this).css({
@@ -47,7 +47,7 @@ $("body").on("click", ".editable", function(event) {
 	var temp = textField.focus().val();
 	textField.val('').val(temp);
 	
-	textField.keyup(function(e){
+	textField.keydown(function(e){
 		if(e.keyCode == 13){
 			textField.endEdit(true);
 		}
@@ -139,7 +139,7 @@ function propagateUserChanges(changes) {
 					if (user["mute_sounds"]==0){
 						playSound("user.mp3");
 					}
-					browserNotification("","res/images/uploads/"+imgArray[userArray[i]["image"]],userArray[i]["display_name"]+" " +language["loggedon"]);
+					browserNotification("", getUserImage(userArray[i]["image"]) ,userArray[i]["display_name"]+" " +language["loggedon"]);
 				}
 			}
 		}

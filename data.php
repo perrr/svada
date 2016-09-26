@@ -83,7 +83,7 @@ function getAllUsers() {
 
 function getUser() {
 	$user = $_SESSION['user']['id'];
-	$userData = getQuery("SELECT id, username, display_name, status, status_message, image, is_typing, language, mute_sounds FROM user WHERE id = '$user'");
+	$userData = getQuery("SELECT u.id, username, display_name, status, status_message, image, is_typing, l.name AS language, mute_sounds FROM user AS u, language AS l WHERE u.id = '$user' AND u.language = l.id");
 	$userData = $userData->fetch_assoc();
 	printJson(json_encode($userData, JSON_NUMERIC_CHECK));
 
@@ -181,7 +181,7 @@ function setChatName($chatName, $userId) {
 	if ($chatName != null && $chatName != ""){
 		setQuery("UPDATE chat
 			SET name = '$chatName'");
-		$content='<username|'.$userId.'> <lang|'."changedchatname".'>  <span class="message-strong">' . $chatName .'. </span>'; 
+		$content='{username|'.$userId.'} {lang|'."changedchatname".'} <span class="message-strong">' . $chatName .'.</span>'; 
 		postMessage($content, 1);	
 	}
 }
@@ -189,7 +189,7 @@ function setChatName($chatName, $userId) {
 function setTopic($topic, $userId) {
 	setQuery("UPDATE chat
 		SET topic = '$topic'");
-	$content='<username|'.$userId.'> <lang|'."changedtopic".'>  <span class="message-strong">' . $topic .'. </span>'; 
+	$content='{username|'.$userId.'} {lang|'."changedtopic".'} <span class="message-strong">' . $topic .'.</span>'; 
 	postMessage($content, 1);
 }
 
@@ -201,7 +201,7 @@ function getTopic() {
 function setChatImage($image, $userId) {
 	setQuery("UPDATE chat
 		SET image = '$image'");
-	$content='<username|'.$userId.'> <lang|'."changedGroupImage".'>'; 
+	$content='{username|'.$userId.'} {lang|'."changedGroupImage".'}'; 
 	postMessage($content, 0);
 }
 
@@ -219,21 +219,20 @@ function getChatInformation() {
 
 //FILE UPLOADING
 function uploadFile($file, $uploader, $share, $uploadType){
-	postMessage($uploadType, 1);
-	printJson('{"status": "success", "message": "' . "joing" . '"}');
 	$savePath = "uploads/";
 	$chatResult = getQuery("SELECT * FROM chat");
 	$chatAssoc = $chatResult -> fetch_assoc();
 	$maxSize = $chatAssoc["maximum_file_size"] * 1024 * 1024;
 	if ($uploadType == "file") {
-		shareFiles($file, $uploader, $share, $savePath, $maxSize);
+		shareFiles($file, $uploader, $share, $maxSize);
 	}
 	else {
 		uploadUserOrChatImage($file, $uploader, $savePath, $maxSize, $uploadType);
 	}
 }
 
-function shareFiles($file, $uploader, $share, $savePath, $maxSize){
+function shareFiles($file, $uploader, $share, $maxSize){
+		$savePath = "uploads/";
 		for ($i=0; $i < count($file["name"]) ; $i++) { 
 	 		$originalFileName = $file["name"][$i];
   			$uploadTime = time();
@@ -242,27 +241,26 @@ function shareFiles($file, $uploader, $share, $savePath, $maxSize){
 			$fileIdresult = getQuery("SELECT * FROM file WHERE id=(SELECT MAX(id) FROM file)");
 			$newFileIdAssoc = $fileIdresult -> fetch_assoc();
 			$newFileId = $newFileIdAssoc["id"] + 1;
-
 			//Format for filename 'id.fileExtension'
   			$newFileName = $newFileId.substr($originalFileName, strrpos($originalFileName, '.'));
   		
   			if($fileSize > $maxSize){
-  				printJson('{"status": "failure", "message": " '. $originalFileName . ' ' . getString('fileIsTooLarge') . '"}');
+  				printJson('{"status": "failure", "message": " '. getString('theFile') .' '. $originalFileName .' '. getString('fileIsTooLarge') .' ('.getString('maxFileSize').' '.$chatAssoc["maximum_file_size"].'MB)."}');
   				return;
   			}
   			//Add to database 
   			setQuery("INSERT INTO file (path, uploader, name, timestamp) VALUES ('$newFileName', '$uploader', '$originalFileName', '$uploadTime')");
-  			$success = move_uploaded_file($file['tmp_name'][$i], $savePath.$newFileName);
-  			if ($success == false) {
-  				printJson('{"status": "success", "message": "' . getString('uploadFailed') . '"}');
+  			$success = move_uploaded_file($file['tmp_name'][0], $savePath.$newFileName);
+  			if(!$success){
+  				printJson('{"status": "failure", "message": "' . getString('uploadFailed') . '"}');
   				return;
   			}
   			if($share == 1){
-  				$content = '<username|'.$uploader.'> <lang|'."userUploadedFile".'> <span class="message-strong"> <file|' . $newFileId .'>. </span>';
-  				postMessage($content, 0);
+  				$content = '{username|'.$uploader.'} {lang|'."userUploadedFile".'} {file|' . $newFileId .'}.';
+  				postMessage($content, 1);
   			}
-	 	} 
-	printJson('{"status": "success", "message": "' . getString('uploadSuccessful') . '"}');
+	} 
+	printJson('{"status": "success", "message": " '. $originalFileName . ' ' . getString('uploadSuccessful') . '"}');
 }
 
 function uploadUserOrChatImage($file, $uploader, $savePath, $maxSize, $type){
@@ -284,14 +282,13 @@ function uploadUserOrChatImage($file, $uploader, $savePath, $maxSize, $type){
   	//Add to database 
   	setQuery("INSERT INTO file (path, uploader, name, timestamp) VALUES ('$newFileName', '$uploader', '$originalFileName', '$uploadTime')");
   	$success = move_uploaded_file($file['tmp_name'][0], $savePath.$newFileName);
-  	postMessage("Før if", 1);
   	if($success && $type == "userImage"){
-  		postMessage("USUSUSUSU", 1);
   		setUserImage($uploader, $newFileId);
+  		printJson('{"status": "success", "message": "' . getString('uploadSuccessful') . '"}');
   	}
   	elseif(($success && $type == "chatImage")){
-  		
   		setChatImage($newFileId, $uploader);
+  		printJson('{"status": "success", "message": "' . getString('uploadSuccessful') . '"}');
   	}
   	else{
   		printJson('{"status": "success", "message": "' . getString('uploadFailed') . '"}');
@@ -382,7 +379,7 @@ elseif($_GET['action'] == 'upload') {
 	uploadFile($_FILES['files'], $_SESSION['user']['id'], $_POST['share'], $_POST['uploadType']);
 }
 elseif($_GET['action'] == 'pingServer') {
-	return json_encode('{running: true}');
+	printJson('{"running": true}');
 }
 
 //Close connection to database

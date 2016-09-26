@@ -1,7 +1,7 @@
 {
     "language": "Language",
     "incorrectOldPassword": "Incorrect password",
-    "changedtopic": "changed the topic to",
+    "changedtopic": "changed the chat topic to",
     "changedGroupImage": "changed the group image",
     "incorrectUserOrPassword": "Incorrect username or password.",
 	"offline": "Offline",
@@ -37,9 +37,17 @@
 	"alreadyUploading": "You are already uploading a file.",
 	"leftQuote": "&ldquo;",
 	"rightQuote": "&rdquo;",
-	"changedchatname": "changed chat name to",
-	"userUploadedFile": " shares the file ",
-	"fileIsTooLarge" : "is too large.",
 	"uploadFailed": "Upload failed",
-	"search": "Search"
+	"search": "Search",
+	"changedchatname": "changed the name of the chat to",
+	"userUploadedFile": "shares the file",
+	"theFile": "The file",
+	"fileIsTooLarge": "is too large",
+	"maxFileSize": "maximum allowed filesize is",
+	"search": "Search",
+	"save": "Save",
+	"changeLanguage": "Change language",
+	"changeStyle": "Change style",
+	"changeSound": "Mute sounds",
+	"loadingSvada": "Loading Svada"
 }

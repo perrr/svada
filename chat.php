@@ -30,6 +30,7 @@ $user = $_SESSION['user'];
 		<?php echo getStyle($user['style']); ?>
 	</head>
 	<body>
+		<?php include('pages/splashscreen.php'); ?>
 		<div class="container" id="chat-top"></div>
 		<div id="chat-menu"></div>
 		<div class="container" id="chat-bottom">
@@ -69,6 +70,7 @@ $user = $_SESSION['user'];
 							</div>
 							<div class="tab" id="tab-stats">
 								<?php include('pages/stats.php'); ?>
+								<div id="chart"></div>
 							</div>
 						</div>
 						<input id="fileupload" class="hidden" onchange="submitUpload()" type="file" name="files[]" multiple />
@@ -82,6 +84,7 @@ $user = $_SESSION['user'];
 		<script src="js/plugins/bootstrap.min.js"></script>
 		<script src="js/plugins/highlight.pack.js"></script>
 		<script src="js/plugins/jquery.mCustomScrollbar.concat.min.js"></script>
+		<script src="js/plugins/googlecharts.js"></script>
 		<script src="js/global.js"></script>
 		<script src="js/functions.js"></script>
 		<script src="js/ajax.js"></script>
@@ -89,5 +92,6 @@ $user = $_SESSION['user'];
 		<script src="js/upload.js"></script>
 		<script src="js/tabs.js"></script>
 		<script src="js/initialize.js"></script>
+		<script src="js/charts.js"></script>
 	</body>
 </html>

@@ -1,7 +1,7 @@
 {
     "language": "Språk",
     "incorrectOldPassword": "Feil passord",
-    "changedtopic": "endret emnet til",
+    "changedtopic": "endret samtaletema til",
     "changedGroupImage": "endret gruppebildet",
     "incorrectUserOrPassword": "Feil brukernavn eller passord.",
 	"offline": "Avlogget",
@@ -37,8 +37,15 @@
 	"alreadyUploading": "Du er allerede i gang med å laste opp en fil.",
 	"leftQuote": "&laquo;",
 	"rightQuote": "&raquo;",
-	"changedchatname": "endret samtalenavn til",
-	"userUploadedFile": " lastet opp filen ",
-	"fileIsTooLarge" : "er for stor.",
-	"search": "Søk"
+	"changedchatname": "endret samtalenavnet til",
+	"userUploadedFile": "deler filen",
+	"theFile": "Filen",
+	"fileIsTooLarge": "er for stor",
+	"maxFileSize": "maksimal tillatt filstørrelse er",
+	"search": "Søk",
+	"save": "Lagre",
+	"changeLanguage": "Endre språk",
+	"changeStyle": "Endre utseende",
+	"changeSound": "Demp lyd",
+	"loadingSvada": "Laster inn Svada"
 }
