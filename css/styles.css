@@ -130,11 +130,13 @@ a, a:active, a:focus {
 .message-image{
 	float: left;    
 	width: 45px;
+	height: 45px;
 	padding: 3px;
 }
 
 .message-image img{
 	width: 100%;
+	height: 100%;
 }
 
 .message-content{
@@ -211,6 +213,7 @@ a, a:active, a:focus {
 
 #chat-image{
 	width: 100px;
+	height: 100px;
 	float: left;
 	margin-right: 20px;
 	border: 2px solid white;
@@ -327,11 +330,14 @@ a, a:active, a:focus {
 .userbox-image{
 	float: left;
 	width: 80px;
+	height: 80px;
 	padding: 3px;
 }
 
 .userbox-my-image{
-	cursor: pointer;	
+	cursor: pointer;
+	width: 100%;
+	height: 100%;
 }
 
 .userbox-image img{
