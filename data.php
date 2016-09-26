@@ -201,7 +201,7 @@ function getTopic() {
 function setChatImage($image, $userId) {
 	setQuery("UPDATE chat
 		SET image = '$image'");
-	$content='{username|'.$userId.'} {lang|'."changedGroupImage".'}'; 
+	$content='{username|'.$userId.'} {lang|'."changedGroupImage".'}.'; 
 	postMessage($content, 1);
 }
 
