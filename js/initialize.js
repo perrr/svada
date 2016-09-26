@@ -57,9 +57,14 @@ function generateUserBar(fullsize) {
 		var editStatusMessage = i == user.id ? ' editable" data-global-variable="userStatusMessage' : "";
 		var userStatus = '<span class="status-circle status-' + statusClass + '"></span>';
 		if(fullsize)
-			userHTML += '<div class="userbox"><div class="userbox-image"><img class="img-rounded' + editImage + '" src="' + getUserImage(userArray[i].image) + '"></div><div id="userbox' + i + '" class="userbox-data"><div class="userbox-username">' + userStatus + '<span' + editName + '>' + userArray[i].display_name + '</span></div><div class="userbox-statusmessage' + editStatusMessage + '">' + userArray[i].status_message +'</div></div><br class="clear"></div></div>';
+			html = '<div class="userbox"><div class="userbox-image"><img class="img-rounded' + editImage + '" src="' + getUserImage(userArray[i].image) + '"></div><div id="userbox' + i + '" class="userbox-data"><div class="userbox-username">' + userStatus + '<span' + editName + '>' + userArray[i].display_name + '</span></div><div class="userbox-statusmessage' + editStatusMessage + '">' + userArray[i].status_message +'</div></div><br class="clear"></div></div>';
 		else
-			userHTML += '<span class="status-circled-background status-' + statusClass + '">' + userArray[i].display_name + '</span> ';
+			html = '<span class="status-circled-background status-' + statusClass + '">' + userArray[i].display_name + '</span> ';
+		
+		if (i == user.id)
+			userHTML = html + userHTML;
+		else
+			userHTML += html;
 		
 	}
 
