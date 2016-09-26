@@ -40,5 +40,6 @@
 	"changedchatname": "changed chat name to",
 	"userUploadedFile": " shares the file ",
 	"fileIsTooLarge" : "is too large.",
+	"uploadFailed": "Upload failed",
 	"search": "Search"
 }
