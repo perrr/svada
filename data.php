@@ -233,8 +233,9 @@ function uploadFile($file, $uploader, $share, $uploadType){
 
 function shareFiles($file, $uploader, $share, $maxSize){
 		$savePath = "uploads/";
+		global $connection;
 		for ($i=0; $i < count($file["name"]) ; $i++) { 
-	 		$originalFileName = $file["name"][$i];
+	 		$originalFileName = $connection->real_escape_string($file["name"][$i]);
   			$uploadTime = time();
   			$fileSize = $file["size"][$i];
   			//Create unique id for file
@@ -271,7 +272,12 @@ function uploadUserOrChatImage($file, $uploader, $savePath, $maxSize, $type){
 	$fileIdresult = getQuery("SELECT * FROM file WHERE id=(SELECT MAX(id) FROM file)");
 	$newFileIdAssoc = $fileIdresult -> fetch_assoc();
 	$newFileId = $newFileIdAssoc["id"] + 1;
-
+	//check if file is an image:
+	$mime = mime_content_type($file['tmp_name'][0]);
+	if(!(strstr($mime, "image/"))) {
+    	printJson('{"status": "failure", "message": " '. $originalFileName . ' ' . getString('notAnImage'). '"}');
+		return;
+	}
 	//Format for filename 'id.fileExtension'
   	$newFileName = $newFileId.substr($originalFileName, strrpos($originalFileName, '.'));
   		
