@@ -59,6 +59,14 @@ function setStatusMessage($userid, $statusMessage) {
 	WHERE id='$userid'");
 }
 
+function setDisplayName($userid, $displayName) {
+	if (!empty($displayName)){		
+		setQuery("UPDATE user 
+		SET display_name='$displayName'
+		WHERE id='$userid'");
+	}
+}
+
 function setStatus($userId, $status) {
 	setQuery("UPDATE user SET status = $status WHERE id = $userId");
 }
@@ -338,6 +346,9 @@ elseif($_GET['action'] == 'setProfilePicture') {
 }
 elseif($_GET['action'] == 'setStatusMessage') {
 	setStatusMessage($_SESSION['user']['id'], $_GET['statusMessage']);
+}
+elseif($_GET['action'] == 'setDisplayName') {
+	setDisplayName($_SESSION['user']['id'], $_GET['displayName']);
 }
 elseif($_GET['action'] == 'setHighPriorityUserInformation') {
 	setHighPriorityUserInformation($_SESSION['user']['id'], $_GET['status'], $_GET['isTyping']);

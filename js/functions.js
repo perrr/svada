@@ -496,19 +496,27 @@ function handleDirectFieldEdit(field, value) {
 		if (value != null && value != ""){
 			if (value != user.display_name){
 				user.display_name = value;
+				setDisplayName(value);
+				propagateUserChanges();
 				return true;
 			}
 		}
 	}
 	else if (field == "userStatusMessage"){
-		if (value != null && value != ""){
+		if (value != null){
 			if (value != user.display_name){
 				user.status_message = value;
+				setStatusMessage(value);
+				propagateUserChanges();
 				return true;
 			}
 		}
 	}
 	return false;
+}
+
+function propagateUserChanges(){
+	userArray[user.id] = user;
 }
 
 function lostConnection(){

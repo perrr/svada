@@ -191,3 +191,14 @@ function pingServer(){
 		}
 	}});	
 }
+
+function setStatusMessage(newStatusMessage){
+	$.ajax({url: getFormattedDataURL(["action=setStatusMessage", "statusMessage="+newStatusMessage]), dataType: "json", success: function(result){
+	}});
+}
+
+function setDisplayName(newDisplayName){
+	$.ajax({url: getFormattedDataURL(["action=setDisplayName", "displayName="+newDisplayName]), dataType: "json", success: function(result){
+	}});
+}
+

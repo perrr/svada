@@ -19,7 +19,7 @@ function fetchNewsRegularly() {
 			//Propagate changes
 			var userChanges = getUserChanges(oldUserArray, userArray);
 			var chatChanges = getChatInformationChanges(oldChatInformation, chatInformation);
-			propagateUserChanges(userChanges);
+			propagateUserArrayChanges(userChanges);
 			propagateChatInformationChanges(chatChanges);
 		});
 	}, 1000);
@@ -137,7 +137,7 @@ function isTyping() {
 }
 
 //Update chat based on changes in userArray
-function propagateUserChanges(changes) {
+function propagateUserArrayChanges(changes) {
 	if (getWhoIsTypingAsText(changes[1]) != ($('#whoistyping').html())){
 		$('#whoistyping').html(getWhoIsTypingAsText(changes[1]));
 	}
