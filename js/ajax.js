@@ -87,7 +87,7 @@ function getNewMessages() {
 }
 
 function displayMessage(message) {
-	//if (newAuthor(message)){
+	if (newAuthor(message)){
 		addDateLine(message);
 		var messageHTML = '<div class="message">\
 			<div class="message-image">\
@@ -100,13 +100,14 @@ function displayMessage(message) {
 			</div>\
 		</div>';
 		$("#message-container").append(messageHTML);		
-	
+	}
 }
 
 function newAuthor(message){
 	if (messages.length>2 && typeof messages[messages.length-2] !== 'undefined'){
 		if (message["author"]==messages[messages.length-2].author){
-			//$('.pre').after('<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\');
+			$('#message'+messages[messages.length-2].id).after('<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
+			');
 			return false;
 		}
 		else {return true;}
