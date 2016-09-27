@@ -38,14 +38,15 @@
 	"leftQuote": "&laquo;",
 	"rightQuote": "&raquo;",
 	"changedchatname": "endret samtalenavnet til",
+	"search": "Søk",
 	"userUploadedFile": "deler filen",
 	"theFile": "Filen",
 	"fileIsTooLarge": "er for stor",
 	"maxFileSize": "maksimal tillatt filstørrelse er",
-	"search": "Søk",
 	"save": "Lagre",
 	"changeLanguage": "Endre språk",
 	"changeStyle": "Endre utseende",
 	"changeSound": "Demp lyd",
-	"loadingSvada": "Laster inn Svada"
+	"loadingSvada": "Laster inn Svada",
+	"wasUploaded": "ble lastet opp"
 }

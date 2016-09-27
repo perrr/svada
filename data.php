@@ -260,7 +260,7 @@ function shareFiles($file, $uploader, $share, $maxSize){
   				postMessage($content, 1);
   			}
 	} 
-	printJson('{"status": "success", "message": " '. $originalFileName . ' ' . getString('uploadSuccessful') . '"}');
+	printJson('{"status": "success", "message": " '.getString('theFile'). ' ' . $originalFileName . ' ' . getString('wasUploaded') . '"}');
 }
 
 function uploadUserOrChatImage($file, $uploader, $savePath, $maxSize, $type){
@@ -284,11 +284,11 @@ function uploadUserOrChatImage($file, $uploader, $savePath, $maxSize, $type){
   	$success = move_uploaded_file($file['tmp_name'][0], $savePath.$newFileName);
   	if($success && $type == "userImage"){
   		setUserImage($uploader, $newFileId);
-  		printJson('{"status": "success", "message": "' . getString('uploadSuccessful') . '"}');
+  		printJson('{"status": "success", "message": " '.getString('theFile'). ' ' . $originalFileName . ' ' . getString('wasUploaded') . '"}');
   	}
   	elseif(($success && $type == "chatImage")){
   		setChatImage($newFileId, $uploader);
-  		printJson('{"status": "success", "message": "' . getString('uploadSuccessful') . '"}');
+  		printJson('{"status": "success", "message": " '.getString('theFile'). ' ' . $originalFileName . ' ' . getString('wasUploaded') . '"}');
   	}
   	else{
   		printJson('{"status": "success", "message": "' . getString('uploadFailed') . '"}');

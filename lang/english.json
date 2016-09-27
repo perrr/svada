@@ -44,10 +44,10 @@
 	"theFile": "The file",
 	"fileIsTooLarge": "is too large",
 	"maxFileSize": "maximum allowed filesize is",
-	"search": "Search",
 	"save": "Save",
 	"changeLanguage": "Change language",
 	"changeStyle": "Change style",
 	"changeSound": "Mute sounds",
-	"loadingSvada": "Loading Svada"
+	"loadingSvada": "Loading Svada",
+	"wasUploaded": "was uploaded"
 }
