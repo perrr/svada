@@ -23,6 +23,7 @@ $user = $_SESSION['user'];
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link href="css/plugins/bootstrap.min.css" rel="stylesheet">
 		<link href="css/plugins/jquery.mCustomScrollbar.css" rel="stylesheet">
+		<link href="css/plugins/bootstrap-toggle.min.css" rel="stylesheet">
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
@@ -84,6 +85,7 @@ $user = $_SESSION['user'];
 		<script src="js/plugins/bootstrap.min.js"></script>
 		<script src="js/plugins/highlight.pack.js"></script>
 		<script src="js/plugins/jquery.mCustomScrollbar.concat.min.js"></script>
+		<script src="js/plugins/bootstrap-toggle.min.js"></script>
 		<script src="js/plugins/googlecharts.js"></script>
 		<script src="js/global.js"></script>
 		<script src="js/functions.js"></script>

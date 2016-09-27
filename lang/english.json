@@ -49,5 +49,7 @@
 	"changeStyle": "Change style",
 	"changeSound": "Mute sounds",
 	"loadingSvada": "Loading Svada",
-	"wasUploaded": "was uploaded"
+	"wasUploaded": "was uploaded",
+	"on": "On",
+	"off": "Off"
 }

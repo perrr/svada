@@ -48,5 +48,7 @@
 	"changeStyle": "Endre utseende",
 	"changeSound": "Demp lyd",
 	"loadingSvada": "Laster inn Svada",
-	"wasUploaded": "ble lastet opp"
+	"wasUploaded": "ble lastet opp",
+	"on": "På",
+	"off": "Av"
 }
