@@ -336,12 +336,11 @@ a, a:active, a:focus {
 
 .userbox-my-image{
 	cursor: pointer;
-	width: 100%;
-	height: 100%;
 }
 
 .userbox-image img{
 	width: 100%;
+	height: 100%;
 }
 
 .userbox-data{
