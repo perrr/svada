@@ -283,14 +283,14 @@ function uploadUserOrChatImage($file, $uploader, $savePath, $maxSize, $type){
 	//check if file is an image:
 	$mime = mime_content_type($file['tmp_name'][0]);
 	if(!(strstr($mime, "image/"))) {
-    	printJson('{"status": "failure", "message": " '. $originalFileName . ' ' . getString('notAnImage'). '"}');
+    	printJson('{"status": "failure", "message": " '. $originalFileName . ' ' . getString('notAnImage'). '."}');
 		return;
 	}
 	//Format for filename 'id.fileExtension'
   	$newFileName = $newFileId.substr($originalFileName, strrpos($originalFileName, '.'));
   		
   	if($fileSize > $maxSize){
-  		printJson('{"status": "failure", "message": " '. $originalFileName . ' ' . getString('fileIsTooLarge') . '"}');
+  		printJson('{"status": "failure", "message": " '. $originalFileName . ' ' . getString('fileIsTooLarge') . '."}');
   		return;
   	}
   	//Add to database 
@@ -298,14 +298,14 @@ function uploadUserOrChatImage($file, $uploader, $savePath, $maxSize, $type){
   	$success = move_uploaded_file($file['tmp_name'][0], $savePath.$newFileName);
   	if($success && $type == "userImage"){
   		setUserImage($uploader, $newFileId);
-  		printJson('{"status": "success", "message": " '.getString('theFile'). ' ' . $originalFileName . ' ' . getString('wasUploaded') . '"}');
+  		printJson('{"status": "success", "message": " '.getString('theFile'). ' ' . $originalFileName . ' ' . getString('wasUploaded') . '."}');
   	}
   	elseif(($success && $type == "chatImage")){
   		setChatImage($newFileId, $uploader);
-  		printJson('{"status": "success", "message": " '.getString('theFile'). ' ' . $originalFileName . ' ' . getString('wasUploaded') . '"}');
+  		printJson('{"status": "success", "message": " '.getString('theFile'). ' ' . $originalFileName . ' ' . getString('wasUploaded') . '."}');
   	}
   	else{
-  		printJson('{"status": "success", "message": "' . getString('uploadFailed') . '"}');
+  		printJson('{"status": "success", "message": "' . getString('uploadFailed') . '."}');
   	}
 }
 
