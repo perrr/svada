@@ -33,7 +33,7 @@ while ($style = mysqli_fetch_assoc($styles)) {
 }
 
 $checked =($user['mute_sounds']== 1) ? ' checked' : '';
-$checkbox = '<input type="checkbox" name="sound" id="sound" data-toggle="toggle" data-on="'.getString('on'). '" data-off="'.getString('off'). '" ' .$checked.'> ';
+$checkbox = '<input type="checkbox" name="sound" id="muteSound" class="form-control" data-toggle="toggle" data-on="'.getString('on'). '" data-off="'.getString('off'). '" ' .$checked.'> ';
 
 ?>
 <h1 class="tab-header col-sm-12"><?php echo getString('settings'); ?></h1>
@@ -56,7 +56,9 @@ $checkbox = '<input type="checkbox" name="sound" id="sound" data-toggle="toggle"
   </div>
   <div class="form-group">
 	<label for="muteSound" class="control-label col-sm-4"><?php echo getString('changeSound'); ?>:</label>
-	<?php echo $checkbox; ?>
+	<div class="col-sm-8">
+		<?php echo $checkbox; ?>
+	</div>
   </div>
   <div class="form-group">
     <div class="col-sm-12">
