@@ -3,7 +3,7 @@
 session_start();
 
 require('util.php');
-
+global $connection;
 $id = $connection->real_escape_string($_GET['id']);
 $fileQuery = getQuery("SELECT path FROM file WHERE id = '$id'");
 $file = $fileQuery -> fetch_assoc();
