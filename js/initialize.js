@@ -135,4 +135,5 @@ Notification.requestPermission();
 $(document).ready(function() {
   $.ajaxSetup({ cache: false });
 });
-$('#messages, #sidebar, #write-message, .tab').mCustomScrollbar(customScrollbarOptions);
+$('#sidebar, #write-message, .tab').mCustomScrollbar(customScrollbarOptions);
+$('#messages').mCustomScrollbar(customScrollbarOptionsMessages);

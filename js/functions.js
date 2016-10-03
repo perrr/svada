@@ -522,3 +522,7 @@ function propagateUserChanges(){
 function lostConnection(){
 	//what to do when there are no connection
 }
+
+function loadMoreMessages() {
+	// Insert code here
+}

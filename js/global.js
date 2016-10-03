@@ -11,3 +11,4 @@ var titleAlert = false;
 var isActive = true;
 var activeTabButton = "chat";
 var customScrollbarOptions = { theme: "dark-thick", scrollInertia: 100, scrollButtons:{ enable: true } };
+var customScrollbarOptionsMessages = jQuery.extend({callbacks: { onTotalScrollBack: function () { loadMoreMessages() }}}, customScrollbarOptions);
