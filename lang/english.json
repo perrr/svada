@@ -56,5 +56,7 @@
 	"uploadedBy": "uploaded by",
 	"oldPassword": "Old password",
 	"newPassword": "New password",
-	"repeatPassword": "Repeat new password"
+	"repeatPassword": "Repeat new password",
+	"files": "Files",
+	"upload": "Upload files"
 }

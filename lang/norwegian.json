@@ -55,5 +55,7 @@
 	"uploadedBy": "ble lastet opp av",
 	"oldPassword": "Gammelt passord",
 	"newPassword": "Nytt passord",
-	"repeatPassword": "Gjenta nytt passord"
+	"repeatPassword": "Gjenta nytt passord",
+	"files": "Filer",
+	"upload": "Last opp filer"
 }

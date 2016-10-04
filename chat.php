@@ -61,7 +61,8 @@ $user = $_SESSION['user'];
 									<div id="toolbar">
 										<div id="whoistyping"></div>
 										<div id="right-toolbar">
-											<span class="glyphicon glyphicon-upload toolbar-item" onclick="manualUpload('file')"></span>
+											<span class="glyphicon glyphicon-list-alt toolbar-item" onclick="changeTab('files')" title="<?php echo getString('files'); ?>"></span>
+											<span class="glyphicon glyphicon-upload toolbar-item" onclick="manualUpload('file')" title="<?php echo getString('upload'); ?>"></span>
 										</div>
 										<br class="clear">
 									</div>
@@ -81,6 +82,11 @@ $user = $_SESSION['user'];
 							<div class="tab-content">
 								<?php include('pages/stats.php'); ?>
 								<div id="chart"></div>
+							</div>
+						</div>
+						<div class="tab" id="tab-files">
+							<div class="tab-content">
+								<?php include('pages/files.php'); ?>
 							</div>
 						</div>
 					</div>
