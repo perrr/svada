@@ -37,6 +37,7 @@ $checkbox = '<input type="checkbox" name="sound" id="muteSound" class="form-cont
 
 ?>
 <h1 class="tab-header col-sm-12"><?php echo getString('settings'); ?></h1>
+<form method="post" action="">
 <div class="form-horizontal settings-form">
   <div class="form-group dropdown-form-group">
     <label for="language" class="control-label col-sm-4"><?php echo getString('changeLanguage'); ?>:</label>
@@ -66,3 +67,4 @@ $checkbox = '<input type="checkbox" name="sound" id="muteSound" class="form-cont
     </div>
   </div>
   </div>
+</form>

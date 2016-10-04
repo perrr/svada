@@ -40,10 +40,10 @@ $user = $_SESSION['user'];
 					<div id="users"></div>
 				</div>
 				<div class="col-sm-10" id="mainbar">
-					<form id="uploadform" method="post" action="" name="file" enctype="multipart/form-data">
-						<div id="notifications"></div>
-						<div id="tabs">
-							<div class="tab active-tab" id="tab-chat">
+					<div id="notifications"></div>
+					<div id="tabs">
+						<div class="tab active-tab" id="tab-chat">
+							<form id="uploadform" method="post" action="" name="file" enctype="multipart/form-data">
 								<div id="search">
 									<div id="search-wrapper">
 										<div id="search-group" class="input-group">
@@ -69,21 +69,21 @@ $user = $_SESSION['user'];
 										<div id="message-text-field" contenteditable="true" onkeyup="arrangeQuotes()"></div>
 									</div>	
 								</div>
-							</div>
-							<div class="tab" id="tab-settings">
-								<div class="tab-content">
-									<?php include('pages/settings.php'); ?>
-								</div>
-							</div>
-							<div class="tab" id="tab-stats">
-								<div class="tab-content">
-									<?php include('pages/stats.php'); ?>
-									<div id="chart"></div>
-								</div>
+								<input id="fileupload" class="hidden" onchange="submitUpload()" type="file" name="files[]" multiple />
+							</form>
+						</div>
+						<div class="tab" id="tab-settings">
+							<div class="tab-content">
+								<?php include('pages/settings.php'); ?>
 							</div>
 						</div>
-						<input id="fileupload" class="hidden" onchange="submitUpload()" type="file" name="files[]" multiple />
-					</form>
+						<div class="tab" id="tab-stats">
+							<div class="tab-content">
+								<?php include('pages/stats.php'); ?>
+								<div id="chart"></div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
