@@ -1,6 +1,9 @@
 <?php
 //Connect to database
 require('db.php');
+require('lib/password.php');
+
+
 if (basename($_SERVER["SCRIPT_FILENAME"]) != 'install.php') {
 	$connection = getConnection();
 
