@@ -176,9 +176,6 @@ if ($messages > 0) {
 		printWordList($relEmoticons, true);
 	}
 
-	//Close connection to database
-	mysqli_close($connection);
-
 }
 
 foreach ($content as $text) {
