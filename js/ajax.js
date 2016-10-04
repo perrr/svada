@@ -71,6 +71,7 @@ function getNextMessages() {
 					messages[id] = json[json.length-1-i];
 					messages[id].parsedContent = parseMessage(messages[id].content);
 					displayMessageTop(json[json.length-1-i]);
+					$("#messages").mCustomScrollbar("scrollTo", $("#message" + first).parent(), { scrollInertia: 0 });
 				}
 			}
 			if (json.length != 0){
