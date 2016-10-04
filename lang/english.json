@@ -52,5 +52,8 @@
 	"wasUploaded": "was uploaded",
 	"notAnImage": "is not a valid image",
 	"on": "On",
-	"off": "Off"
+	"off": "Off",
+	"oldPassword": "Old password",
+	"newPassword": "New password",
+	"repeatPassword": "Repeat new password"
 }

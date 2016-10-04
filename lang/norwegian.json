@@ -51,5 +51,8 @@
 	"wasUploaded": "ble lastet opp",
 	"notAnImage": "er ikke et gyldig bilde",
 	"on": "På",
-	"off": "Av"
+	"off": "Av",
+	"oldPassword": "Gammelt passord",
+	"newPassword": "Nytt passord",
+	"repeatPassword": "Gjenta nytt passord"
 }
