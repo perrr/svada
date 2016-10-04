@@ -37,6 +37,7 @@ $checkbox = '<input type="checkbox" name="sound" id="muteSound" class="form-cont
 
 ?>
 <h1 class="tab-header col-sm-12"><?php echo getString('settings'); ?></h1>
+<form method="post" action="">
 <div class="form-horizontal settings-form">
   <div class="form-group dropdown-form-group">
     <label for="language" class="control-label col-sm-4"><?php echo getString('changeLanguage'); ?>:</label>
@@ -61,8 +62,27 @@ $checkbox = '<input type="checkbox" name="sound" id="muteSound" class="form-cont
 	</div>
   </div>
   <div class="form-group">
+	<label for="changePassword" class="control-label col-sm-4"><?php echo getString('oldPassword'); ?>:</label>
+	<div class="col-sm-8">
+		<input type="password" name="oldPassword" id="oldPassword" class="form-control" />
+	</div>
+  </div>
+  <div class="form-group">
+	<label for="changePassword" class="control-label col-sm-4"><?php echo getString('newPassword'); ?>:</label>
+	<div class="col-sm-8">
+		<input type="password" name="newPassword" id="newPassword" class="form-control" />
+	</div>
+  </div>
+  <div class="form-group">
+	<label for="changePassword" class="control-label col-sm-4"><?php echo getString('repeatPassword'); ?>:</label>
+	<div class="col-sm-8">
+		<input type="password" name="repeatPassword" id="repeatPassword" class="form-control" />
+	</div>
+  </div>
+  <div class="form-group">
     <div class="col-sm-12">
       <button type="submit" class="btn button" name="saveSettings"><?php echo getString('save'); ?></button>
     </div>
   </div>
   </div>
+</form>

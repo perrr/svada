@@ -53,5 +53,8 @@
 	"notAnImage": "is not a valid image",
 	"on": "On",
 	"off": "Off",
-	"uploadedBy": "uploaded by"
+	"uploadedBy": "uploaded by",
+	"oldPassword": "Old password",
+	"newPassword": "New password",
+	"repeatPassword": "Repeat new password"
 }

@@ -135,5 +135,5 @@ Notification.requestPermission();
 $(document).ready(function() {
   $.ajaxSetup({ cache: false });
 });
-$('#sidebar, #write-message, .tab').mCustomScrollbar(customScrollbarOptions);
+$('#sidebar, #write-message, .tab-content').mCustomScrollbar(customScrollbarOptions);
 $('#messages').mCustomScrollbar(customScrollbarOptionsMessages);

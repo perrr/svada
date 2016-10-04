@@ -98,8 +98,4 @@ function activateUploadForm() {
 	});
 }
 
-function disableUploadForm() {
-	$form.off();
-}
-
 activateUploadForm()

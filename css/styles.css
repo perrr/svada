@@ -434,14 +434,12 @@ a, a:active, a:focus {
 
 /* Tabs */
 
-#tabs {
+.tab-content {
+	overflow-y: auto;
 	max-width: 800px;
 	margin-left: auto;
 	margin-right: auto;
-}
-
-#tabs > div {
-	overflow-y: auto;
+	height: 100%;
 }
 
 #tab-chat{
@@ -499,15 +497,21 @@ a, a:active, a:focus {
 
 #search{
 	position: absolute;
-	z-index: 2;	
+	z-index: 2;
 	width: 100%;
 	display: none;
 	background-color: #EDF9FC;
 	padding: 5px;
 }
 
+#search-wrapper{
+	max-width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 #search-group{
-	width: 30%;
+	max-width: 600px;
 }
 
 /* Splashscreen */
