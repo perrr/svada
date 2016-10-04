@@ -9,7 +9,6 @@ function changeTab(tab) {
 	// Disable upload form when not in chat
 	if(tab != "chat") {
 		disableUploadForm();
-		$("#search").hide();
 	}
 	else
 		activateUploadForm();
