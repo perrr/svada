@@ -150,8 +150,8 @@ function setPassword($userId, $newPassword, $oldPassword) {
 		FROM user 
 		WHERE id ='$userId'"));
 	$correctPassword = $row['password'];
-	if (md5(salt($oldPassword, $_SESSION['user']['username'])) == $correctPassword){
-		$hashedNewPassword = md5(salt($newPassword, $_SESSION['user']['username']));
+	if (password_verify($oldPassword, $correctPassword)){
+		$hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 		setQuery("UPDATE user
 		SET password = '$hashedNewPassword'
 		WHERE id='$userId'");
