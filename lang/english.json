@@ -52,5 +52,6 @@
 	"wasUploaded": "was uploaded",
 	"notAnImage": "is not a valid image",
 	"on": "On",
-	"off": "Off"
+	"off": "Off",
+	"uploadedBy": "uploaded by"
 }
