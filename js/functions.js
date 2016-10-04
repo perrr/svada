@@ -524,5 +524,5 @@ function lostConnection(){
 }
 
 function loadMoreMessages() {
-	// Insert code here
+	getNextMessages();
 }

@@ -54,10 +54,30 @@ function getRecentMessagesOnLogin() {
 			lastReceivedId = json[i]['id'];
 			messages[id] = json[i];
 			messages[id].parsedContent = parseMessage(messages[id].content);
-			displayMessage(json[i]);
+			displayMessageBottom(json[i]);
 		}
 		scrollToBottom("#messages");
     });
+}
+
+function getNextMessages() {
+	var first = messageIdStringToInt($(".message-content").first().attr("id"));
+	if (messages[first] != "undefined"){
+		var lastTimestamp = messages[first]['timestamp'];
+		$.ajax({url: getFormattedDataURL(["action=getNextMessages", "lastTimestamp="+lastTimestamp]), dataType: "json"}).done(function(json){
+			for(var i = 0; i < json.length; i++){
+				var id = json[json.length-1-i]["id"];
+				if(!(id in messages)) {
+					messages[id] = json[json.length-1-i];
+					messages[id].parsedContent = parseMessage(messages[id].content);
+					displayMessageTop(json[json.length-1-i]);
+				}
+			}
+			if (json.length != 0){
+				addDateLine(json[0],false);
+			}
+		});
+	}
 }
 
 function getNewMessages() {
@@ -76,7 +96,7 @@ function getNewMessages() {
 				aChange = true;
 				messages[id] = json[i];
 				messages[id].parsedContent = parseMessage(messages[id].content);
-				displayMessage(json[i]);
+				displayMessageBottom(json[i]);
 			}
 			scrollToBottom("#messages");
 		}
@@ -86,10 +106,22 @@ function getNewMessages() {
     });
 }
 
+function displayMessageTop(message){
+	if (newAuthor(message,false)) {
+		var messageHTML = displayMessage(message);
+		$("#message-container").prepend(messageHTML);
+	}
+}
+
+function displayMessageBottom(message){
+	if (newAuthor(message,true)&& !addDateLine(message, true)){
+		var messageHTML = displayMessage(message);
+		$("#message-container").append(messageHTML);		
+	}
+}
+
 function displayMessage(message) {
-	if (newAuthor(message)){
-		addDateLine(message);
-		var messageHTML = '<div class="message">\
+		return '<div class="message">\
 			<div class="message-image">\
 				<img class="img-rounded" src="' + getUserImage(userArray[message["author"]].image) + '">\
 			</div>\
@@ -98,34 +130,47 @@ function displayMessage(message) {
 				<div class="message-author">'+ userArray[message["author"]].display_name + '</div>\
 				<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
 			</div>\
-		</div>';
-		$("#message-container").append(messageHTML);		
-	}
+		</div>';	
 }
 
-function newAuthor(message){
-	if (messages.length>2 && typeof messages[messages.length-2] !== 'undefined'){
-		if (message["author"]==messages[messages.length-2].author){
-			$('#message'+messages[messages.length-2].id).after('<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
-			');
-			return false;
+function newAuthor(message, bottom=true){
+	if (bottom) {
+		if (messages.length>2 && typeof messages[messages.length-2] !== 'undefined'){
+			if (message["author"]==messages[messages.length-2].author && message["timestamp"]-messages[messages.length-2].timestamp < 300){
+				$('#message'+messages[messages.length-2].id).after('<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
+				');
+				return false;
+			}
+			else {return true;}
 		}
-		else {return true;}
+			
+		else {
+			return true;
+		}
+	}
+	else{
+		var first = messageIdStringToInt($(".message-content").first().attr("id"));
+		if (message["author"]==messages[first].author && messages[first].timestamp - message["timestamp"] < 300){
+				$('#message'+messages[first].id).before('<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
+				');
+				return false;
+			}
+			else {return true;}
 	}
 		
-	else {
-		return true;
-	}
 }
 
-function addDateLine(message){
+function addDateLine(message, bottom=true){
 	if (messages.length>2 && typeof messages[messages.length-2] !== 'undefined'){
 		var thatDay = new Date((messages[messages.length-2].timestamp)*1000);
 		var thisDay = new Date(message.timestamp*1000);
 		var difference = (thisDay.getFullYear()-thatDay.getFullYear())*100 + (thisDay.getMonth()-thatDay.getMonth())*10 + thisDay.getDate()-thatDay.getDate();
 		if (difference != 0){
-			$("#message-container").append('<div class="date-divider">'+timestampToDate(message.timestamp) +'</div>');
+			if (bottom){$("#message-container").append('<div class="date-divider">'+timestampToDate(message.timestamp) +'</div>');}
+			else{$("#message-container").prepend('<div class="date-divider">'+timestampToDate(message.timestamp) +'</div>');}
+			return true;
 		}	
+		else return false;
 	}
 	//case of first message
 	else{

@@ -41,6 +41,16 @@ function getRecentMessages() {
 	$recentMessages = getQuery("SELECT * FROM message WHERE message .timestamp > $timestamp");
 	printJson(sqlToJson($recentMessages));
 }
+
+function getNextMessages($lastTimestamp){
+	$lastDate2 = mysqli_fetch_array(getQuery("SELECT timestamp FROM message WHERE message .timestamp < $lastTimestamp ORDER BY timestamp DESC LIMIT 1"));
+	$date2 = new DateTime();
+	$date2->setTimestamp($lastDate2['timestamp']);
+	$date2->setTime(0,0,0);
+	$timestamp2= $date2->getTimestamp();
+	$nextMessages = getQuery("SELECT * FROM message WHERE message .timestamp > $timestamp2 AND message .timestamp < $lastTimestamp");
+	printJson(sqlToJson($nextMessages));
+}
 //USERS
 function getOnlineUsers() {
 	$onlineUsers = getQuery("SELECT id, status FROM user WHERE status != 0");
@@ -328,6 +338,9 @@ elseif($_GET['action'] == 'getMessages') {
 }
 elseif($_GET['action'] == 'getRecentMessages') {
 	getRecentMessages();
+}
+elseif($_GET['action'] == 'getNextMessages') {
+	getNextMessages($_GET['lastTimestamp']);
 }
 elseif($_GET['action'] == 'setStatus') {
 	setStatus($_SESSION['user']['id'], $_GET['status']);
