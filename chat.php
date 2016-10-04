@@ -24,6 +24,7 @@ $user = $_SESSION['user'];
 		<link href="css/plugins/bootstrap.min.css" rel="stylesheet">
 		<link href="css/plugins/jquery.mCustomScrollbar.css" rel="stylesheet">
 		<link href="css/plugins/bootstrap-toggle.min.css" rel="stylesheet">
+		<link href="css/plugins/font-awesome.min.css" rel="stylesheet">
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->

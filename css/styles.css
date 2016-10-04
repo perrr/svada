@@ -104,6 +104,11 @@ a, a:active, a:focus {
 	cursor: pointer;
 }
 
+.toolbar-fa-item{
+	font-weight: 600;
+	font-size: 16px;
+}
+
 /* Message styling */
 
 .message{
