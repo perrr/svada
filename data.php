@@ -244,6 +244,7 @@ function shareFiles($file, $uploader, $share, $maxSize){
 		global $connection;
 		for ($i=0; $i < count($file["name"]) ; $i++) { 
 	 		$originalFileName = $connection->real_escape_string($file["name"][$i]);
+	 		$fileExtension = substr($originalFileName, strrpos($originalFileName, '.'));
   			$uploadTime = time();
   			$fileSize = $file["size"][$i];
   			//Create unique id for file
@@ -251,8 +252,13 @@ function shareFiles($file, $uploader, $share, $maxSize){
 			$newFileIdAssoc = $fileIdresult -> fetch_assoc();
 			$newFileId = $newFileIdAssoc["id"] + 1;
 			//Format for filename 'id.fileExtension'
-  			$newFileName = $newFileId.substr($originalFileName, strrpos($originalFileName, '.'));
-  		
+  			$newFileName = $newFileId.$fileExtension;
+  			
+  			if(strlen($originalFileName)>255){
+  				$originalFileName = substr($originalFileName, 0, 255-strlen($fileExtension));
+  				$originalFileName = $originalFileName.$fileExtension;
+  			}
+
   			if($fileSize > $maxSize){
   				printJson('{"status": "failure", "message": " '. getString('theFile') .' '. $originalFileName .' '. getString('fileIsTooLarge') .' ('.getString('maxFileSize').' '.$chatAssoc["maximum_file_size"].'MB)."}');
   				return;
