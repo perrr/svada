@@ -117,12 +117,12 @@ if (isset($_POST["ip"])) {
 			  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 			setQuery('INSERT INTO `user` (`username`, `display_name`, `password`, `status_message`) VALUES 
-				("'.strtolower($connection->real_escape_string($_POST['username'])).'", "'.$connection->real_escape_string($_POST["display"]).'", "'.md5(salt($connection->real_escape_string($_POST['password']), $_POST['username'])).'", "")');
+				("'.strtolower($connection->real_escape_string($_POST['username'])).'", "'.$connection->real_escape_string($_POST["display"]).'", "'.password_hash($connection->real_escape_string($_POST['password']), PASSWORD_DEFAULT).'", "")');
 			
 			setQuery("DROP TABLE IF EXISTS `user_session`");
 			setQuery("CREATE TABLE `user_session` (
 			  `id` int(11) NOT NULL,
-			  `token` varchar(33) DEFAULT NULL
+			  `token` varchar(255) DEFAULT NULL
 			) ENGINE=MyISAM DEFAULT CHARSET=latin1");
 			
 			setQuery("DROP TABLE IF EXISTS `language`");

@@ -23,17 +23,17 @@ if(isset($_COOKIE['usercookie'])){
 if(isset($_POST['username'])){	
 	//Preprocess username and password
 	$username = strtolower($connection->real_escape_string($_POST['username']));
-	$password = md5(salt($connection->real_escape_string($_POST['password']),$_POST['username']));
+	$password = password_hash($connection->real_escape_string($_POST['password']), PASSWORD_DEFAULT);
 	
 	//Look for matching users
-	$user = mysqli_fetch_array(getQuery("SELECT * FROM user WHERE username = '$username' AND password = '$password'"));
+	$user = mysqli_fetch_array(getQuery("SELECT * FROM user WHERE username = '$username'"));
 	
 
 	
 	//If a matching user was found, redirect to chat
-	if(!empty($user)){
+	if(password_verify($connection->real_escape_string($_POST['password']), $user['password'])){
 		$_SESSION['user'] = $user;
-		$token = $_SESSION['user']['id'].md5(strval(time()));
+		$token = $_SESSION['user']['id'].password_hash(strval(time()), PASSWORD_DEFAULT);
 		$id = $_SESSION['user']['id'];
 		setQuery("INSERT INTO user_session VALUES ($id, '$token')");
 		//Close connection to database
