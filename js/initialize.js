@@ -75,9 +75,9 @@ function generateUserBar(fullsize) {
 function generateTopBar(fullsize) {
 	var topHTML = "";
 
-	var menuItems = [["chat", "comment", "#", "changeTab('chat')"],
-		["settings", "cog", "#", "changeTab('settings')"],
-		["stats", "stats", "#", "changeTab('stats')"],
+	var menuItems = [["chat", "comment", "#", "changeTab('chat', false)"],
+		["settings", "cog", "#", "changeTab('settings', false)"],
+		["stats", "stats", "#", "changeTab('stats', false)"],
 		["logout", "log-out", "index.php?logout=1", ""]];
 
 	if(fullsize) {

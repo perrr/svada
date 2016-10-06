@@ -58,5 +58,6 @@
 	"newPassword": "New password",
 	"repeatPassword": "Repeat new password",
 	"files": "Files",
-	"upload": "Upload files"
+	"upload": "Upload files",
+	"back": "Back"
 }

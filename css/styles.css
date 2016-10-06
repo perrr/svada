@@ -467,6 +467,30 @@ a, a:active, a:focus {
 	padding-bottom: 5px;
 }
 
+.tab-back{
+	position: absolute;
+	top: 20px;
+	left: 80px;
+	font-size: 30px;
+	color: #428BCA;
+	cursor: pointer;
+	border-bottom: 3px solid transparent;
+}
+
+.tab-back:hover{
+	border-bottom: 3px solid #428BCA;
+}
+
+@media (max-width: 1600px) {
+	.tab-back{
+		position: static;
+		max-width: 800px;
+		margin-left: auto;
+		margin-right: auto;
+		padding-left: 15px;
+	}
+}
+
 /* Forms */
 
 .dropdown-form-group {

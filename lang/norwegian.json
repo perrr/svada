@@ -57,5 +57,6 @@
 	"newPassword": "Nytt passord",
 	"repeatPassword": "Gjenta nytt passord",
 	"files": "Filer",
-	"upload": "Last opp filer"
+	"upload": "Last opp filer",
+	"back": "Tilbake"
 }
