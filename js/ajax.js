@@ -163,19 +163,20 @@ function newAuthor(message, bottom=true){
 
 function addDateLine(message, bottom=true){
 	if (messages.length>2 && typeof messages[messages.length-2] !== 'undefined'){
+		var dateDivider = '<div class="date-divider"><span>'+timestampToDate(message.timestamp) +'</span></div>';
 		var thatDay = new Date((messages[messages.length-2].timestamp)*1000);
 		var thisDay = new Date(message.timestamp*1000);
 		var difference = (thisDay.getFullYear()-thatDay.getFullYear())*100 + (thisDay.getMonth()-thatDay.getMonth())*10 + thisDay.getDate()-thatDay.getDate();
 		if (difference != 0){
-			if (bottom){$("#message-container").append('<div class="date-divider">'+timestampToDate(message.timestamp) +'</div>');}
-			else{$("#message-container").prepend('<div class="date-divider">'+timestampToDate(message.timestamp) +'</div>');}
+			if (bottom){$("#message-container").append(dateDivider);}
+			else{$("#message-container").prepend(dateDivider);}
 			return true;
 		}	
 		else return false;
 	}
 	//case of first message
 	else{
-		$("#message-container").append('<div class="date-divider">'+timestampToDate(message.timestamp) +'</div>');
+		$("#message-container").append(dateDivider);
 	}
 }
 function setTopic(value){
