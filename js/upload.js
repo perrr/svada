@@ -1,4 +1,5 @@
 var $form = $('#uploadform');
+var isBase64 = false;
 
 var isAdvancedUpload = function() {
 	var div = document.createElement('div');
@@ -18,7 +19,26 @@ function submitUpload() {
 	$form.submit();
 }
 
+function dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type:mime});
+}
+
+function uploadFileFromBase64(base64) {
+	var fileEnding = base64.split(";")[0].split("/")[1];
+	var filename = "pasted" + getCurrentTimestamp() + "." + fileEnding;
+	var file = dataURLtoFile(base64, filename);
+	isBase64 = new FormData();
+	isBase64.append($form.find('input[type="file"]').attr('name'), file);
+	$form.submit();
+}
+
 function activateUploadForm() {
+
 	if(isAdvancedUpload) {
 		$form.addClass('has-advanced-upload');
 		
@@ -60,6 +80,11 @@ function activateUploadForm() {
 					ajaxData.append($input.attr('name'), file);
 				});
 			}
+			else if(isBase64) {
+				$("#fileupload").data("type", "file");
+				ajaxData = isBase64;
+				isBase64 = false;
+			}
 			else{
 				ajaxData = new FormData($form.get(0))	
 			}
@@ -71,7 +96,6 @@ function activateUploadForm() {
 				ajaxData.append("share", 0);
 			
 			droppedFiles = false;
-
 			$.ajax({
 				url: "data.php?action=upload",
 				type: $form.attr('method'),

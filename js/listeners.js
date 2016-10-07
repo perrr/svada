@@ -207,60 +207,104 @@ quoteId = 0;
 
 //Listen for paste in message field
 $("#message-text-field").bind('paste', function(e) {
-	e.stopPropagation();
-	e.preventDefault();
-
-	var clipboard = e.originalEvent.clipboardData.getData("text/plain");
-	
-	//Check if clipboard contains a quote
-	if(clipboard.replace(/(?:\r\n|\r|\n)/g, '<br>') == currentQuote.content.replace(/(?:\r\n|\r|\n)/g, '<br>')){
+	var plaintext = e.originalEvent.clipboardData.getData("text/plain");
+	if (plaintext) {
+		e.stopPropagation();
+		e.preventDefault();
 		
-		insertToMessageField('<div id="ind"></div>');
-		var before = "";
-		var after = "";
-		var halfway = false;
-		$('#message-text-field').contents().each(function () {
-			if($(this).attr('id') == "ind") {
-				halfway = true;
-			}
-			else if(!halfway && this.nodeType === 3) {
-				before += $(this).text();
-				$(this).remove();
-			}
-			else if(this.nodeType === 3) {
-				after += $(this).text();
-				$(this).remove();
-			}
-		});
+		//Check if clipboard contains a quote
+		if(plaintext.replace(/(?:\r\n|\r|\n)/g, '<br>') == currentQuote.content.replace(/(?:\r\n|\r|\n)/g, '<br>')){
 			
-		var content = getBeforeQuoteContainer(quoteId) + '<div title="' + getQuoteTitle(currentQuote.id) + '" class="quote unselectable" id="q' + quoteId + '" data-id="' + currentQuote.id + '" contenteditable="false"><div class="quote-content unselectable">' + escapeHtml(currentQuote.content).replace(/(?:\r\n|\r|\n)/g, '<br>') + '</div><div class="quote-signature unselectable">' + getQuoteSignature(currentQuote.id) + '</div></div>';
-		
-		if($('#ind').parent().attr("id") == "message-text-field") {
-			$('#message-text-field').html(content);
+			insertToMessageField('<div id="ind"></div>');
+			var before = "";
+			var after = "";
+			var halfway = false;
+			$('#message-text-field').contents().each(function () {
+				if($(this).attr('id') == "ind") {
+					halfway = true;
+				}
+				else if(!halfway && this.nodeType === 3) {
+					before += $(this).text();
+					$(this).remove();
+				}
+				else if(this.nodeType === 3) {
+					after += $(this).text();
+					$(this).remove();
+				}
+			});
+				
+			var content = getBeforeQuoteContainer(quoteId) + '<div title="' + getQuoteTitle(currentQuote.id) + '" class="quote unselectable" id="q' + quoteId + '" data-id="' + currentQuote.id + '" contenteditable="false"><div class="quote-content unselectable">' + escapeHtml(currentQuote.content).replace(/(?:\r\n|\r|\n)/g, '<br>') + '</div><div class="quote-signature unselectable">' + getQuoteSignature(currentQuote.id) + '</div></div>';
+			
+			if($('#ind').parent().attr("id") == "message-text-field") {
+				$('#message-text-field').html(content);
+			}
+			else {
+				var oldContent = $('#ind').parent().html().split('<div id="ind"></div>');
+				before = oldContent[0];
+				after = oldContent[1];
+				$('#ind').parent().replaceWith(content);
+			}
+			
+			var $after = $(getAfterQuoteContainer(quoteId));
+			$("#q" + quoteId).after($after);
+			$('#bq'+quoteId).html(before);
+			$('#aq'+quoteId).html(after);
+			$('#message-text-field').blur();
+			$after.textFocus();
+			$('#ind').remove();
+			
+			quoteId++;
 		}
-		else {
-			var oldContent = $('#ind').parent().html().split('<div id="ind"></div>');
-			before = oldContent[0];
-			after = oldContent[1];
-			$('#ind').parent().replaceWith(content);
+		//Insert clipboard as normal if not
+		else{
+			insertToMessageField(plaintext);
 		}
-		
-		var $after = $(getAfterQuoteContainer(quoteId));
-		$("#q" + quoteId).after($after);
-		$('#bq'+quoteId).html(before);
-		$('#aq'+quoteId).html(after);
-		$('#message-text-field').blur();
-		$after.textFocus();
-		$('#ind').remove();
-		
-		quoteId++;
-	}
-	//Insert clipboard as normal if not
-	else{
-		insertToMessageField(clipboard);
-	}
 
-	scrollToBottom("#write-message");
+		scrollToBottom("#write-message");
+	}
+	else {
+		oldMessageContent = $("#message-text-field").html();
+		if (is.not.firefox()) {
+			var copiedData = e.originalEvent.clipboardData.items[0];
+			var imageFile = copiedData.getAsFile();
+			var reader = new FileReader();
+			reader.onload = function (evt) {
+				var result = evt.target.result;
+				var img = document.createElement("img");
+				img.src = result;
+				$("#message-text-field").append(img);
+			};
+			reader.readAsDataURL(imageFile);
+		}
+		setTimeout(function(){
+			newMessageContent = $("#message-text-field").html();
+			if (oldMessageContent != newMessageContent) {
+				var img = $("#message-text-field").children("img").first();
+				var base64 = img.attr("src");
+				var wrapper = $('<div class="pasted-image" style="display:inline"></div>')
+				
+				img.height($("#write-message").height() - 8);
+				img.attr("contenteditable", "false").addClass('pasted-image');
+				$("#message-text-field").html(wrapper.append(img));
+				placeCaretAtEnd(wrapper.get(0), false);
+				isSendingFile = true;
+			}
+		}, 10);
+	}
+});
+
+(function($){
+  $.event.special.destroyed = {
+    remove: function(o) {
+      if (o.handler) {
+        o.handler()
+      }
+    }
+  }
+})(jQuery);
+
+$(document).on('DOMNodeRemoved', ".pasted-image", function(e) {
+    isSendingFile = false;
 });
 
 function getQuoteSignature(id) {
@@ -452,6 +496,7 @@ function getCurrentContainer() {
    }; 
 })( jQuery );
 
+var isSendingFile = false;
 messageTextField.keydown(function(e) {
 	
 	if($(':focus').attr('id') != "message-text-field"){
@@ -459,9 +504,21 @@ messageTextField.keydown(function(e) {
 	}
 	
 	//Post message if Enter is pressed
-	if (e.keyCode === 13 && $.trim(messageTextField.html()) != "" && !e.shiftKey) {
+	if (isSendingFile && e.keyCode !== 13 && e.keyCode !== 37 && e.keyCode !== 39 && e.keyCode !== 8) {
 		e.preventDefault();
-		postMessage(processMessage(), user.id);
+	}
+	else if (e.keyCode === 13 && $.trim(messageTextField.html()) != "" && !e.shiftKey) {
+		e.preventDefault();
+		
+		if (!isSendingFile) {
+			postMessage(processMessage(), user.id);
+		}
+		else {
+			var img = $("#message-text-field").find("img").first().attr("src");
+			uploadFileFromBase64(img);
+			isSendingFile = false;
+		}
+		
 		quoteId = 0;
 		messageTextField.html("");
 	}
