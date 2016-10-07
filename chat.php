@@ -103,6 +103,7 @@ $user = $_SESSION['user'];
 		<script src="js/plugins/jquery.mCustomScrollbar.concat.min.js"></script>
 		<script src="js/plugins/bootstrap-toggle.min.js"></script>
 		<script src="js/plugins/googlecharts.js"></script>
+		<script src="js/plugins/is.min.js"></script>
 		<script src="js/global.js"></script>
 		<script src="js/functions.js"></script>
 		<script src="js/ajax.js"></script>
