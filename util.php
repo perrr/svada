@@ -121,4 +121,33 @@ function renewSession() {
 		}
 	}
 }
+
+
+// Returns a list of the starting timestamp of all months included between firstTimestamp and lastTimestamp (inclusive)
+function findAllMonths($firstTimestamp, $lastTimestamp) {
+	$firstYear = date('Y', $firstTimestamp);
+	$firstMonth = date('m', $firstTimestamp);
+	$lastYear = date('Y', $lastTimestamp);
+	$lastMonth = date('m', $lastTimestamp);
+	$currentYear = $firstYear;
+	$currentMonth = $firstMonth;
+	$months = array();
+	while ($currentYear < $lastYear || ($currentYear == $lastYear && $currentMonth <= $lastMonth)) {
+		$months[] = strtotime($currentYear.'-'.$currentMonth.'-01 00:00:00');
+		$currentMonth++;
+		if ($currentMonth == 13) {
+			$currentMonth = 1;
+			$currentYear++;
+		}
+	}
+	return $months;
+}
+// For a list of timestamps, returns a list of the months of said timestamps in the format "Monthname year"
+function findMonthNames($months) {
+	$names = array();
+	foreach ($months as $month) {
+		$names[] = date('F Y', $month);
+	}
+	return $names;
+}
 ?>

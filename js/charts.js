@@ -1,34 +1,43 @@
-// Load the Visualization API and the corechart package.
-google.charts.load('current', {'packages':['corechart']});
+google.charts.load('current', {'packages':['line']}); // Update packages if new chart types are added
 
-// Set a callback to run when the Google Visualization API is loaded.
-google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(loadStats);
 
-// Callback that creates and populates a data table,
-// instantiates the pie chart, passes in the data and
-// draws it.
-function drawChart() {
-
-  // Create the data table.
+function drawActivity(activity) {
   var data = new google.visualization.DataTable();
-  data.addColumn('string', 'Topping');
-  data.addColumn('number', 'Slices');
-  data.addRows([
-    ['Mushrooms', 3],
-    ['Onions', 1],
-    ['Olives', 1],
-    ['Zucchini', 1],
-    ['Pepperoni', 2]
-  ]);
+  data.addColumn('string', 'Month');
+  for (user in activity) {
+    var username = user;
+    data.addColumn('number', user);
+  }
 
-  // Set chart options
-  var options = {'title':'How Much Pizza I Ate Last Night',
-                 'width':400,
-                 'height':300};
+  var rows = new Array();
+  var i = 0;
+  for (month in activity[username]) {
+    rows.push([]);
+    rows[i].push(month);
+    for (user in activity) {
+      rows[i].push(activity[user][rows[i][0]]);
+    }
+    i++;
+  }
 
-  // Instantiate and draw our chart, passing in some options.
-  var chart = new google.visualization.PieChart(document.getElementById('chart'));
+  data.addRows(rows);
+
+  var options = {
+    chart: {
+      title: 'Activity per User over Time',
+      subtitle: 'in posts per month'
+    },
+    width: 700,
+    height: 400
+  };
+
+  var chart = new google.charts.Line(document.getElementById('activity_graph'));
   chart.draw(data, options);
 }
 
-drawChart();
+function loadStats() {
+  $.ajax({url: "statsGenerator.php", dataType: "json", success: function(result){
+    drawActivity(result.activity);
+  }});
+}
