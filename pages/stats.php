@@ -83,13 +83,13 @@ function printWordList($words, $percent) {
 	}
 }
 
-$content[] = 'STATS<br><br>';
+$content[] = '<h1>'.getString('stats').'</h1><br><br>';
 
 //Database queries
 $messagesTable = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message"));
 
 $messages = $messagesTable['COUNT(*)'];
-$content[] = 'Number of messages: ';
+$content[] = getString('noMsg').': ';
 $content[] = $messages;
 
 if ($messages > 0) {
@@ -112,19 +112,19 @@ if ($messages > 0) {
 	$content[] = '<br>';
 	$skypeTable = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE skype = 1"));
 	$skype = $skypeTable['COUNT(*)'];
-	$content[] = 'Messages from Skype: ';
+	$content[] = getString('msgFromSkype').': ';
 	$content[] = $skype;
 	printPercentage($skype, $messages);
 	$content[] = '<br>';
 	$notSkypeTable = mysqli_fetch_assoc(getQuery("SELECT COUNT(*) FROM message WHERE skype = 0"));
 	$notSkype = $notSkypeTable['COUNT(*)'];
-	$content[] = 'Messages not from Skype: ';
+	$content[] = getString('msgNotFromSkype').': ';
 	$content[] = $notSkype;
 	printPercentage($notSkype, $messages);
 	$content[] = '<br><br>';
 	$lengthTable = mysqli_fetch_assoc(getQuery("SELECT AVG(LENGTH(content)) FROM message"));
 	$length = $lengthTable['AVG(LENGTH(content))'];
-	$content[] = 'Average message length: ';
+	$content[] = getString('avgMsgLength').': ';
 	$content[] = round($length, 2);
 	$content[] = '<br><br>';
 	foreach ($users as $user) {
@@ -137,28 +137,28 @@ if ($messages > 0) {
 	}
 	list($mostUsedWords, $mostUsedEmoticons, $numWordsTotal, $numEmoticonsTotal) = mostUsedWordsAndEmoticons(null, $shortcuts);
 	$numWordsUnique = sizeof($mostUsedWords);
-	$content[] = '<br>Total number of words: '.$numWordsTotal.'<br>';
-	$content[] = '<br>Total number of unique words: '.$numWordsUnique.'<br>';
-	$content[] = '<br>Most used words:<br>';
+	$content[] = '<br>'.getString('totNoWords').': '.$numWordsTotal.'<br>';
+	$content[] = '<br>'.getString('totNoUniqueWords').': '.$numWordsUnique.'<br>';
+	$content[] = '<br>'.getString('mostUsedWords').':<br>';
 	printWordList($mostUsedWords, false);
 	$numEmoticonsUnique = sizeof($mostUsedEmoticons);
-	$content[] = '<br>Total number of emoticons: '.$numEmoticonsTotal.'<br>';
-	$content[] = '<br>Total number of unique emoticons: '.$numEmoticonsUnique.'<br>';
-	$content[] = '<br>Most used emoticons:<br>';
+	$content[] = '<br>'.getString('totNoEmoticons').': '.$numEmoticonsTotal.'<br>';
+	$content[] = '<br>'.getString('totNoUniqueEmoticons').': '.$numEmoticonsUnique.'<br>';
+	$content[] = '<br>'.getString('mostUsedEmoticons').':<br>';
 	printWordList($mostUsedEmoticons, false);
 	foreach ($users as $user) {
 		list($userWords, $userEmoticons, $numWordsUser, $numEmoticonsUser) = mostUsedWordsAndEmoticons($user['id'], $shortcuts);
 		$numWordsUserUnique = sizeof($userWords);
-		$content[] = '<br>Number of words for '.$user['username'].': '.$numWordsUser.'<br>';
-		$content[] = '<br>Number of unique words for '.$user['username'].': '.$numWordsUserUnique.'<br>';
-		$content[] = '<br>Most used words for '.$user['username'].':<br>';
+		$content[] = '<br>'.getString('noWordsFor').' '.$user['username'].': '.$numWordsUser.'<br>';
+		$content[] = '<br>'.getString('noUniqueWordsFor').' '.$user['username'].': '.$numWordsUserUnique.'<br>';
+		$content[] = '<br>'.getString('mostUsedWordsFor').' '.$user['username'].':<br>';
 		printWordList($userWords, false);
 		$numEmoticonsUserUnique = sizeof($userEmoticons);
-		$content[] = '<br>Number of emoticons for '.$user['username'].': '.$numEmoticonsUser.'<br>';
-		$content[] = '<br>Number of unique emoticons for '.$user['username'].': '.$numEmoticonsUserUnique.'<br>';
-		$content[] = '<br>Most used emoticons for '.$user['username'].':<br>';
+		$content[] = '<br>'.getString('noEmoticonsFor').' '.$user['username'].': '.$numEmoticonsUser.'<br>';
+		$content[] = '<br>'.getString('noUniqueEmoticonsFor').' '.$user['username'].': '.$numEmoticonsUserUnique.'<br>';
+		$content[] = '<br>'.getString('mostUsedEmoticonsFor').' '.$user['username'].':<br>';
 		printWordList($userEmoticons, false);
-		$content[] = '<br>Relatively most used words for '.$user['username'].':<br>';
+		$content[] = '<br>'.getString('relMostUsedWordsFor').' '.$user['username'].':<br>';
 		$relWords = array();
 		foreach ($userWords as $k => $v) {
 			$relWords[$k] = ($v / $numWordsUser) / ($mostUsedWords[$k] / $numWordsTotal);
@@ -166,7 +166,7 @@ if ($messages > 0) {
 		asort($relWords);
 		$relWords = array_reverse($relWords);
 		printWordList($relWords, true);
-		$content[] = '<br>Relatively most used emoticons for '.$user['username'].':<br>';
+		$content[] = '<br>'.getString('relMostUsedEmoticonsFor').' '.$user['username'].':<br>';
 		$relEmoticons = array();
 		foreach ($userEmoticons as $k => $v) {
 			$relEmoticons[$k] = ($v / $numEmoticonsUser) / ($mostUsedEmoticons[$k] / $numEmoticonsTotal);

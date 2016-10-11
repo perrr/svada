@@ -4,7 +4,7 @@ google.charts.setOnLoadCallback(loadStats);
 
 function drawActivity(activity) {
   var data = new google.visualization.DataTable();
-  data.addColumn('string', 'Month');
+  data.addColumn('string', language['month']);
   for (var user in activity) {
     var username = user;
     data.addColumn('number', user);
@@ -25,8 +25,8 @@ function drawActivity(activity) {
 
   var options = {
     chart: {
-      title: 'Activity per User over Time',
-      subtitle: 'in posts per month'
+      title: language['activityOverTime'],
+      subtitle: language['inMsgPerTime']
     },
     width: 700,
     height: 400

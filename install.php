@@ -55,6 +55,8 @@ if (isset($_POST["ip"])) {
 			  `topic` text NOT NULL,
 			  `image` int(11) DEFAULT NULL,
 			  `maximum_file_size` int(11) DEFAULT 200
+			  `stats` blob NOT NULL,
+  			  `stats_timestamp` int(11) NOT NULL DEFAULT '0'
 			) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 			setQuery('INSERT INTO `chat` (`name`, `topic`) VALUES
 			("'.$connection->real_escape_string($_POST["chat"]).'", "")');
