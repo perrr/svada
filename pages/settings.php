@@ -83,19 +83,19 @@ $checkbox = '<input type="checkbox" name="sound" id="muteSound" class="form-cont
 	</div>
   </div>
   <div class="form-group">
-	<label for="changePassword" class="control-label col-sm-4"><?php echo getString('oldPassword'); ?>:</label>
+	<label for="oldPassword" class="control-label col-sm-4"><?php echo getString('oldPassword'); ?>:</label>
 	<div class="col-sm-8">
 		<input type="password" name="oldPassword" id="oldPassword" class="form-control" />
 	</div>
   </div>
   <div class="form-group">
-	<label for="changePassword" class="control-label col-sm-4"><?php echo getString('newPassword'); ?>:</label>
+	<label for="newPassword" class="control-label col-sm-4"><?php echo getString('newPassword'); ?>:</label>
 	<div class="col-sm-8">
 		<input type="password" name="newPassword" id="newPassword" class="form-control" />
 	</div>
   </div>
   <div class="form-group">
-	<label for="changePassword" class="control-label col-sm-4"><?php echo getString('repeatPassword'); ?>:</label>
+	<label for="repeatPassword" class="control-label col-sm-4"><?php echo getString('repeatPassword'); ?>:</label>
 	<div class="col-sm-8">
 		<input type="password" name="repeatPassword" id="repeatPassword" class="form-control" />
 	</div>
