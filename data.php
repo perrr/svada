@@ -155,23 +155,6 @@ function searchMessages($string, $caseSensitive, $userId) {
 	printJson(sqlToJson($messages));
 }
 
-function setPassword($userId, $newPassword, $oldPassword) {
-	$row = mysqli_fetch_assoc(getQuery("SELECT password 
-		FROM user 
-		WHERE id ='$userId'"));
-	$correctPassword = $row['password'];
-	if (password_verify($oldPassword, $correctPassword)){
-		$hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-		setQuery("UPDATE user
-		SET password = '$hashedNewPassword'
-		WHERE id='$userId'");
-		return "";
-	}
-	else {
-		return '{"error":'.getString("incorrectOldPassword").'}';
-	}
-}
-
 function checkUserActivity($user) {
 	$currentTimestamp = time();
 	setQuery("UPDATE user
@@ -351,9 +334,6 @@ elseif($_GET['action'] == 'getAllUsers') {
 }
 elseif($_GET['action'] == 'editMessage') {
 	editMessage($_SESSION['user']['id'],$_GET['message'], $_GET['content']);
-}
-elseif($_GET['action'] == 'setPassword') {
-	setPassword($_SESSION['user']['id'], $_GET['newPassword'], $_GET['oldPassword']);
 }
 elseif($_GET['action'] == 'getAllEmoticons') {
 	getAllEmoticons();

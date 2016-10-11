@@ -11,6 +11,27 @@ if (isset($_POST['saveSettings'])) {
 	if ($user['mute_sounds'] != $muteSound) {
 		setQuery("UPDATE user set mute_sounds = ".$muteSound." WHERE id = ".$user['id']);
 	}
+	$passwordMessage ="";
+	//change password
+	if (isset($_POST['oldPassword'])){
+		if(password_verify($connection->real_escape_string($_POST['oldPassword']), $user['password'])){
+			if (empty($_POST['newPassword'])){
+				$passwordMessage= ("password can't be empty");
+			}
+			elseif ($_POST['newPassword']!= $_POST['repeatPassword']){
+				$passwordMessage= ("the new passwords don't match");
+			}
+			else{
+				$hashedNewPassword = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
+				setQuery("UPDATE user set password = '".$hashedNewPassword."' WHERE id= ".$user['id']);
+				$passwordMessage= ("password changed");
+			}
+		}
+		else{ $passwordMessage= ("invalid password");}
+		
+	}
+		
+	
 	
 	//Update page
 	updateUserSession();
