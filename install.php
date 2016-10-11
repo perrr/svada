@@ -105,6 +105,7 @@ if (isset($_POST["ip"])) {
 			  PRIMARY KEY (`id`)
 			) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1");
 			setQuery("INSERT INTO `style` (`id`, `name`, `css`, `primarycolor`, `secondarycolor`, `backgroundcolor`, `scrollbar`, `markup`) VALUES
+			(1, 'Standard', 'standard.css', '#428BCA', '#EDF9FC', '#FFFFFF', 'dark-thick', 'highlight.xcode.css')");
 
 			setQuery("DROP TABLE IF EXISTS `user`");
 			setQuery("CREATE TABLE `user` (
