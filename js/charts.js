@@ -5,7 +5,7 @@ google.charts.setOnLoadCallback(loadStats);
 function drawActivity(activity) {
   var data = new google.visualization.DataTable();
   data.addColumn('string', 'Month');
-  for (user in activity) {
+  for (var user in activity) {
     var username = user;
     data.addColumn('number', user);
   }
