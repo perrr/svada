@@ -9,11 +9,27 @@ function listOfFiles(){
 		$name = $row['display_name'];
 		$timestamp = $row['timestamp'];
 		$date = date('d.m.Y H:i');
-		$stringOfFiles .=  '<a href="download.php?id=' . $row['id'] . '" target="_blank">' . $row['name'] . ' ' . getString("uploadedBy") . ' ' . $name . ' ' . $date . '</a><br>';
+		$mimeType = $row['mime_type'];
+		$filename = $row['name'];
+		$stringOfFiles .= getImageTags($mimeType, $filename) .  '<a href="download.php?id=' . $row['id'] . '" target="_blank">' . $row['name'] . ' ' . getString("uploadedBy") . ' ' . $name . ' ' . $date . '</a><br>';
 	}
 	return $stringOfFiles;
 
 }
+function getImageTags($mimeType, $filename){
+	$fileType = substr($mimeType, strrpos($mimeType, '/'));
+	$directoryPath = 'res/images/free-file-icons/';
+	$imageTag = "";
+	if(file_exists($directoryPath . strtolower ($fileType) . '.png')){
+		$imageTag = ' <img src=' . $directoryPath . strtolower ($fileType) . '.png' . ' alt=' . $filename .' >';
+	}
+	else{
+		$imageTag = ' <img src=' . $directoryPath . '_blank.png' . ' alt=' . $filename .' >';
+
+	}
+	return $imageTag;
+}
+
 echo listOfFiles();
 
 
