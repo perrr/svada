@@ -73,6 +73,7 @@ if (isset($_POST["ip"])) {
 			  `id` int(11) NOT NULL AUTO_INCREMENT,
 			  `path` varchar(30) NOT NULL,
 			  `name` varchar(255) NOT NULL,
+			  `mime_type` varchar(255) NOT NULL,
 			  `uploader` int(11) NOT NULL,
 			  `timestamp` int(11) NOT NULL,
 			  PRIMARY KEY (`id`)

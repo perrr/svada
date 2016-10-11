@@ -176,7 +176,7 @@ function parseMessage(message) {
 			else if(filePattern.test(word)){
 				var match = filePattern.exec(word);
 				var id = parseInt(match[2]);
-				newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '">' + imgArray[id].name + '</a>' + match[3]; 
+				newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + '</a>' + match[3]; 
 			}
 			//Replace emoticon shortcuts with HTML image
 			else if (shortcuts.indexOf(word) != -1){

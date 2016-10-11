@@ -274,7 +274,8 @@ function shareFiles($file, $uploader, $share, $maxSize){
   				return;
   			}
   			//Add to database 
-  			setQuery("INSERT INTO file (path, uploader, name, timestamp) VALUES ('$newFileName', '$uploader', '$originalFileName', '$uploadTime')");
+  			$mime = mime_content_type($file['tmp_name'][$i]);
+  			setQuery("INSERT INTO file (path, uploader, name, mime_type, timestamp) VALUES ('$newFileName', '$uploader', '$originalFileName', '$mime', '$uploadTime')");
   			$success = move_uploaded_file($file['tmp_name'][$i], $savePath.$newFileName);
   			if(!$success){
   				printJson('{"status": "failure", "message": "' . getString('uploadFailed') . '"}');
@@ -310,7 +311,7 @@ function uploadUserOrChatImage($file, $uploader, $savePath, $maxSize, $type){
   		return;
   	}
   	//Add to database 
-  	setQuery("INSERT INTO file (path, uploader, name, timestamp) VALUES ('$newFileName', '$uploader', '$originalFileName', '$uploadTime')");
+  	setQuery("INSERT INTO file (path, uploader, name, mime_type, timestamp) VALUES ('$newFileName', '$uploader', '$originalFileName','$mime', '$uploadTime')");
   	$success = move_uploaded_file($file['tmp_name'][0], $savePath.$newFileName);
   	if($success && $type == "userImage"){
   		setUserImage($uploader, $newFileId);
