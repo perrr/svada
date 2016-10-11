@@ -97,11 +97,14 @@ if (isset($_POST["ip"])) {
 			  `id` int(11) NOT NULL AUTO_INCREMENT,
 			  `name` varchar(30) NOT NULL,
 			  `css` varchar(30) NOT NULL,
+			  `primarycolor` varchar(30) NOT NULL,
+			  `secondarycolor` varchar(30) NOT NULL,
+			  `backgroundcolor` varchar(30) NOT NULL,
+			  `scrollbar` varchar(30) NOT NULL,
 			  `markup` varchar(30) NOT NULL,
 			  PRIMARY KEY (`id`)
 			) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1");
-			setQuery("INSERT INTO `style` (`id`, `name`, `css`, `markup`) VALUES
-			(1, 'Standard', 'standard.css', 'highlight.xcode.css')");
+			setQuery("INSERT INTO `style` (`id`, `name`, `css`, `primarycolor`, `secondarycolor`, `backgroundcolor`, `scrollbar`, `markup`) VALUES
 
 			setQuery("DROP TABLE IF EXISTS `user`");
 			setQuery("CREATE TABLE `user` (
