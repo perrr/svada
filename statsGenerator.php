@@ -5,8 +5,8 @@ $stats = array();
 function getActivity() {
 	$usersSql = getQuery("SELECT id FROM user");
 	$users = array();
-	while ($user = mysqli_fetch_assoc($usersSql)["id"]) {
-		$users[] = $user;
+	while ($user = mysqli_fetch_assoc($usersSql)) {
+		$users[] = $user["id"];
 	}
 	$firstMessage = mysqli_fetch_assoc(getQuery("SELECT MIN(timestamp) FROM message"))["MIN(timestamp)"];
 	$lastMessage = mysqli_fetch_assoc(getQuery("SELECT MAX(timestamp) FROM message"))["MAX(timestamp)"];
