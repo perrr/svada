@@ -54,7 +54,7 @@ if (isset($_POST["ip"])) {
 			  `name` varchar(20) NOT NULL,
 			  `topic` text NOT NULL,
 			  `image` int(11) DEFAULT NULL,
-			  `maximum_file_size` int(11) DEFAULT 200
+			  `maximum_file_size` int(11) DEFAULT 200,
 			  `stats` blob NOT NULL,
   			  `stats_timestamp` int(11) NOT NULL DEFAULT '0'
 			) ENGINE=InnoDB DEFAULT CHARSET=latin1");
