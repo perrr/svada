@@ -134,6 +134,15 @@ function displayMessage(message) {
 		</div>';	
 }
 
+function displaySystemMessage(message) {
+	return '<div class="message">\
+		<div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>\
+		<div class="message-text">\
+			<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
+		</div>\
+	</div>';	
+}
+
 function newAuthor(message, bottom=true){
 	if (bottom) {
 		if (messages.length>2 && typeof messages[messages.length-2] !== 'undefined'){
