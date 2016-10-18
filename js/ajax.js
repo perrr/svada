@@ -36,7 +36,7 @@ function getEmoticonArray() {
 function getImageArray() {
 	return $.ajax({url: getFormattedDataURL(["action=getAllImages"]), dataType: "json"}).done(function(json){
 		for(var i = 0; i < Object.keys(json).length; i++) {
-			imgArray[json[i].id] = { path: json[i].path, name: json[i].name };
+			imgArray[json[i].id] = { path: json[i].path, name: json[i].name, type: json[i].mime_type };
 		}
 	});
 }
