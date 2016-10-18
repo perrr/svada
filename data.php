@@ -265,8 +265,7 @@ function shareFiles($file, $uploader, $share, $maxSize){
   				return;
   			}
   			if($share == 1){
-  				$content = '{username|'.$uploader.'} {lang|'."userUploadedFile".'} {file|' . $newFileId .'}.';
-  				postMessage($content, 1);
+  				shareAlreadyUploadedFile($newFileId, $uploader);
   			}
 	} 
 	printJson('{"status": "success", "message": " '.getString('theFile'). ' ' . $originalFileName . ' ' . getString('wasUploaded') . '"}');
@@ -307,6 +306,11 @@ function uploadUserOrChatImage($file, $uploader, $savePath, $maxSize, $type){
   	else{
   		printJson('{"status": "success", "message": "' . getString('uploadFailed') . '."}');
   	}
+}
+
+function shareAlreadyUploadedFile($id, $user){
+	$content = '{username|'.$user.'} {lang|'."userUploadedFile".'} {file|' . $id .'}.';
+	postMessage($content, 1);
 }
 
 
@@ -397,6 +401,9 @@ elseif($_GET['action'] == 'upload') {
 }
 elseif($_GET['action'] == 'pingServer') {
 	printJson('{"running": true}');
+}
+elseif($_GET['action'] == 'shareUploadedFile'){
+	shareAlreadyUploadedFile($_GET['fileId'], $_SESSION['user']['id']);
 }
 
 //Close connection to database
