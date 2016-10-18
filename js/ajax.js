@@ -115,7 +115,9 @@ function displayMessageTop(message){
 }
 
 function displayMessageBottom(message){
-	if (newAuthor(message,true)&& !addDateLine(message, true)){
+	line = addDateLine(message, true)
+	//if new author than last or a dateline is added, add everything
+	if (newAuthor(message,true) || line){
 		var messageHTML = displayMessage(message);
 		$("#message-container").append(messageHTML);		
 	}
@@ -171,6 +173,7 @@ function newAuthor(message, bottom=true){
 }
 
 function addDateLine(message, bottom=true){
+	var dateDivider = '<div class="date-divider"><span>'+timestampToDate(message.timestamp) +'</span></div>';
 	if (messages.length>2 && typeof messages[messages.length-2] !== 'undefined'){
 		var dateDivider = '<div class="date-divider"><span>'+timestampToDate(message.timestamp) +'</span></div>';
 		var thatDay = new Date((messages[messages.length-2].timestamp)*1000);
@@ -185,7 +188,9 @@ function addDateLine(message, bottom=true){
 	}
 	//case of first message
 	else{
-		$("#message-container").append(dateDivider);
+		if (bottom){$("#message-container").append(dateDivider);}
+		else{$("#message-container").prepend(dateDivider);}
+		return true;
 	}
 }
 function setTopic(value){
