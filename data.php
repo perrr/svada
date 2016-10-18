@@ -310,7 +310,7 @@ function uploadUserOrChatImage($file, $uploader, $savePath, $maxSize, $type){
 
 function shareAlreadyUploadedFile($id, $user){
 	$content = '{username|'.$user.'} {lang|'."userUploadedFile".'} {file|' . $id .'}.';
-	postMessage($content, 1);
+	postMessage($content, 0);
 }
 
 
