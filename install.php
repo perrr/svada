@@ -49,6 +49,7 @@ if (isset($_POST["ip"])) {
 			setConnection($connection);
 			setQuery("USE ".$_POST["db_name"]);
 			//Create tables
+			
 			setQuery("DROP TABLE IF EXISTS `chat`");
 			setQuery("CREATE TABLE `chat` (
 			  `name` varchar(20) NOT NULL,
@@ -58,8 +59,8 @@ if (isset($_POST["ip"])) {
 			  `stats` blob NOT NULL,
   			  `stats_timestamp` int(11) NOT NULL DEFAULT '0'
 			) ENGINE=InnoDB DEFAULT CHARSET=latin1");
-			setQuery('INSERT INTO `chat` (`name`, `topic`) VALUES
-			("'.$connection->real_escape_string($_POST["chat"]).'", "")');
+			setQuery('INSERT INTO `chat` (`name`, `topic`, `stats`) VALUES
+			("'.$connection->real_escape_string($_POST["chat"]).'", "", "")');
 
 			setQuery("DROP TABLE IF EXISTS `emoticon`");
 			setQuery("CREATE TABLE `emoticon` (
