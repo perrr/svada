@@ -183,7 +183,7 @@ function setChatName($chatName, $userId) {
 		setQuery("UPDATE chat
 			SET name = '$chatName'");
 		$content='{username|'.$userId.'} {lang|'."changedchatname".'} <span class="message-strong">' . $chatName .'.</span>'; 
-		postMessage($content, 1);	
+		postMessage($content, 0);	
 	}
 }
 
@@ -191,7 +191,7 @@ function setTopic($topic, $userId) {
 	setQuery("UPDATE chat
 		SET topic = '$topic'");
 	$content='{username|'.$userId.'} {lang|'."changedtopic".'} <span class="message-strong">' . $topic .'.</span>'; 
-	postMessage($content, 1);
+	postMessage($content, 0);
 }
 
 function getTopic() {
@@ -203,7 +203,7 @@ function setChatImage($image, $userId) {
 	setQuery("UPDATE chat
 		SET image = '$image'");
 	$content='{username|'.$userId.'} {lang|'."changedGroupImage".'}.'; 
-	postMessage($content, 1);
+	postMessage($content, 0);
 }
 
 function getChatImage() {
@@ -266,7 +266,7 @@ function shareFiles($file, $uploader, $share, $maxSize){
   			}
   			if($share == 1){
   				$content = '{username|'.$uploader.'} {lang|'."userUploadedFile".'} {file|' . $newFileId .'}.';
-  				postMessage($content, 1);
+  				postMessage($content, 0);
   			}
 	} 
 	printJson('{"status": "success", "message": " '.getString('theFile'). ' ' . $originalFileName . ' ' . getString('wasUploaded') . '"}');

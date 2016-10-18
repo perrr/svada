@@ -109,7 +109,12 @@ function getNewMessages() {
 
 function displayMessageTop(message){
 	if (newAuthor(message,false)) {
-		var messageHTML = displayMessage(message);
+		if (message["author"] ===0){
+			var messageHTML = displaySystemMessage(message);
+		}
+		else{
+			var messageHTML = displayMessage(message);
+		}
 		$("#message-container").prepend(messageHTML);
 	}
 }
@@ -118,7 +123,12 @@ function displayMessageBottom(message){
 	line = addDateLine(message, true)
 	//if new author than last or a dateline is added, add everything
 	if (newAuthor(message,true) || line){
-		var messageHTML = displayMessage(message);
+		if (message["author"] ===0){
+			var messageHTML = displaySystemMessage(message);
+		}
+		else{
+			var messageHTML = displayMessage(message);
+		}
 		$("#message-container").append(messageHTML);		
 	}
 }
