@@ -208,6 +208,11 @@ function setTopic(value){
 	}});
 }
 
+function shareFile(id){
+	$.ajax({url: getFormattedDataURL(["action=shareUploadedFile", "fileId="+id]), dataType: "json", success: function(result){
+	}});
+}
+
 function setChatName(value){
 	$.ajax({url: getFormattedDataURL(["action=setChatName", "chatName="+htmlEncode(value)]), dataType: "json", success: function(result){
 	}});

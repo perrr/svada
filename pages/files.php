@@ -11,7 +11,8 @@ function listOfFiles(){
 		$date = date('d.m.Y H:i');
 		$mimeType = $row['mime_type'];
 		$filename = $row['name'];
-		$stringOfFiles .= getImageTags($mimeType, $filename) .  '<a href="download.php?id=' . $row['fileId'] . '" target="_blank">' . $row['name'] . ' ' . getString("uploadedBy") . ' ' . $name . ' ' . $date . '</a><br>';
+		$stringOfFiles .= getImageTags($mimeType, $filename) .  '<a href="download.php?id=' . $row['fileId'] . '" target="_blank">' . $row['name'] . ' ' .
+		getString("uploadedBy") . ' ' . $name . ' ' . $date . '</a>' . ' ' .'<a href="#" onClick= "shareFile('. $row['fileId'] . ')">' . getString("shareFile") .'</a><br>';
 	}
 	return $stringOfFiles;
 
