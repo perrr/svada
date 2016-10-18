@@ -115,6 +115,18 @@ function isTyping() {
 	lastStatus = 0;
 	function loop(){
 	setTimeout(function () {
+        checkTyping(message);
+		
+		if (true){
+			loop();
+		}
+	//Can change to increase and decrease how often you check if you are typing
+    }, 635);
+	}
+	loop();
+}
+
+function checkTyping(message) {
         if (message ==($('#message-text-field').html()) && lastStatus ==1){
 			sendIsTyping(0);
 			lastStatus=0;
@@ -126,14 +138,6 @@ function isTyping() {
 				lastStatus=1;
 			}
 		}
-		
-		if (true){
-			loop();
-		}
-	//Can change to increase and decrease how often you check if you are typing
-    }, 1635);
-	}
-	loop();
 }
 
 //Update chat based on changes in userArray
@@ -521,6 +525,7 @@ messageTextField.keydown(function(e) {
 		
 		quoteId = 0;
 		messageTextField.html("");
+		checkTyping("");
 	}
 	
 	//Move through quotes on left arrow
