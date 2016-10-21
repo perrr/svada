@@ -532,3 +532,10 @@ function lostConnection(){
 function loadMoreMessages() {
 	getNextMessages();
 }
+
+function setStatus(id) {
+	sendStatus(id);
+	user.status = id;
+	propagateUserChanges();
+	generateUserBar(isFullsize());
+}

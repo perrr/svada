@@ -390,6 +390,10 @@ a, a:active, a:focus {
 	margin-bottom: -2px;
 }
 
+.my-status-circle {
+	cursor: pointer;
+}
+
 .status-circled-background {
 	border-radius: 0.8em;
 	-moz-border-radius: 0.8em;
@@ -418,6 +422,25 @@ a, a:active, a:focus {
 
 .status-occupied {
 	background-color: #F22222;
+}
+
+.status-container {
+	display: none;
+	position: absolute;
+	background-color: white;
+	border: 1px solid #428BCA;
+	color: black;
+	margin-top: 8px;
+	margin-left: 8px;
+	text-align: left;
+}
+
+.status-container div {
+	padding: 10px;
+}
+
+.status-container div:hover {
+	background-color: #EDF9FC;
 }
 
 /* Notifications */

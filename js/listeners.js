@@ -73,11 +73,20 @@ $("body").on("click", ".editable", function(event) {
 	
 });
 
-$(window).click(function(event) {
+$(document).mouseup(function(e) {
+	//Toggle status container
+    if (!$('.my-status-circle').is(e.target)) {
+        $('.status-container').hide();
+    }
+	else {
+		$('.status-container').toggle();
+	}
+	
+	//Toggle editable fields
 	$(".edit-value").each(function() {
 		var textField = $(this);
 		
-		if($(event.target).closest('.editable').length && ($(event.target).find(">:first-child").get(0) === textField.get(0) || $(event.target).get(0) === textField.get(0))) {
+		if($(e.target).closest('.editable').length && ($(e.target).find(">:first-child").get(0) === textField.get(0) || $(e.target).get(0) === textField.get(0))) {
 			return;
 		}
 
