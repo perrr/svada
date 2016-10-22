@@ -297,6 +297,7 @@ a, a:active, a:focus {
 #chat-topic{
 	font-size: 30px;
 	line-height: 35px;
+	height: 45px;
 }
 
 #chat-name, #chat-topic{
