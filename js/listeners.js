@@ -42,7 +42,7 @@ $("body").on("click", ".editable", function(event) {
 		return;
 	
 	//Create and style the text field
-	var textField = $('<input type="text" class="edit-value" value="' + $(this).html() + '" />');
+	var textField = $('<input type="text" class="edit-value" value="' + $(this).html().replace(/[\""]/g, '&quot;') + '" />');
 	textField.data("original-value", $(this).html());
 	var padding = $(this).css('padding-top');
 	textField.css({
@@ -111,14 +111,14 @@ $(document).mouseup(function(e) {
 		doChange = false;
 		
 		if(save)
-			doChange = handleDirectFieldEdit(container.data("global-variable"), this.val());
+			doChange = handleDirectFieldEdit(container.data("global-variable"), escapeHtml(this.val()));
 			
 		$(container).css({
 			'padding': this.css('padding-top')
 		});
 		
 		if(doChange) {
-			this.replaceWith(this.val());
+			$(container).html(escapeHtml(this.val()));
 			resizeWindow();
 		}
 		else {

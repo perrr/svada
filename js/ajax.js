@@ -269,12 +269,12 @@ function pingServer(){
 }
 
 function setStatusMessage(newStatusMessage){
-	$.ajax({url: getFormattedDataURL(["action=setStatusMessage", "statusMessage="+newStatusMessage]), dataType: "json", success: function(result){
+	$.ajax({url: getFormattedDataURL(["action=setStatusMessage", "statusMessage="+htmlEncode(newStatusMessage)]), dataType: "json", success: function(result){
 	}});
 }
 
 function setDisplayName(newDisplayName){
-	$.ajax({url: getFormattedDataURL(["action=setDisplayName", "displayName="+newDisplayName]), dataType: "json", success: function(result){
+	$.ajax({url: getFormattedDataURL(["action=setDisplayName", "displayName="+htmlEncode(newDisplayName)]), dataType: "json", success: function(result){
 	}});
 }
 

@@ -64,12 +64,14 @@ function setUserImage($userid, $imageid) {
 }
 
 function setStatusMessage($userid, $statusMessage) {
+	$statusMessage = htmlentities($statusMessage, null, null, false);
 	setQuery("UPDATE user 
 	SET status_message='$statusMessage'
 	WHERE id='$userid'");
 }
 
 function setDisplayName($userid, $displayName) {
+	$displayName = htmlentities($displayName, null, null, false);
 	if (!empty($displayName)){		
 		setQuery("UPDATE user 
 		SET display_name='$displayName'
@@ -179,6 +181,7 @@ function getAllImages() {
 
 //CHAT
 function setChatName($chatName, $userId) {
+	$chatName = htmlentities($chatName, null, null, false);
 	if ($chatName != null && $chatName != ""){
 		setQuery("UPDATE chat
 			SET name = '$chatName'");
@@ -188,6 +191,7 @@ function setChatName($chatName, $userId) {
 }
 
 function setTopic($topic, $userId) {
+	$topic = htmlentities($topic, null, null, false);
 	setQuery("UPDATE chat
 		SET topic = '$topic'");
 	$content='{username|'.$userId.'} {lang|'."changedtopic".'} <span class="message-strong">' . $topic .'.</span>'; 
