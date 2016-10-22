@@ -64,6 +64,7 @@ $user = $_SESSION['user'];
 										<div id="right-toolbar">
 											<span class="glyphicon glyphicon-list-alt toolbar-item" onclick="changeTab('files', true)" title="<?php echo getString('files'); ?>"></span>
 											<span class="glyphicon glyphicon-upload toolbar-item" onclick="manualUpload('file')" title="<?php echo getString('upload'); ?>"></span>
+											<span class="fa fa-smile-o toolbar-item toolbar-fa-item" title="<?php echo getString('emoticons'); ?>" id="emoticon-toggle"><div id="emoticon-menu" title=""><div id="emoticon-menu-content"></div></div></span>
 										</div>
 										<br class="clear">
 									</div>

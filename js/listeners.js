@@ -3,7 +3,8 @@ function fetchNews() {
 	return [
 		getUserArray(),
 		getChatInformation(),
-		getImageArray()
+		getImageArray(),
+		getEmoticonArray()
 	];
 }
 
@@ -80,6 +81,16 @@ $(document).mouseup(function(e) {
     }
 	else {
 		$('.status-container').toggle();
+	}
+	
+	//Toggle emoticon menu
+    if (!$('#emoticon-toggle').is(e.target) && !$('#emoticon-menu').is(e.target)) {
+        $('#emoticon-menu').hide();
+		$('#emoticon-toggle').removeClass('active-toolbar-item');
+    }
+	else if (!$('#emoticon-menu').is(e.target)) {
+		$('#emoticon-menu').toggle();
+		$('#emoticon-toggle').toggleClass('active-toolbar-item');
 	}
 	
 	//Toggle editable fields

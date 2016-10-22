@@ -28,6 +28,7 @@ function initializeChatPhaseThree() {
 		}
 		isTyping();
 		$('#splashscreen').hide();
+		generateEmoticonMenu();
 	});
 }
 
@@ -122,6 +123,14 @@ function generateTopBar(fullsize) {
 	
 }
 
+function generateEmoticonMenu() {
+	var html = "";
+	for (emoticon in emoticonArray) {
+		html += getEmoticonHTML(emoticonArray[emoticon], true);
+	}
+	$('#emoticon-menu-content').html(html);
+}
+
 //Begin initialization
 initializeChatPhaseOne();
 
@@ -132,3 +141,4 @@ $(document).ready(function() {
 });
 $('#sidebar, #write-message, .tab-content').mCustomScrollbar(customScrollbarOptions);
 $('#messages').mCustomScrollbar(customScrollbarOptionsMessages);
+$('#emoticon-menu').mCustomScrollbar(customScrollbarOptionsEmoticons);

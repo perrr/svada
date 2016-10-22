@@ -115,10 +115,11 @@ function getFormattedDataURL(parameters) {
 	return "data.php?" + parameters.join("&");
 }
 
-function getEmoticonHTML(emoticon){
+function getEmoticonHTML(emoticon, insert){
 	var path = emoticon["path"];
 	var name = emoticon["name"];
-	var html = '<img class="message-smiley" src=res/images/emoticons/'+path+' title="'+name+'">' 
+	var insertOnclick = insert ? ' onclick="insertEmoticon(\'' + emoticon.shortcut + '\')"' : "";
+	var html = '<img class="message-emoticon" src=res/images/emoticons/'+path+' title="'+name+'"' + insertOnclick + '>';
 	return html;
 }
 
@@ -264,8 +265,8 @@ function getChatInformationChanges(oldChatInformation, newChatInformation) {
 }
 
 
-function insertEmoticon(i){
-	//Insert code here
+function insertEmoticon(emoticon){
+	insertToMessageField(emoticon);
 }
 
 function getAllEmoticonsAsHtml() {
@@ -395,6 +396,10 @@ function messageIdStringToInt(string){
 }
 
 function insertToMessageField(content) {
+	if (!$("#message-text-field").is(":focus")) {
+		$("#message-text-field").focus();
+	}
+	
 	var sel, range;
 	if (window.getSelection) {
 		// IE9 and non-IE
