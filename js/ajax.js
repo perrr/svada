@@ -47,6 +47,8 @@ function getChatInformation() {
 }
 
 function getRecentMessagesOnLogin() {
+	var doneLoading = jQuery.Deferred();
+	
 	$.ajax({url: getFormattedDataURL(["action=getRecentMessages"]), dataType: "json"}).done(function(json){
 		for(var i = 0; i < json.length; i++) {
 			var id = json[i]['id'];
@@ -55,15 +57,37 @@ function getRecentMessagesOnLogin() {
 			messages[id].parsedContent = parseMessage(messages[id].content);
 			displayMessageBottom(json[i]);
 		}
-		scrollToBottom("#messages");
+		
+		var numberOfMessages = 0;
+		function loadMessagesUntilScrollbar() {
+			if (chatHasScrollbar() || numberOfMessages == messages.length) {
+				doneLoading.resolve();
+				scrollToBottom("#messages");
+				return;
+			}
+			numberOfMessages = messages.length;
+			
+			var promise = getNextMessages();
+			$.when(promise).then(function() {
+				loadMessagesUntilScrollbar();
+			});
+		};
+		if (messages.length > 0) {
+			loadMessagesUntilScrollbar();
+		}
+		else
+			doneLoading.resolve();
+		
     });
+	
+	return doneLoading;
 }
 
 function getNextMessages() {
 	var first = messageIdStringToInt($(".message-content").first().attr("id"));
 	if (messages[first] != "undefined"){
 		var lastTimestamp = messages[first]['timestamp'];
-		$.ajax({url: getFormattedDataURL(["action=getNextMessages", "lastTimestamp="+lastTimestamp]), dataType: "json"}).done(function(json){
+		return $.ajax({url: getFormattedDataURL(["action=getNextMessages", "lastTimestamp="+lastTimestamp]), dataType: "json"}).done(function(json){
 			for(var i = 0; i < json.length; i++){
 				var id = json[json.length-1-i]["id"];
 				if(!(id in messages)) {

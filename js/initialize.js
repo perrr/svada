@@ -1,7 +1,7 @@
 function initializeChatPhaseOne() {
 	var promise = getUser();
 	$.when(promise).then(function() {
-		updateLoadingBar(1, 3);
+		updateLoadingBar(1, 4);
 		initializeChatPhaseTwo();
 	});
 }
@@ -9,7 +9,7 @@ function initializeChatPhaseOne() {
 function initializeChatPhaseTwo() {
 	var promise = loadLanguage(user.language);
 	$.when(promise).then(function() {
-		updateLoadingBar(2, 3);
+		updateLoadingBar(2, 4);
 		initializeChatPhaseThree();
 	});
 }
@@ -17,11 +17,18 @@ function initializeChatPhaseTwo() {
 function initializeChatPhaseThree() {
 	var promises = fetchNews();
 	$.when.apply($, promises).then(function() {
-		updateLoadingBar(3, 3);
-		getRecentMessagesOnLogin();
+		updateLoadingBar(3, 4);
+		initializeChatPhaseFour();
+	});
+}
+
+function initializeChatPhaseFour() {
+	resizeWindow();
+	var promise = getRecentMessagesOnLogin();
+	$.when(promise).then(function() {
+		updateLoadingBar(4, 4);
 		fetchNewsRegularly();
 		reportActivity();
-		resizeWindow();
 		sendActivity();
 		if(userArray[user.id]["status"] == 0){
 			sendStatus(1);

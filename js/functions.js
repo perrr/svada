@@ -543,3 +543,7 @@ function setStatus(id) {
 	propagateUserChanges();
 	generateUserBar(isFullsize());
 }
+
+function chatHasScrollbar() {
+	return !$('#messages').hasClass('mCS_no_scrollbar');
+}
