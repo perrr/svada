@@ -325,7 +325,6 @@ function resizeWindow() {
 	var fontSize = 35;
 	while($('#top-left').outerWidth() + $(topRightId).outerWidth() > $('#chat-top').outerWidth() - 25) {
 		var nameTopicDifference = fontSize >= 30 ? 10 : fontSize >= 25 ? 7.5 : fontSize >= 20 ? 5 : fontSize >= 10 ? 2.5 : 0;
-		console.log(nameTopicDifference);
 		$(chatTitleId).css({'font-size': fontSize + 'px'});
 		$(chatTopicId).css({'font-size': (fontSize-nameTopicDifference) + 'px'});
 		fontSize -= 2.5;

@@ -292,15 +292,25 @@ a, a:active, a:focus {
 #chat-name{
 	font-size: 40px;
 	line-height: 46px;
-	padding: 5px;
 }
 
 #chat-topic{
 	font-size: 30px;
 	line-height: 35px;
+}
+
+#chat-name, #chat-topic{
+	border-radius: 10px;
+	min-width: 150px;
+	overflow: hidden;
 	padding: 5px;
-	height: 45px;
-	float: left;
+}
+
+#chat-name:hover, #chat-topic:hover{
+	background-color: #EDF9FC;
+	color: black;
+	transition: background .1s linear;
+
 }
 
 .chat-small-title{
