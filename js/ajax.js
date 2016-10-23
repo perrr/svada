@@ -50,19 +50,17 @@ function getRecentMessagesOnLogin() {
 	var doneLoading = jQuery.Deferred();
 	
 	$.ajax({url: getFormattedDataURL(["action=getRecentMessages"]), dataType: "json"}).done(function(json){
-		for(var i = 0; i < json.length; i++) {
-			var id = json[i]['id'];
-			lastReceivedId = json[i]['id'];
-			messages[id] = json[i];
-			messages[id].parsedContent = parseMessage(messages[id].content);
-			displayMessageBottom(json[i]);
+		if (json.length == 0) {
+			doneLoading.resolve();
+			return;
 		}
+		lastReceivedId = json[json.length-1]['id'];
+		addMessages(json, "bottom");
 		
 		var numberOfMessages = 0;
 		function loadMessagesUntilScrollbar() {
 			if (chatHasScrollbar() || numberOfMessages == messages.length) {
 				doneLoading.resolve();
-				scrollToBottom("#messages");
 				return;
 			}
 			numberOfMessages = messages.length;
@@ -88,16 +86,9 @@ function getNextMessages() {
 	if (messages[first] != "undefined"){
 		var lastTimestamp = messages[first]['timestamp'];
 		return $.ajax({url: getFormattedDataURL(["action=getNextMessages", "lastTimestamp="+lastTimestamp]), dataType: "json"}).done(function(json){
-			for(var i = 0; i < json.length; i++){
-				var id = json[json.length-1-i]["id"];
-				if(!(id in messages)) {
-					messages[id] = json[json.length-1-i];
-					messages[id].parsedContent = parseMessage(messages[id].content);
-					displayMessageTop(json[json.length-1-i]);
-					$("#messages").mCustomScrollbar("scrollTo", $("#message" + first).parent(), { scrollInertia: 0 });
-				}
-			}
-			if (json.length != 0){
+			if (json.length > 0){
+				addMessages(json.reverse(), "top");
+				$("#messages").mCustomScrollbar("scrollTo", $("#message" + first).parent(), { scrollInertia: 0 });
 				addDateLine(json[0],false);
 			}
 		});
@@ -106,28 +97,45 @@ function getNextMessages() {
 
 function getNewMessages() {
 	return $.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), dataType: "json"}).done(function(json){
-		var aChange = false;
-		var initialLoading = messages.length == 0;
-		for(var i = 0; i < json.length; i++) {
-			var id = json[i]['id'];
-			
-			//Update lastReceivedId if necessary
-			if (id > lastReceivedId)
-				lastReceivedId = json[i]['id'];
-			
-			//If the message is previously unrecieved, add it to array and display it
-			if (!(id in messages)) {
-				aChange = true;
-				messages[id] = json[i];
-				messages[id].parsedContent = parseMessage(messages[id].content);
-				displayMessageBottom(json[i]);
-			}
+		if (json.length > 0) {
+			lastReceivedId = json[json.length-1]['id'];
+			addMessages(json, "bottom");
+
 			scrollToBottom("#messages");
-		}
-		if(!isActive && aChange && !initialLoading){
-			alertNewMessages();
+			if(!isActive){
+				alertNewMessages();
+			}
 		}
     });
+}
+
+function getMessage(id) {
+	return $.ajax({url: getFormattedDataURL(["action=getMessage", "id="+id]), dataType: "json"}).done(function(json){
+		addMessage(json, false);
+	});	
+}
+
+function addMessages(messages, displayAt) {
+	if (messages.length == 0)
+		return
+	var promise = addMessage(messages[0], displayAt);
+	$.when(promise).then(function() {
+		var remainingMessages = messages.slice(1);
+		addMessages(remainingMessages, displayAt);
+	});
+}
+
+function addMessage(message, displayAt) {
+	var id = message.id;
+	messages[id] = message;
+	var promise = parseMessage(id);
+	
+	return $.when(promise).then(function() {
+		if (displayAt == "top")
+			displayMessageTop(message);
+		else if (displayAt == "bottom")
+			displayMessageBottom(message);
+	});
 }
 
 function displayMessageTop(message){

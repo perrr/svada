@@ -34,8 +34,13 @@ function initializeChatPhaseFour() {
 			sendStatus(1);
 		}
 		isTyping();
-		$('#splashscreen').hide();
 		generateEmoticonMenu();
+		setTimeout(function(){
+			scrollToBottom("#messages");
+		}, 200);
+		setTimeout(function(){
+			$('#splashscreen').hide();
+		}, 400);
 	});
 }
 

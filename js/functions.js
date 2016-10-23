@@ -129,87 +129,101 @@ function isUrl(string) {
 	return string.match(regex);
 }
 
-function parseMessage(message) {
+function parseMessage(messageId) {
+	var message = messages[messageId].content;
+	var quotePromises = [];
+	var mainPromise = jQuery.Deferred();
+	
 	var newmessage = "";
 	var shortcuts = Object.keys(emoticonArray);
 	
 	//Parse quotes
 	var content = $('<div>' + message + '</div>');
 	content.children('.quote').each(function(){
-		var id = $(this).data('messageid');
-		var quote = '<div class="quote-content">' + $(this).html() + '</div><div class="quote-signature">' + getQuoteSignature(id) + '</div>';
-		$(this).html(quote);
-		$(this).attr('title', getQuoteTitle(id));
+		var quote = $(this);
+		var id = quote.data('messageid');
+		var promise = messages[id] === undefined ? getMessage(id) : $.when();
+		quotePromises.push(promise);
+		$.when(promise).then(function() {
+			var html = '<div class="quote-content">' + quote.html() + '</div><div class="quote-signature">' + getQuoteSignature(id) + '</div>';
+			quote.html(html);
+			quote.attr('title', getQuoteTitle(id));
+		});
 	});
-	
-	message = content.html();
-	var allWords = message.split(" ");
 
-	//No parsing if sentence start with @@
-	if(message.substring(0,2)=="@@"){
-		newmessage = message.substr(2);
-	}
-	
-	//Apply syntax highlighting if requested
-	else if (message.substring(0,2)=="!!"){
-		newmessage = '<code>' + hljs.highlightAuto(htmlDecode(message.substr(2).replace(/<br\s*[\/]?>/gi, "\n"))).value + '</code>';
-	}
-	//if no syntax requested then check for links and emoticons
-	else{
-		for (var wordindex in allWords){
-			var word = allWords[wordindex];
-			filePattern = /(.*)\{file\|(.*)\}(.*)/;
-			langPattern = /(.*)\{lang\|(.*)\}(.*)/;
-			//Make URL's clickable with HTML
-			if (isUrl(word)){
-				//Checks if the link do or do not start with http, https or ftp
-				var pattern = /^((http|https|ftp):\/\/)/;
-				if(!pattern.test(word)) {
-					//if not then add // to href to not link locally
-					newmessage = newmessage + " " + '<a href="//' + word + '" target="_blank">' + word + '</a>';
+	$.when.apply($, quotePromises).then(function() {
+		message = content.html();
+		var allWords = message.split(" ");
+
+		//No parsing if sentence start with @@
+		if(message.substring(0,2)=="@@"){
+			newmessage = message.substr(2);
+		}
+		
+		//Apply syntax highlighting if requested
+		else if (message.substring(0,2)=="!!"){
+			newmessage = '<code>' + hljs.highlightAuto(htmlDecode(message.substr(2).replace(/<br\s*[\/]?>/gi, "\n"))).value + '</code>';
+		}
+		//if no syntax requested then check for links and emoticons
+		else{
+			for (var wordindex in allWords){
+				var word = allWords[wordindex];
+				filePattern = /(.*)\{file\|(.*)\}(.*)/;
+				langPattern = /(.*)\{lang\|(.*)\}(.*)/;
+				//Make URL's clickable with HTML
+				if (isUrl(word)){
+					//Checks if the link do or do not start with http, https or ftp
+					var pattern = /^((http|https|ftp):\/\/)/;
+					if(!pattern.test(word)) {
+						//if not then add // to href to not link locally
+						newmessage = newmessage + " " + '<a href="//' + word + '" target="_blank">' + word + '</a>';
+					}
+					else{
+						newmessage = newmessage + " " + '<a href="' + word + '" target="_blank">' + word + '</a>';
+					}
+					
 				}
-				else{
-					newmessage = newmessage + " " + '<a href="' + word + '" target="_blank">' + word + '</a>';
-				}
-				
-			}
-			//file parsing
-			else if(filePattern.test(word)){
-				var match = filePattern.exec(word);
-				var id = parseInt(match[2]);
-				if (imgArray[id].type.substr(0,6)=="image/"){
-					newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + '<img id=' + id + '" src="download.php?id=' + id + '" width="150" height="75" /></a>' + match[3]; 
-				}
-				else{
-					newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + '</a>' + match[3];
-				}
-			}
-			//Replace emoticon shortcuts with HTML image
-			else if (shortcuts.indexOf(word) != -1){
-				newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
-			}
-			else if(langPattern.test(word)){
-				var match = langPattern.exec(word);
-				newmessage += " " + match[1] +  language[match[2]] + match[3];
-			}
-			else if(word.substr(0,10)=="{username|"){
-				for (var aUser in userArray){
-					if (userArray[aUser]["id"] ==parseInt(word.slice(10,-1))){
-						newmessage = newmessage + " " + userArray[aUser]["display_name"];
-						break;
+				//file parsing
+				else if(filePattern.test(word)){
+					var match = filePattern.exec(word);
+					var id = parseInt(match[2]);
+					if (imgArray[id].type.substr(0,6)=="image/"){
+						newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + '<img id=' + id + '" src="download.php?id=' + id + '" width="150" height="75" /></a>' + match[3]; 
+					}
+					else{
+						newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + '</a>' + match[3];
 					}
 				}
+				//Replace emoticon shortcuts with HTML image
+				else if (shortcuts.indexOf(word) != -1){
+					newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
+				}
+				else if(langPattern.test(word)){
+					var match = langPattern.exec(word);
+					newmessage += " " + match[1] +  language[match[2]] + match[3];
+				}
+				else if(word.substr(0,10)=="{username|"){
+					for (var aUser in userArray){
+						if (userArray[aUser]["id"] ==parseInt(word.slice(10,-1))){
+							newmessage = newmessage + " " + userArray[aUser]["display_name"];
+							break;
+						}
+					}
+				}
+				else{
+					newmessage = newmessage + " " + word;
+				}
 			}
-			else{
-				newmessage = newmessage + " " + word;
+			if(newmessage.charAt(0)==" "){
+				newmessage = newmessage.substr(1);
 			}
 		}
-		if(newmessage.charAt(0)==" "){
-			newmessage = newmessage.substr(1);
-		}
-	}
-	//Return parsed message
-	return newmessage;
+		
+		messages[messageId].parsedContent = newmessage;
+		mainPromise.resolve();
+	});
+	
+	return mainPromise;
 }
 
 function getWhoIsTypingAsText(users) {

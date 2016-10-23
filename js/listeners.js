@@ -132,7 +132,6 @@ $(document).mouseup(function(e) {
 //Regularly listen to the message field to determine if the user is currently typing
 function isTyping() {
 	var message = $('#message-text-field').html();
-	lastStatus = 0;
 	function loop(){
 	setTimeout(function () {
         checkTyping(message);

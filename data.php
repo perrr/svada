@@ -22,14 +22,19 @@ function notSpam($author, $timestamp) {
 	return ($result['count']<5);
 }
 
+function getMessage($id) {
+	$message = getQuery("SELECT * FROM message WHERE id = $id");
+	printJson(sqlToJson($message));
+}
+
 function getMessages($lastReceivedId) {
 	$newMessages = getQuery("SELECT * FROM message WHERE message .id > $lastReceivedId");
-	printJson(sqlToJson($newMessages));
+	printJson(sqlToJsonArray($newMessages));
 }
 
 function getMessagesNewerThan($timeLimit) {
 	$limitMessages = getQuery("SELECT * FROM message WHERE message .timestamp > $timeLimit");
-	printJson(sqlToJson($limitMessages));
+	printJson(sqlToJsonArray($limitMessages));
 }
 
 function getRecentMessages() {
@@ -39,7 +44,7 @@ function getRecentMessages() {
 	$date->setTime(0,0,0);
 	$timestamp= $date->getTimestamp();
 	$recentMessages = getQuery("SELECT * FROM message WHERE message .timestamp > $timestamp");
-	printJson(sqlToJson($recentMessages));
+	printJson(sqlToJsonArray($recentMessages));
 }
 
 function getNextMessages($lastTimestamp){
@@ -49,12 +54,12 @@ function getNextMessages($lastTimestamp){
 	$date2->setTime(0,0,0);
 	$timestamp2= $date2->getTimestamp();
 	$nextMessages = getQuery("SELECT * FROM message WHERE message .timestamp > $timestamp2 AND message .timestamp < $lastTimestamp");
-	printJson(sqlToJson($nextMessages));
+	printJson(sqlToJsonArray($nextMessages));
 }
 //USERS
 function getOnlineUsers() {
 	$onlineUsers = getQuery("SELECT id, status FROM user WHERE status != 0");
-	printJson(sqlToJson($onlineUsers));
+	printJson(sqlToJsonArray($onlineUsers));
 }
 
 function setUserImage($userid, $imageid) {
@@ -154,7 +159,7 @@ function searchMessages($string, $caseSensitive, $userId) {
 				WHERE author ='$userId' AND content LIKE '%".$string."%'");
 		}
 	}
-	printJson(sqlToJson($messages));
+	printJson(sqlToJsonArray($messages));
 }
 
 function checkUserActivity($user) {
@@ -170,12 +175,12 @@ function checkUserActivity($user) {
 
 function getAllEmoticons() {
 	$emotes = getQuery("SELECT * FROM emoticon");
-	printJson(sqlToJson($emotes));
+	printJson(sqlToJsonArray($emotes));
 }
 
 function getAllImages() {
 	$images = getQuery("SELECT * FROM file");
-	printJson(sqlToJson($images));
+	printJson(sqlToJsonArray($images));
 }
 
 
@@ -200,7 +205,7 @@ function setTopic($topic, $userId) {
 
 function getTopic() {
 	$topic = getQuery("SELECT topic FROM chat");
-	printJson(sqlToJson($topic));
+	printJson(sqlToJsonArray($topic));
 }
 
 function setChatImage($image, $userId) {
@@ -212,13 +217,13 @@ function setChatImage($image, $userId) {
 
 function getChatImage() {
 	$image = getQuery("SELECT image FROM chat");
-	printJson(sqlToJson($image));
+	printJson(sqlToJsonArray($image));
 
 }
 
 function getChatInformation() {
 	$chatInformation = getQuery("SELECT * FROM chat");
-	printJson(sqlToJson($chatInformation));
+	printJson(sqlToJsonArray($chatInformation));
 }
 
 
@@ -324,6 +329,9 @@ $_GET = escapeArray($_GET);
 //Handle actions
 if($_GET['action'] == 'postMessage') {
 	postMessage($_GET['content'], $_SESSION['user']['id']);
+}
+elseif($_GET['action'] == 'getMessage') {
+	getMessage($_GET['id']);
 }
 elseif($_GET['action'] == 'getMessages') {
 	getMessages($_GET['lastReceivedId']);
