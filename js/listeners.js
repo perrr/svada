@@ -361,6 +361,12 @@ function getAfterQuoteContainer(id){
 }
 
 function arrangeQuotes() {
+	if ($('#message-text-field').html() == ""){
+		if (editMessageId != -1){
+			$("#message"+editMessageId).removeClass("editing-message");
+		}
+		editMessageId = -1;
+	}
 	$('#message-text-field').children('.quote').each(function () {
 		var html = $(this).prop('outerHTML');
 		if($('#message-text-field').html().indexOf("</div>" + html) == -1){
@@ -530,6 +536,10 @@ messageTextField.keydown(function(e) {
 	if (isSendingFile && e.keyCode !== 13 && e.keyCode !== 37 && e.keyCode !== 39 && e.keyCode !== 8) {
 		e.preventDefault();
 	}
+	//arrow up to edit previous message
+	else if (e.keyCode ===38){
+		activateEditing();
+	}
 	else if (e.keyCode === 13 && $.trim(messageTextField.html()) != "" && !e.shiftKey) {
 		e.preventDefault();
 		
@@ -539,6 +549,7 @@ messageTextField.keydown(function(e) {
 			}
 			else {
 				editMessage(processMessage(),editMessageId);
+				$("#message"+editMessageId).removeClass("editing-message");
 				editMessageId = -1
 			}
 		}
@@ -628,6 +639,24 @@ document.onkeydown = function(e) {
 
         return false;
     }
+}
+
+//activating editing of a message
+function activateEditing(){
+	for (var i =messages.length-1; i>0; --i){
+		if (messages[i].author == user.id){
+			//check if it is more than 5 minutes since last message was sent
+			if (Date.now()/1000 - messages[i].timestamp >300){
+				break;
+			}
+			else{
+				editMessageId=messages[i].id;
+				messageTextField.html(messages[i].content);
+				$("#message"+editMessageId).addClass("editing-message");
+				break;
+			}
+		}
+	}
 }
 
 //Listen for activity in this tab
