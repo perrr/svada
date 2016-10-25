@@ -109,10 +109,23 @@ function getUser() {
 
 function editMessage($user, $messageId, $content) {
 	//5*60=300 is the maximum amount of time ou can wait before editing a message
+	global $connection;
 	$timestamp = time() -300;
+	$currentTimestamp = time();
 	setQuery("UPDATE message
 		SET content='$content', edit=1
 		WHERE id='$messageId' AND author = '$user' AND timestamp>'$timestamp'");
+	if(($connection->affected_rows)>0){
+		setQuery("INSERT INTO edited_message (message,  timestamp) VALUES ('$messageId', '$currentTimestamp')");
+		postMessage("Melding er redigert", 1);
+	}
+}
+
+function getRecentlyEditedMessages(){
+	$twoMinutesAgo = time() - 120;
+	$editedMessagesQuery = getQuery("SELECT message FROM edited_message WHERE timestamp > '$twoMinutesAgo'");
+	$editedMessages = $editedMessagesQuery -> fetch_assoc();
+	printJson(json_encode($editedMessages, JSON_NUMERIC_CHECK));
 }
 
 function setHighPriorityUserInformation($userId, $status, $isTyping) {
@@ -405,7 +418,9 @@ elseif($_GET['action'] == 'pingServer') {
 elseif($_GET['action'] == 'shareUploadedFile'){
 	shareAlreadyUploadedFile($_GET['fileId'], $_SESSION['user']['id']);
 }
-
+elseif($_GET['action'] == 'getRecentlyEditedMessages'){
+	getRecentlyEditedMessages();
+}
 //Close connection to database
 mysqli_close($connection);
 

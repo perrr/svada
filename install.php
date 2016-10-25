@@ -133,6 +133,14 @@ if (isset($_POST["ip"])) {
 			  `token` varchar(255) DEFAULT NULL
 			) ENGINE=MyISAM DEFAULT CHARSET=latin1");
 			
+			setQuery("DROP TABLE IF EXISTS `edited_message`");
+			setQuery("CREATE TABLE `edited_message` (
+			  `id` int(11) NOT NULL AUTO_INCREMENT,
+			  `message` int(11) NOT NULL,
+			  `timestamp` int(11) NOT NULL,
+			  PRIMARY KEY(`id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=latin1");
+
 			setQuery("DROP TABLE IF EXISTS `language`");
 			setQuery("CREATE TABLE `language` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT,
