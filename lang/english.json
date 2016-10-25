@@ -87,5 +87,6 @@
 	"time": "Time",
 	"messages": "Messages",
 	"activityThroughDay": "Activity through the Day",
-	"inMsgPerMin":  "in total messages per minute"
+	"inMsgPerMin":  "in total messages per minute",
+	"total": "Total"
 }
