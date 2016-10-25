@@ -113,6 +113,11 @@ a, a:active, a:focus {
 	font-size: 16px;
 }
 
+/* Edited message */
+.editing-message{
+	background-color: lightblue;
+}
+
 /* Emoticon menu */
 
 #emoticon-toggle{
