@@ -111,6 +111,29 @@ function verifyQuotes($message) {
 	return true;
 }
 
+function verifyEmotes($message) {
+	$pattern = '/({emoticon\|)(.*)}/';
+	$verified = true;
+	preg_match_all($pattern, $message, $matches, PREG_OFFSET_CAPTURE);
+	for ($i=0; $i < count($matches[0]); $i++) { 
+		$shortcut= $matches[2][$i][0];
+		$allshortcuts = getQuery("SELECT shortcut FROM emoticon");
+		$allshortcuts = $allshortcuts->fetch_assoc();
+		$verified = false;
+		foreach ($allshortcuts as $shorts){
+			$splitted = explode(" ", $shorts);
+			foreach ($splitted as $s){
+				if ($shortcut== $s){
+					$verified = true;
+					break 2;
+				}
+			}
+		}
+	}
+	return $verified;
+}
+
+
 function updateUserSession() {
 	$_SESSION['user'] = $user = mysqli_fetch_array(getQuery("SELECT * FROM user WHERE id = ".$_SESSION['user']['id']));
 }
