@@ -38,7 +38,7 @@ function mostUsedWordsAndEmoticons($user, $shortcuts) {
 	$numEmoticons = 0;
 	while ($row = mysqli_fetch_assoc($content)) {
 		$message = $row['content'];
-		$exploded = explode(' ', $message);
+		$exploded = preg_split('/\s+/', $message);
 		foreach ($exploded as $word) {
 			if (isEmoticon($word, $shortcuts)) {
 				$numEmoticons++;
@@ -161,7 +161,8 @@ if ($messages > 0) {
 		$content[] = '<br>'.getString('relMostUsedWordsFor').' '.$user['username'].':<br>';
 		$relWords = array();
 		foreach ($userWords as $k => $v) {
-			$relWords[$k] = ($v / $numWordsUser) / ($mostUsedWords[$k] / $numWordsTotal);
+			if ($mostUsedWords[$k] >= 10) // To avoid words you've used 1-4 times and no one else uses to dominate the list
+				$relWords[$k] = ($v / $numWordsUser) / ($mostUsedWords[$k] / $numWordsTotal);
 		}
 		asort($relWords);
 		$relWords = array_reverse($relWords);
@@ -169,7 +170,8 @@ if ($messages > 0) {
 		$content[] = '<br>'.getString('relMostUsedEmoticonsFor').' '.$user['username'].':<br>';
 		$relEmoticons = array();
 		foreach ($userEmoticons as $k => $v) {
-			$relEmoticons[$k] = ($v / $numEmoticonsUser) / ($mostUsedEmoticons[$k] / $numEmoticonsTotal);
+			if ($mostUsedWords[$k] >= 10) // To avoid emoticons you've used 1-4 times and no one else uses to dominate the list
+				$relEmoticons[$k] = ($v / $numEmoticonsUser) / ($mostUsedEmoticons[$k] / $numEmoticonsTotal);
 		}
 		asort($relEmoticons);
 		$relEmoticons = array_reverse($relEmoticons);
