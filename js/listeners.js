@@ -534,7 +534,13 @@ messageTextField.keydown(function(e) {
 		e.preventDefault();
 		
 		if (!isSendingFile) {
-			postMessage(processMessage(), user.id);
+			if (editMessageId == -1){
+				postMessage(processMessage(), user.id);
+			}
+			else {
+				editMessage(processMessage(),editMessageId);
+				editMessageId = -1
+			}
 		}
 		else {
 			var img = $("#message-text-field").find("img").first().attr("src");

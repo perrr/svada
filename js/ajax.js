@@ -310,3 +310,7 @@ function setDisplayName(newDisplayName){
 	}});
 }
 
+function editMessage(newMessage, messageId){
+	$.ajax({url: getFormattedDataURL(["action=editMessage", "message="+messageId, "content="+htmlEncode(newMessage)]), dataType: "json", success: function(result){
+	}});
+}
