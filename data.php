@@ -253,8 +253,12 @@ function uploadFile($file, $uploader, $share, $uploadType){
 	if ($uploadType == "file") {
 		shareFiles($file, $uploader, $share, $maxSize);
 	}
-	else {
+	elseif ($uploadType == "userImage" or $uploadType == "chatImage") {
+		postMessage($uploadType, 1);
 		uploadUserOrChatImage($file, $uploader, $savePath, $maxSize, $uploadType);
+	}
+	else{
+		//Håndter denne feilen
 	}
 }
 
@@ -272,19 +276,19 @@ function shareFiles($file, $uploader, $share, $maxSize){
 			$newFileId = $newFileIdAssoc["id"] + 1;
 			//Format for filename 'id.fileExtension'
   			$newFileName = $newFileId.$fileExtension;
-  			
   			if(strlen($originalFileName)>255){
   				$originalFileName = substr($originalFileName, 0, 255-strlen($fileExtension));
   				$originalFileName = $originalFileName.$fileExtension;
   			}
-
   			if($fileSize > $maxSize){
   				printJson('{"status": "failure", "message": " '. getString('theFile') .' '. $originalFileName .' '. getString('fileIsTooLarge') .' ('.getString('maxFileSize').' '.$chatAssoc["maximum_file_size"].'MB)."}');
   				return;
   			}
   			//Add to database 
   			$mime = mime_content_type($file['tmp_name'][$i]);
+  			postMessage("Før insert query", 1);
   			setQuery("INSERT INTO file (path, uploader, name, mime_type, timestamp) VALUES ('$newFileName', '$uploader', '$originalFileName', '$mime', '$uploadTime')");
+  			postMessage("Før success", 1);
   			$success = move_uploaded_file($file['tmp_name'][$i], $savePath.$newFileName);
   			if(!$success){
   				printJson('{"status": "failure", "message": "' . getString('uploadFailed') . '"}');
