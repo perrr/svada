@@ -85,7 +85,9 @@ function setDisplayName($userid, $displayName) {
 }
 
 function setStatus($userId, $status) {
-	setQuery("UPDATE user SET status = '$status' WHERE id = '$userId'");
+	if($status >0 and $status <=3){
+		setQuery("UPDATE user SET status = '$status' WHERE id = '$userId'");
+	}
 }
 
 function logOn($userId){
