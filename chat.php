@@ -83,7 +83,8 @@ $user = $_SESSION['user'];
 						<div class="tab" id="tab-stats">
 							<div class="tab-content">
 								<?php include('pages/stats.php'); ?>
-								<div id="activity_graph"></div>
+								<div id="user_activity_graph"></div>
+								<div id="daily_activity_graph"></div>
 							</div>
 						</div>
 						<div class="tab" id="tab-files">

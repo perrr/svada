@@ -126,7 +126,6 @@ function renewSession() {
 	}
 }
 
-
 // Returns a list of the starting timestamp of all months included between firstTimestamp and lastTimestamp (inclusive)
 function findAllMonths($firstTimestamp, $lastTimestamp) {
 	$firstYear = date('Y', $firstTimestamp);
@@ -146,6 +145,7 @@ function findAllMonths($firstTimestamp, $lastTimestamp) {
 	}
 	return $months;
 }
+
 // For a list of timestamps, returns a list of the months of said timestamps in the format "Monthname year"
 function findMonthNames($months) {
 	$names = array();
@@ -154,4 +154,11 @@ function findMonthNames($months) {
 	}
 	return $names;
 }
+
+// Returns a timestamp as HH:MM
+function getMinute($timestamp) {
+	date_default_timezone_set('Europe/Oslo');
+	return date('H:i', $timestamp);
+}
+
 ?>
