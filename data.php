@@ -85,7 +85,11 @@ function setDisplayName($userid, $displayName) {
 }
 
 function setStatus($userId, $status) {
-	setQuery("UPDATE user SET status = $status WHERE id = $userId");
+	setQuery("UPDATE user SET status = '$status' WHERE id = '$userId'");
+}
+
+function logOn($userId){
+	setQuery("UPDATE user SET online = '1' WHERE id = '$userId'");
 }
 
 function setLanguage($userId, $language) {
@@ -182,7 +186,7 @@ function checkUserActivity($user) {
 		WHERE id ='$user'");
 	$fiveMinutesAgo = time()-300;
 	setQuery("UPDATE user
-		SET status = '0' 
+		SET online = '0' 
 		WHERE last_activity<'$fiveMinutesAgo'");
 }
 
@@ -357,6 +361,9 @@ elseif($_GET['action'] == 'getNextMessages') {
 }
 elseif($_GET['action'] == 'setStatus') {
 	setStatus($_SESSION['user']['id'], $_GET['status']);
+}
+elseif($_GET['action'] == 'logOn') {
+	setStatus($_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'getAllUsers') {
 	getAllUsers();

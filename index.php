@@ -6,7 +6,7 @@ if(isLoggedIn() && isset($_GET['logout'])){
 	setcookie('usercookie', '', time()-3600);
 	$id = $_SESSION['user']['id'];
 	setQuery("UPDATE user_session SET token = NULL WHERE id = '$id'");
-	setQuery("UPDATE user SET status ='0' WHERE id = '$id'");
+	setQuery("UPDATE user SET online ='0' WHERE id = '$id'");
 	session_destroy();
 }
 if(isset($_COOKIE['usercookie'])){
