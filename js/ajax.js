@@ -24,10 +24,9 @@ function getUser() {
 function getEmoticonArray() {
 	return $.ajax({url: getFormattedDataURL(["action=getAllEmoticons"]), dataType: "json"}).done(function(json){
 		for(var i = 0; i<json.length; i++) {
-			break;
 			var allShortcuts = json[i]["shortcut"].split(" ");
 			for(var d = 0; d<allShortcuts.length; d++){
-				emoticonArray[allShortcuts[d]]= {path:json[i]["path"], name:json[i]["name"]};
+				emoticonArray[allShortcuts[d]]= {path:json[i]["path"], name:json[i]["name"], shortcut:allShortcuts[d]};
 			}
 		}
 	});
@@ -36,7 +35,7 @@ function getEmoticonArray() {
 function getImageArray() {
 	return $.ajax({url: getFormattedDataURL(["action=getAllImages"]), dataType: "json"}).done(function(json){
 		for(var i = 0; i < Object.keys(json).length; i++) {
-			imgArray[json[i].id] = { path: json[i].path, name: json[i].name };
+			imgArray[json[i].id] = { path: json[i].path, name: json[i].name, type: json[i].mime_type };
 		}
 	});
 }
@@ -48,33 +47,48 @@ function getChatInformation() {
 }
 
 function getRecentMessagesOnLogin() {
+	var doneLoading = jQuery.Deferred();
+	
 	$.ajax({url: getFormattedDataURL(["action=getRecentMessages"]), dataType: "json"}).done(function(json){
-		for(var i = 0; i < json.length; i++) {
-			var id = json[i]['id'];
-			lastReceivedId = json[i]['id'];
-			messages[id] = json[i];
-			messages[id].parsedContent = parseMessage(messages[id].content);
-			displayMessageBottom(json[i]);
+		if (json.length == 0) {
+			doneLoading.resolve();
+			return;
 		}
-		scrollToBottom("#messages");
+		lastReceivedId = json[json.length-1]['id'];
+		addMessages(json, "bottom");
+		
+		var numberOfMessages = 0;
+		function loadMessagesUntilScrollbar() {
+			if (chatHasScrollbar() || numberOfMessages == messages.length) {
+				doneLoading.resolve();
+				return;
+			}
+			numberOfMessages = messages.length;
+			
+			var promise = getNextMessages();
+			$.when(promise).then(function() {
+				loadMessagesUntilScrollbar();
+			});
+		};
+		if (messages.length > 0) {
+			loadMessagesUntilScrollbar();
+		}
+		else
+			doneLoading.resolve();
+		
     });
+	
+	return doneLoading;
 }
 
 function getNextMessages() {
 	var first = messageIdStringToInt($(".message-content").first().attr("id"));
 	if (messages[first] != "undefined"){
 		var lastTimestamp = messages[first]['timestamp'];
-		$.ajax({url: getFormattedDataURL(["action=getNextMessages", "lastTimestamp="+lastTimestamp]), dataType: "json"}).done(function(json){
-			for(var i = 0; i < json.length; i++){
-				var id = json[json.length-1-i]["id"];
-				if(!(id in messages)) {
-					messages[id] = json[json.length-1-i];
-					messages[id].parsedContent = parseMessage(messages[id].content);
-					displayMessageTop(json[json.length-1-i]);
-					$("#messages").mCustomScrollbar("scrollTo", $("#message" + first).parent(), { scrollInertia: 0 });
-				}
-			}
-			if (json.length != 0){
+		return $.ajax({url: getFormattedDataURL(["action=getNextMessages", "lastTimestamp="+lastTimestamp]), dataType: "json"}).done(function(json){
+			if (json.length > 0){
+				addMessages(json.reverse(), "top");
+				$("#messages").mCustomScrollbar("scrollTo", $("#message" + first).parent(), { scrollInertia: 0 });
 				addDateLine(json[0],false);
 			}
 		});
@@ -83,33 +97,55 @@ function getNextMessages() {
 
 function getNewMessages() {
 	return $.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), dataType: "json"}).done(function(json){
-		var aChange = false;
-		var initialLoading = messages.length == 0;
-		for(var i = 0; i < json.length; i++) {
-			var id = json[i]['id'];
-			
-			//Update lastReceivedId if necessary
-			if (id > lastReceivedId)
-				lastReceivedId = json[i]['id'];
-			
-			//If the message is previously unrecieved, add it to array and display it
-			if (!(id in messages)) {
-				aChange = true;
-				messages[id] = json[i];
-				messages[id].parsedContent = parseMessage(messages[id].content);
-				displayMessageBottom(json[i]);
-			}
+		if (json.length > 0) {
+			lastReceivedId = json[json.length-1]['id'];
+			addMessages(json, "bottom");
+
 			scrollToBottom("#messages");
-		}
-		if(!isActive && aChange && !initialLoading){
-			alertNewMessages();
+			if(!isActive){
+				alertNewMessages();
+			}
 		}
     });
 }
 
+function getMessage(id) {
+	return $.ajax({url: getFormattedDataURL(["action=getMessage", "id="+id]), dataType: "json"}).done(function(json){
+		addMessage(json, false);
+	});	
+}
+
+function addMessages(messages, displayAt) {
+	if (messages.length == 0)
+		return
+	var promise = addMessage(messages[0], displayAt);
+	$.when(promise).then(function() {
+		var remainingMessages = messages.slice(1);
+		addMessages(remainingMessages, displayAt);
+	});
+}
+
+function addMessage(message, displayAt) {
+	var id = message.id;
+	messages[id] = message;
+	var promise = parseMessage(id);
+	
+	return $.when(promise).then(function() {
+		if (displayAt == "top")
+			displayMessageTop(message);
+		else if (displayAt == "bottom")
+			displayMessageBottom(message);
+	});
+}
+
 function displayMessageTop(message){
 	if (newAuthor(message,false)) {
-		var messageHTML = displayMessage(message);
+		if (message["author"] ===0){
+			var messageHTML = displaySystemMessage(message);
+		}
+		else{
+			var messageHTML = displayMessage(message);
+		}
 		$("#message-container").prepend(messageHTML);
 	}
 }
@@ -118,7 +154,12 @@ function displayMessageBottom(message){
 	line = addDateLine(message, true)
 	//if new author than last or a dateline is added, add everything
 	if (newAuthor(message,true) || line){
-		var messageHTML = displayMessage(message);
+		if (message["author"] ===0){
+			var messageHTML = displaySystemMessage(message);
+		}
+		else{
+			var messageHTML = displayMessage(message);
+		}
 		$("#message-container").append(messageHTML);		
 	}
 }
@@ -260,12 +301,12 @@ function pingServer(){
 }
 
 function setStatusMessage(newStatusMessage){
-	$.ajax({url: getFormattedDataURL(["action=setStatusMessage", "statusMessage="+newStatusMessage]), dataType: "json", success: function(result){
+	$.ajax({url: getFormattedDataURL(["action=setStatusMessage", "statusMessage="+htmlEncode(newStatusMessage)]), dataType: "json", success: function(result){
 	}});
 }
 
 function setDisplayName(newDisplayName){
-	$.ajax({url: getFormattedDataURL(["action=setDisplayName", "displayName="+newDisplayName]), dataType: "json", success: function(result){
+	$.ajax({url: getFormattedDataURL(["action=setDisplayName", "displayName="+htmlEncode(newDisplayName)]), dataType: "json", success: function(result){
 	}});
 }
 

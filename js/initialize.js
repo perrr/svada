@@ -1,7 +1,7 @@
 function initializeChatPhaseOne() {
 	var promise = getUser();
 	$.when(promise).then(function() {
-		updateLoadingBar(1, 3);
+		updateLoadingBar(1, 4);
 		initializeChatPhaseTwo();
 	});
 }
@@ -9,7 +9,7 @@ function initializeChatPhaseOne() {
 function initializeChatPhaseTwo() {
 	var promise = loadLanguage(user.language);
 	$.when(promise).then(function() {
-		updateLoadingBar(2, 3);
+		updateLoadingBar(2, 4);
 		initializeChatPhaseThree();
 	});
 }
@@ -17,17 +17,30 @@ function initializeChatPhaseTwo() {
 function initializeChatPhaseThree() {
 	var promises = fetchNews();
 	$.when.apply($, promises).then(function() {
-		updateLoadingBar(3, 3);
-		getRecentMessagesOnLogin();
+		updateLoadingBar(3, 4);
+		initializeChatPhaseFour();
+	});
+}
+
+function initializeChatPhaseFour() {
+	resizeWindow();
+	var promise = getRecentMessagesOnLogin();
+	$.when(promise).then(function() {
+		updateLoadingBar(4, 4);
 		fetchNewsRegularly();
 		reportActivity();
-		resizeWindow();
 		sendActivity();
 		if(userArray[user.id]["status"] == 0){
 			sendStatus(1);
 		}
 		isTyping();
-		$('#splashscreen').hide();
+		generateEmoticonMenu();
+		setTimeout(function(){
+			scrollToBottom("#messages");
+		}, 200);
+		setTimeout(function(){
+			$('#splashscreen').hide();
+		}, 400);
 	});
 }
 
@@ -38,28 +51,24 @@ function generateUserBar(fullsize) {
 	
 	for(var i in userArray) {
 		
-		var statusClass;
-		if(userArray[i].status == 0) {
-			statusClass = 'offline';
-		}
-		else if(userArray[i].status == 1) {
-			statusClass = 'available';
-		}
-		else if(userArray[i].status == 2) {
-			statusClass = 'away';
-		}
-		else if(userArray[i].status == 3){
-			statusClass = 'occupied';
+		var statusToKeyword = ['offline', 'available', 'away', 'occupied'];
+		
+		var changeStatus = '';
+		
+		for (var j = 1; j < statusToKeyword.length; j++) {
+			changeStatus += '<div class="status-field" onclick="setStatus(' + j + ')" title=""><span class="status-circle status-' + statusToKeyword[j] + '"></span> ' + language[statusToKeyword[j]] + '</div>';
 		}
 		
+		changeStatus = i == user.id ? '<div class="status-container">' + changeStatus + '</div>' : "";
 		var editImage = i == user.id ? ' userbox-my-image" onclick="manualUpload(\'userImage\')' : "";
 		var editName = i == user.id ? ' class="editable" data-global-variable="userDisplayName"' : "";
 		var editStatusMessage = i == user.id ? ' editable" data-global-variable="userStatusMessage' : "";
-		var userStatus = '<span class="status-circle status-' + statusClass + '"></span>';
+		var myStatusCircle = i == user.id ? ' my-status-circle' : "";
+		var userStatus = '<span class="status-circle' + myStatusCircle + ' status-' + statusToKeyword[userArray[i].status] + '" title="' + language[statusToKeyword[userArray[i].status]] + '">' + changeStatus + '</span>';
 		if(fullsize)
 			html = '<div class="userbox"><div class="userbox-image"><img class="img-rounded' + editImage + '" src="' + getUserImage(userArray[i].image) + '"></div><div id="userbox' + i + '" class="userbox-data"><div class="userbox-username">' + userStatus + '<span' + editName + '>' + userArray[i].display_name + '</span></div><div class="userbox-statusmessage' + editStatusMessage + '">' + userArray[i].status_message +'</div></div><br class="clear"></div></div>';
 		else
-			html = '<span class="status-circled-background status-' + statusClass + '">' + userArray[i].display_name + '</span> ';
+			html = '<span class="status-circled-background status-' + statusToKeyword[userArray[i].status] + '">' + userArray[i].display_name + '</span> ';
 		
 		if (i == user.id)
 			userHTML = html + userHTML;
@@ -70,7 +79,6 @@ function generateUserBar(fullsize) {
 
 	$('#users').append(userHTML);
 }
-
 
 function generateTopBar(fullsize) {
 	var topHTML = "";
@@ -127,6 +135,14 @@ function generateTopBar(fullsize) {
 	
 }
 
+function generateEmoticonMenu() {
+	var html = "";
+	for (emoticon in emoticonArray) {
+		html += getEmoticonHTML(emoticonArray[emoticon], true);
+	}
+	$('#emoticon-menu-content').html(html);
+}
+
 //Begin initialization
 initializeChatPhaseOne();
 
@@ -137,3 +153,4 @@ $(document).ready(function() {
 });
 $('#sidebar, #write-message, .tab-content').mCustomScrollbar(customScrollbarOptions);
 $('#messages').mCustomScrollbar(customScrollbarOptionsMessages);
+$('#emoticon-menu').mCustomScrollbar(customScrollbarOptionsEmoticons);

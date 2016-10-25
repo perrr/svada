@@ -104,10 +104,56 @@ a, a:active, a:focus {
 	cursor: pointer;
 }
 
+.toolbar-item:hover, .active-toolbar-item{
+	color: #428BCA;
+}
+
 .toolbar-fa-item{
 	font-weight: 600;
 	font-size: 16px;
 }
+
+/* Emoticon menu */
+
+#emoticon-toggle{
+	position: relative;	
+}
+
+#emoticon-menu{
+	display: none;
+	position: absolute;
+	background-color: white;
+	border: 1px solid #428BCA;
+	bottom: 10px;
+	right: 10px;
+	height: 200px;
+	width: 285px;
+	cursor: default;
+	padding: 5px;
+}
+
+#emoticon-menu .mCSB_scrollTools {
+	width: 10px;
+}
+
+#emoticon-menu .message-emoticon{
+	padding: 2px;
+	border: 2px solid transparent;
+	box-sizing: border-box;
+	width: 34px;
+	height: 34px;
+	cursor: pointer;
+}
+
+#emoticon-menu .message-emoticon:hover{
+	border: 2px solid #428BCA;
+	border-radius: 10px;
+}
+
+ .message-emoticon {
+	width: 20px;
+	height: 20px;
+ }
 
 /* Message styling */
 
@@ -147,7 +193,8 @@ a, a:active, a:focus {
 .message-content{
 	word-wrap: break-word;    
 	overflow-wrap: break-word;
-	width: 100%;	
+	width: 100%;
+	line-height: 20px;
 }
 
 /* Message elements */
@@ -245,15 +292,26 @@ a, a:active, a:focus {
 #chat-name{
 	font-size: 40px;
 	line-height: 46px;
-	padding: 5px;
 }
 
 #chat-topic{
 	font-size: 30px;
 	line-height: 35px;
-	padding: 5px;
 	height: 45px;
-	float: left;
+}
+
+#chat-name, #chat-topic{
+	border-radius: 10px;
+	min-width: 150px;
+	overflow: hidden;
+	padding: 5px;
+}
+
+#chat-name:hover, #chat-topic:hover{
+	background-color: #EDF9FC;
+	color: black;
+	transition: background .1s linear;
+
 }
 
 .chat-small-title{
@@ -390,6 +448,10 @@ a, a:active, a:focus {
 	margin-bottom: -2px;
 }
 
+.my-status-circle {
+	cursor: pointer;
+}
+
 .status-circled-background {
 	border-radius: 0.8em;
 	-moz-border-radius: 0.8em;
@@ -418,6 +480,25 @@ a, a:active, a:focus {
 
 .status-occupied {
 	background-color: #F22222;
+}
+
+.status-container {
+	display: none;
+	position: absolute;
+	background-color: white;
+	border: 1px solid #428BCA;
+	color: black;
+	margin-top: 8px;
+	margin-left: 8px;
+	text-align: left;
+}
+
+.status-container div {
+	padding: 10px;
+}
+
+.status-container div:hover {
+	background-color: #EDF9FC;
 }
 
 /* Notifications */

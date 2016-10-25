@@ -3,7 +3,8 @@ function fetchNews() {
 	return [
 		getUserArray(),
 		getChatInformation(),
-		getImageArray()
+		getImageArray(),
+		getEmoticonArray()
 	];
 }
 
@@ -41,7 +42,7 @@ $("body").on("click", ".editable", function(event) {
 		return;
 	
 	//Create and style the text field
-	var textField = $('<input type="text" class="edit-value" value="' + $(this).html() + '" />');
+	var textField = $('<input type="text" class="edit-value" value="' + $(this).html().replace(/[\""]/g, '&quot;') + '" />');
 	textField.data("original-value", $(this).html());
 	var padding = $(this).css('padding-top');
 	textField.css({
@@ -73,11 +74,30 @@ $("body").on("click", ".editable", function(event) {
 	
 });
 
-$(window).click(function(event) {
+$(document).mouseup(function(e) {
+	//Toggle status container
+    if (!$('.my-status-circle').is(e.target)) {
+        $('.status-container').hide();
+    }
+	else {
+		$('.status-container').toggle();
+	}
+	
+	//Toggle emoticon menu
+    if (!$('#emoticon-toggle').is(e.target) && !$('#emoticon-menu').is(e.target)) {
+        $('#emoticon-menu').hide();
+		$('#emoticon-toggle').removeClass('active-toolbar-item');
+    }
+	else if (!$('#emoticon-menu').is(e.target)) {
+		$('#emoticon-menu').toggle();
+		$('#emoticon-toggle').toggleClass('active-toolbar-item');
+	}
+	
+	//Toggle editable fields
 	$(".edit-value").each(function() {
 		var textField = $(this);
 		
-		if($(event.target).closest('.editable').length && ($(event.target).find(">:first-child").get(0) === textField.get(0) || $(event.target).get(0) === textField.get(0))) {
+		if($(e.target).closest('.editable').length && ($(e.target).find(">:first-child").get(0) === textField.get(0) || $(e.target).get(0) === textField.get(0))) {
 			return;
 		}
 
@@ -91,14 +111,14 @@ $(window).click(function(event) {
 		doChange = false;
 		
 		if(save)
-			doChange = handleDirectFieldEdit(container.data("global-variable"), this.val());
+			doChange = handleDirectFieldEdit(container.data("global-variable"), escapeHtml(this.val()));
 			
 		$(container).css({
 			'padding': this.css('padding-top')
 		});
 		
 		if(doChange) {
-			this.replaceWith(this.val());
+			$(container).html(escapeHtml(this.val()));
 			resizeWindow();
 		}
 		else {
@@ -112,7 +132,6 @@ $(window).click(function(event) {
 //Regularly listen to the message field to determine if the user is currently typing
 function isTyping() {
 	var message = $('#message-text-field').html();
-	lastStatus = 0;
 	function loop(){
 	setTimeout(function () {
         checkTyping(message);

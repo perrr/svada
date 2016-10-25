@@ -37,6 +37,10 @@ function isLoggedIn() {
 }
 
 function sqlToJson($sql) {
+	return json_encode(mysqli_fetch_assoc($sql), JSON_NUMERIC_CHECK);
+}
+
+function sqlToJsonArray($sql) {
 	$json = array();
 	while ($row = mysqli_fetch_assoc($sql)) {
 		$json[] = $row;

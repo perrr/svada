@@ -115,10 +115,11 @@ function getFormattedDataURL(parameters) {
 	return "data.php?" + parameters.join("&");
 }
 
-function getEmoticonHTML(emoticon){
+function getEmoticonHTML(emoticon, insert){
 	var path = emoticon["path"];
 	var name = emoticon["name"];
-	var html = '<img class="message-smiley" src=res/images/emoticons/'+path+' title="'+name+'">' 
+	var insertOnclick = insert ? ' onclick="insertEmoticon(\'' + emoticon.shortcut + '\')"' : "";
+	var html = '<img class="message-emoticon" src=res/images/emoticons/'+path+' title="'+name+'"' + insertOnclick + '>';
 	return html;
 }
 
@@ -128,82 +129,101 @@ function isUrl(string) {
 	return string.match(regex);
 }
 
-function parseMessage(message) {
+function parseMessage(messageId) {
+	var message = messages[messageId].content;
+	var quotePromises = [];
+	var mainPromise = jQuery.Deferred();
+	
 	var newmessage = "";
 	var shortcuts = Object.keys(emoticonArray);
 	
 	//Parse quotes
 	var content = $('<div>' + message + '</div>');
 	content.children('.quote').each(function(){
-		var id = $(this).data('messageid');
-		var quote = '<div class="quote-content">' + $(this).html() + '</div><div class="quote-signature">' + getQuoteSignature(id) + '</div>';
-		$(this).html(quote);
-		$(this).attr('title', getQuoteTitle(id));
+		var quote = $(this);
+		var id = quote.data('messageid');
+		var promise = messages[id] === undefined ? getMessage(id) : $.when();
+		quotePromises.push(promise);
+		$.when(promise).then(function() {
+			var html = '<div class="quote-content">' + quote.html() + '</div><div class="quote-signature">' + getQuoteSignature(id) + '</div>';
+			quote.html(html);
+			quote.attr('title', getQuoteTitle(id));
+		});
 	});
-	
-	message = content.html();
-	var allWords = message.split(" ");
 
-	//No parsing if sentence start with @@
-	if(message.substring(0,2)=="@@"){
-		newmessage = message.substr(2);
-	}
-	
-	//Apply syntax highlighting if requested
-	else if (message.substring(0,2)=="!!"){
-		newmessage = '<code>' + hljs.highlightAuto(htmlDecode(message.substr(2).replace(/<br\s*[\/]?>/gi, "\n"))).value + '</code>';
-	}
-	//if no syntax requested then check for links and emoticons
-	else{
-		for (var wordindex in allWords){
-			var word = allWords[wordindex];
-			filePattern = /(.*)\{file\|(.*)\}(.*)/;
-			langPattern = /(.*)\{lang\|(.*)\}(.*)/;
-			//Make URL's clickable with HTML
-			if (isUrl(word)){
-				//Checks if the link do or do not start with http, https or ftp
-				var pattern = /^((http|https|ftp):\/\/)/;
-				if(!pattern.test(word)) {
-					//if not then add // to href to not link locally
-					newmessage = newmessage + " " + '<a href="//' + word + '" target="_blank">' + word + '</a>';
+	$.when.apply($, quotePromises).then(function() {
+		message = content.html();
+		var allWords = message.split(" ");
+
+		//No parsing if sentence start with @@
+		if(message.substring(0,2)=="@@"){
+			newmessage = message.substr(2);
+		}
+		
+		//Apply syntax highlighting if requested
+		else if (message.substring(0,2)=="!!"){
+			newmessage = '<code>' + hljs.highlightAuto(htmlDecode(message.substr(2).replace(/<br\s*[\/]?>/gi, "\n"))).value + '</code>';
+		}
+		//if no syntax requested then check for links and emoticons
+		else{
+			for (var wordindex in allWords){
+				var word = allWords[wordindex];
+				filePattern = /(.*)\{file\|(.*)\}(.*)/;
+				langPattern = /(.*)\{lang\|(.*)\}(.*)/;
+				//Make URL's clickable with HTML
+				if (isUrl(word)){
+					//Checks if the link do or do not start with http, https or ftp
+					var pattern = /^((http|https|ftp):\/\/)/;
+					if(!pattern.test(word)) {
+						//if not then add // to href to not link locally
+						newmessage = newmessage + " " + '<a href="//' + word + '" target="_blank">' + word + '</a>';
+					}
+					else{
+						newmessage = newmessage + " " + '<a href="' + word + '" target="_blank">' + word + '</a>';
+					}
+					
 				}
-				else{
-					newmessage = newmessage + " " + '<a href="' + word + '" target="_blank">' + word + '</a>';
-				}
-				
-			}
-			//file parsing
-			else if(filePattern.test(word)){
-				var match = filePattern.exec(word);
-				var id = parseInt(match[2]);
-				newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + '</a>' + match[3]; 
-			}
-			//Replace emoticon shortcuts with HTML image
-			else if (shortcuts.indexOf(word) != -1){
-				newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
-			}
-			else if(langPattern.test(word)){
-				var match = langPattern.exec(word);
-				newmessage += " " + match[1] +  language[match[2]] + match[3];
-			}
-			else if(word.substr(0,10)=="{username|"){
-				for (var aUser in userArray){
-					if (userArray[aUser]["id"] ==parseInt(word.slice(10,-1))){
-						newmessage = newmessage + " " + userArray[aUser]["display_name"];
-						break;
+				//file parsing
+				else if(filePattern.test(word)){
+					var match = filePattern.exec(word);
+					var id = parseInt(match[2]);
+					if (imgArray[id].type.substr(0,6)=="image/"){
+						newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + '<img id=' + id + '" src="download.php?id=' + id + '" width="150" height="75" /></a>' + match[3]; 
+					}
+					else{
+						newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + '</a>' + match[3];
 					}
 				}
+				//Replace emoticon shortcuts with HTML image
+				else if (shortcuts.indexOf(word) != -1){
+					newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
+				}
+				else if(langPattern.test(word)){
+					var match = langPattern.exec(word);
+					newmessage += " " + match[1] +  language[match[2]] + match[3];
+				}
+				else if(word.substr(0,10)=="{username|"){
+					for (var aUser in userArray){
+						if (userArray[aUser]["id"] ==parseInt(word.slice(10,-1))){
+							newmessage = newmessage + " " + userArray[aUser]["display_name"];
+							break;
+						}
+					}
+				}
+				else{
+					newmessage = newmessage + " " + word;
+				}
 			}
-			else{
-				newmessage = newmessage + " " + word;
+			if(newmessage.charAt(0)==" "){
+				newmessage = newmessage.substr(1);
 			}
 		}
-		if(newmessage.charAt(0)==" "){
-			newmessage = newmessage.substr(1);
-		}
-	}
-	//Return parsed message
-	return newmessage;
+		
+		messages[messageId].parsedContent = newmessage;
+		mainPromise.resolve();
+	});
+	
+	return mainPromise;
 }
 
 function getWhoIsTypingAsText(users) {
@@ -259,8 +279,8 @@ function getChatInformationChanges(oldChatInformation, newChatInformation) {
 }
 
 
-function insertEmoticon(i){
-	//Insert code here
+function insertEmoticon(emoticon){
+	insertToMessageField(emoticon);
 }
 
 function getAllEmoticonsAsHtml() {
@@ -319,7 +339,6 @@ function resizeWindow() {
 	var fontSize = 35;
 	while($('#top-left').outerWidth() + $(topRightId).outerWidth() > $('#chat-top').outerWidth() - 25) {
 		var nameTopicDifference = fontSize >= 30 ? 10 : fontSize >= 25 ? 7.5 : fontSize >= 20 ? 5 : fontSize >= 10 ? 2.5 : 0;
-		console.log(nameTopicDifference);
 		$(chatTitleId).css({'font-size': fontSize + 'px'});
 		$(chatTopicId).css({'font-size': (fontSize-nameTopicDifference) + 'px'});
 		fontSize -= 2.5;
@@ -352,7 +371,7 @@ function escapeHtml(unsafe) {
          .replace(/>/g, "&gt;")
          .replace(/"/g, "&quot;")
          .replace(/'/g, "&#039;");
- }
+}
 
 function scrollToBottom(id) {
 	$(id).mCustomScrollbar().mCustomScrollbar("scrollTo", "bottom", {scrollInertia: 0});
@@ -390,6 +409,10 @@ function messageIdStringToInt(string){
 }
 
 function insertToMessageField(content) {
+	if (!$("#message-text-field").is(":focus")) {
+		$("#message-text-field").focus();
+	}
+	
 	var sel, range;
 	if (window.getSelection) {
 		// IE9 and non-IE
@@ -526,4 +549,15 @@ function lostConnection(){
 
 function loadMoreMessages() {
 	getNextMessages();
+}
+
+function setStatus(id) {
+	sendStatus(id);
+	user.status = id;
+	propagateUserChanges();
+	generateUserBar(isFullsize());
+}
+
+function chatHasScrollbar() {
+	return !$('#messages').hasClass('mCS_no_scrollbar');
 }

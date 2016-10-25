@@ -10,5 +10,7 @@ var currentQuote = {"content": ""};
 var titleAlert = false;
 var isActive = true;
 var activeTabButton = "chat";
+var lastStatus = 0;
 var customScrollbarOptions = { theme: "dark-thick", scrollInertia: 100, scrollButtons:{ enable: true } };
 var customScrollbarOptionsMessages = jQuery.extend({callbacks: { onTotalScrollBack: function () { loadMoreMessages() }}}, customScrollbarOptions);
+var customScrollbarOptionsEmoticons = jQuery.extend(customScrollbarOptions, {theme: "minimal-dark", setLeft: 0});
