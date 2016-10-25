@@ -82,5 +82,10 @@
 	"inMsgPerMonth": "i meldinger per måned",
 	"shareFile": "Del fil",
 	"month": "Måned",
-	"emoticons": "Uttrykksikoner"
+	"emoticons": "Uttrykksikoner",
+	"time": "Klokkeslett",
+	"messages": "Meldinger",
+	"activityThroughDay": "Aktivitet gjennom dagen",
+	"inMsgPerMin":  "i totalt antall meldinger per minutt",
+	"total": "Totalt"
 }
