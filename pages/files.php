@@ -8,7 +8,7 @@ function listOfFiles(){
 		$uploader = $row['uploader'];
 		$name = $row['display_name'];
 		$timestamp = $row['timestamp'];
-		$date = date('d.m.Y H:i');
+		$date = date('d.m.Y H:i', $timestamp);
 		$mimeType = $row['mime_type'];
 		$filename = $row['name'];
 		$stringOfFiles .= getImageTags($mimeType, $filename) .  '<a href="download.php?id=' . $row['fileId'] . '" target="_blank">' . $row['name'] . ' ' .
