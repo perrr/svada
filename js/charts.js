@@ -6,13 +6,14 @@ function drawUserActivity(activity) {
   var data = new google.visualization.DataTable();
   data.addColumn('string', language['month']);
   for (var user in activity) {
-    var username = user;
+    if (user == 'Total')
+      user = language['total'];
     data.addColumn('number', user);
   }
 
   var rows = new Array();
   var i = 0;
-  for (month in activity[username]) {
+  for (month in activity['Total']) {
     rows.push([]);
     rows[i].push(month);
     for (user in activity) {
