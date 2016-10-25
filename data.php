@@ -101,7 +101,7 @@ function setIsTyping($userId, $isTyping) {
 }
 
 function getAllUsers() {
-	$userQuery =getQuery("SELECT id, display_name, status, status_message, image, is_typing FROM user");
+	$userQuery =getQuery("SELECT id, display_name, online,status, status_message, image, is_typing FROM user");
 	$users = array();
 	$i=0;
 	while ($row = mysqli_fetch_assoc($userQuery)) {
@@ -128,7 +128,6 @@ function editMessage($user, $messageId, $content) {
 		WHERE id='$messageId' AND author = '$user' AND timestamp>'$timestamp'");
 	if(($connection->affected_rows)>0){
 		setQuery("INSERT INTO edited_message (message,  timestamp) VALUES ('$messageId', '$currentTimestamp')");
-		postMessage("Melding er redigert", 1);
 	}
 }
 
@@ -254,7 +253,6 @@ function uploadFile($file, $uploader, $share, $uploadType){
 		shareFiles($file, $uploader, $share, $maxSize);
 	}
 	elseif ($uploadType == "userImage" or $uploadType == "chatImage") {
-		postMessage($uploadType, 1);
 		uploadUserOrChatImage($file, $uploader, $savePath, $maxSize, $uploadType);
 	}
 	else{
@@ -286,9 +284,7 @@ function shareFiles($file, $uploader, $share, $maxSize){
   			}
   			//Add to database 
   			$mime = mime_content_type($file['tmp_name'][$i]);
-  			postMessage("Før insert query", 1);
   			setQuery("INSERT INTO file (path, uploader, name, mime_type, timestamp) VALUES ('$newFileName', '$uploader', '$originalFileName', '$mime', '$uploadTime')");
-  			postMessage("Før success", 1);
   			$success = move_uploaded_file($file['tmp_name'][$i], $savePath.$newFileName);
   			if(!$success){
   				printJson('{"status": "failure", "message": "' . getString('uploadFailed') . '"}');
@@ -367,7 +363,7 @@ elseif($_GET['action'] == 'setStatus') {
 	setStatus($_SESSION['user']['id'], $_GET['status']);
 }
 elseif($_GET['action'] == 'logOn') {
-	setStatus($_SESSION['user']['id']);
+	logOn($_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'getAllUsers') {
 	getAllUsers();

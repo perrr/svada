@@ -5,9 +5,13 @@ function getUserArray() {
 		for(var i = 0; i < Object.keys(json).length; i++) {
 			var user = {};
 			var id = parseInt(Object.keys(json)[i]);
+			if(json[id].online==0){
+				json[id].status = 0;
+			}
 
 			var keys = Object.keys(json[id]);
 			for(var j = 0; j < keys.length; j++) {
+	
 				user[keys[j]] = json[id][keys[j]];
 			}
 			userArray[id+1] = user;
@@ -18,6 +22,11 @@ function getUserArray() {
 function getUser() {
 	return $.ajax({url: getFormattedDataURL(["action=getUser"]), dataType: "json"}).done(function(json){
 		user = json;
+	});
+}
+
+function logOn() {
+	return $.ajax({url: getFormattedDataURL(["action=logOn"]), dataType: "json"}).done(function(json){
 	});
 }
 

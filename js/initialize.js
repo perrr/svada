@@ -31,7 +31,7 @@ function initializeChatPhaseFour() {
 		reportActivity();
 		sendActivity();
 		if(userArray[user.id]["status"] == 0){
-			sendStatus(1);
+			logOn();
 		}
 		isTyping();
 		generateEmoticonMenu();
