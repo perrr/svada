@@ -83,5 +83,9 @@
 	"inMsgPerMonth": "in messages per month",
 	"shareFile": "Share file", 
 	"month": "Month",
-	"emoticons": "Emoticons"
+	"emoticons": "Emoticons",
+	"time": "Time",
+	"messages": "Messages",
+	"activityThroughDay": "Activity through the Day",
+	"inMsgPerMin":  "in total messages per minute"
 }
