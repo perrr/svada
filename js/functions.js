@@ -314,6 +314,7 @@ function resizeWindow() {
 		$('#sidebar').css({'width':'320px'});
 		$('#mainbar').css({'width':$(window).width() - $('#sidebar').outerWidth()});
 		$('#sidebar').css({'height':$(window).height() - $('#chat-top').outerHeight()});
+		$('#users').css({'height':$('#sidebar').height()});
 		hideMenu();
 		userbarOffset = 0;
 		var chatTitleId = '#chat-name';
