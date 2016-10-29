@@ -2,6 +2,9 @@ function initializeChatPhaseOne() {
 	var promise = getUser();
 	$.when(promise).then(function() {
 		updateLoadingBar(1, 4);
+		if(user.online == 0){
+			logOn();
+		}
 		initializeChatPhaseTwo();
 	});
 }
@@ -30,9 +33,6 @@ function initializeChatPhaseFour() {
 		fetchNewsRegularly();
 		reportActivity();
 		sendActivity();
-		if(userArray[user.id]["status"] == 0){
-			logOn();
-		}
 		isTyping();
 		generateEmoticonMenu();
 		setTimeout(function(){
