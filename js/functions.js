@@ -188,7 +188,7 @@ function parseMessage(messageId) {
 					var match = filePattern.exec(word);
 					var id = parseInt(match[2]);
 					if (imgArray[id].type.substr(0,6)=="image/"){
-						newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + '<img id=' + id + '" src="download.php?id=' + id + '" width="150" height="75" /></a>' + match[3]; 
+						newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + match[3] + '</a><a href="download.php?id=' + id + '" target="_blank"><img src="download.php?id=' + id + '" class="image-preview" /></a>'; 
 					}
 					else{
 						newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + '</a>' + match[3];
