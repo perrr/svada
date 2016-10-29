@@ -64,26 +64,25 @@ function getRecentMessagesOnLogin() {
 			return;
 		}
 		lastReceivedId = json[json.length-1]['id'];
-		addMessages(json, "bottom");
-		
-		var numberOfMessages = 0;
-		function loadMessagesUntilScrollbar() {
-			if (chatHasScrollbar() || numberOfMessages == messages.length) {
-				doneLoading.resolve();
-				return;
-			}
-			numberOfMessages = messages.length;
-			
-			var promise = getNextMessages();
-			$.when(promise).then(function() {
+		var promise = addMessages(json, "bottom");
+		$.when(promise).then(function() {
+			function loadMessagesUntilScrollbar() {
+				if (chatHasScrollbar() || messages[1] != undefined) {
+					doneLoading.resolve();
+					return;
+				}
+				
+				var promise = getNextMessages();
+				$.when(promise).then(function() {
+					loadMessagesUntilScrollbar();
+				});
+			};
+			if (messages.length > 0) {
 				loadMessagesUntilScrollbar();
-			});
-		};
-		if (messages.length > 0) {
-			loadMessagesUntilScrollbar();
-		}
-		else
-			doneLoading.resolve();
+			}
+			else
+				doneLoading.resolve();
+		});
 		
     });
 	
@@ -91,29 +90,36 @@ function getRecentMessagesOnLogin() {
 }
 
 function getNextMessages() {
+	var getNextMessagesPromise = jQuery.Deferred();
 	var first = messageIdStringToInt($(".message-content").first().attr("id"));
 	if (messages[first] != "undefined"){
 		var lastTimestamp = messages[first]['timestamp'];
-		return $.ajax({url: getFormattedDataURL(["action=getNextMessages", "lastTimestamp="+lastTimestamp]), dataType: "json"}).done(function(json){
+		$.ajax({url: getFormattedDataURL(["action=getNextMessages", "lastTimestamp="+lastTimestamp]), dataType: "json"}).done(function(json){
 			if (json.length > 0){
-				addMessages(json.reverse(), "top");
-				$("#messages").mCustomScrollbar("scrollTo", $("#message" + first).parent(), { scrollInertia: 0 });
-				addDateLine(json[0],false);
+				var promise = addMessages(json.slice(0).reverse(), "top");
+				$.when(promise).then(function() {
+					$("#messages").mCustomScrollbar("scrollTo", $("#message" + first).parent(), { scrollInertia: 0 });
+					addDateLine(json[0],false);
+					getNextMessagesPromise.resolve();
+				});
 			}
 		});
 	}
+	return getNextMessagesPromise;
 }
 
 function getNewMessages() {
 	return $.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), dataType: "json"}).done(function(json){
 		if (json.length > 0) {
 			lastReceivedId = json[json.length-1]['id'];
-			addMessages(json, "bottom");
+			var promise = addMessages(json, "bottom");
 
-			scrollToBottom("#messages");
-			if(!isActive){
-				alertNewMessages();
-			}
+			$.when(promise).then(function() {
+				scrollToBottom("#messages");
+				if(!isActive){
+					alertNewMessages();
+				}
+			});
 		}
     });
 }
@@ -125,12 +131,20 @@ function getMessage(id) {
 }
 
 function addMessages(messages, displayAt) {
-	if (messages.length == 0)
+	var addMessagesPromise = jQuery.Deferred();
+	addMessagesRecursive(messages, displayAt, addMessagesPromise);
+	return addMessagesPromise;
+}
+
+function addMessagesRecursive(messages, displayAt, addMessagesPromise) {
+	if (messages.length == 0) {
+		addMessagesPromise.resolve();
 		return
+	}
 	var promise = addMessage(messages[0], displayAt);
 	$.when(promise).then(function() {
 		var remainingMessages = messages.slice(1);
-		addMessages(remainingMessages, displayAt);
+		addMessagesRecursive(remainingMessages, displayAt, addMessagesPromise);
 	});
 }
 
@@ -224,9 +238,9 @@ function newAuthor(message, bottom=true){
 
 function addDateLine(message, bottom=true){
 	var dateDivider = '<div class="date-divider"><span>'+timestampToDate(message.timestamp) +'</span></div>';
-	if (messages.length>2 && typeof messages[messages.length-2] !== 'undefined'){
+	if (typeof messages[messages.length-2] !== 'undefined'){
 		var dateDivider = '<div class="date-divider"><span>'+timestampToDate(message.timestamp) +'</span></div>';
-		var thatDay = new Date((messages[messages.length-2].timestamp)*1000);
+		var thatDay = new Date((messages[messages.length-1].timestamp)*1000);
 		var thisDay = new Date(message.timestamp*1000);
 		var difference = (thisDay.getFullYear()-thatDay.getFullYear())*100 + (thisDay.getMonth()-thatDay.getMonth())*10 + thisDay.getDate()-thatDay.getDate();
 		if (difference != 0){
