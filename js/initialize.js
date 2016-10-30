@@ -41,6 +41,9 @@ function initializeChatPhaseFour() {
 		setTimeout(function(){
 			$('#splashscreen').hide();
 		}, 400);
+		
+		//Autofocus on message field
+		$("#message-text-field").focus();
 	});
 }
 
