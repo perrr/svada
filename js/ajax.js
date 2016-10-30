@@ -1,5 +1,13 @@
+function postData(action, data) {
+	return $.post("data.php?action=" + action, data);
+}
+
+function getData(action) {
+	return $.get("data.php?action=" + action);
+}
+
 function getUserArray() {
-	return $.ajax({url: getFormattedDataURL(["action=getAllUsers"]), dataType: "json"}).done(function(json){
+	return getData("getAllUsers").done(function(json){
 		//Copy the old userArray
 		//Update the userArray
 		for(var i = 0; i < Object.keys(json).length; i++) {
@@ -20,18 +28,17 @@ function getUserArray() {
 }
 
 function getUser() {
-	return $.ajax({url: getFormattedDataURL(["action=getUser"]), dataType: "json"}).done(function(json){
+	return getData("getUser").done(function(json){
 		user = json;
 	});
 }
 
 function logOn() {
-	return $.ajax({url: getFormattedDataURL(["action=logOn"]), dataType: "json"}).done(function(json){
-	});
+	return getData("logOn");
 }
 
 function getEmoticonArray() {
-	return $.ajax({url: getFormattedDataURL(["action=getAllEmoticons"]), dataType: "json"}).done(function(json){
+	return getData("getAllEmoticons").done(function(json){
 		for(var i = 0; i<json.length; i++) {
 			var allShortcuts = json[i]["shortcut"].split(" ");
 			for(var d = 0; d<allShortcuts.length; d++){
@@ -42,7 +49,7 @@ function getEmoticonArray() {
 }
 
 function getImageArray() {
-	return $.ajax({url: getFormattedDataURL(["action=getAllImages"]), dataType: "json"}).done(function(json){
+	return getData("getAllImages").done(function(json){
 		for(var i = 0; i < Object.keys(json).length; i++) {
 			imgArray[json[i].id] = { path: json[i].path, name: json[i].name, type: json[i].mime_type };
 		}
@@ -50,7 +57,7 @@ function getImageArray() {
 }
 
 function getChatInformation() {
-	return $.ajax({url: getFormattedDataURL(["action=getChatInformation"]), dataType: "json"}).done(function(json){
+	return getData("getChatInformation").done(function(json){
 		chatInformation = {topic:json[0]["topic"], chatImage:json[0]["image"], name:json[0]["name"]};
 	});
 }
@@ -58,7 +65,7 @@ function getChatInformation() {
 function getRecentMessagesOnLogin() {
 	var doneLoading = jQuery.Deferred();
 	
-	$.ajax({url: getFormattedDataURL(["action=getRecentMessages"]), dataType: "json"}).done(function(json){
+	getData("getRecentMessages").done(function(json){
 		if (json.length == 0) {
 			doneLoading.resolve();
 			return;
@@ -94,7 +101,7 @@ function getNextMessages() {
 	var first = messageIdStringToInt($(".message-content").first().attr("id"));
 	if (messages[first] != "undefined"){
 		var lastTimestamp = messages[first]['timestamp'];
-		$.ajax({url: getFormattedDataURL(["action=getNextMessages", "lastTimestamp="+lastTimestamp]), dataType: "json"}).done(function(json){
+		postData("getNextMessages", { lastTimestamp }).done(function(json){
 			if (json.length > 0){
 				var promise = addMessages(json.slice(0).reverse(), "top");
 				$.when(promise).then(function() {
@@ -109,7 +116,7 @@ function getNextMessages() {
 }
 
 function getNewMessages() {
-	return $.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), dataType: "json"}).done(function(json){
+	return postData("getMessages", { lastReceivedId }).done(function(json){
 		if (json.length > 0) {
 			lastReceivedId = json[json.length-1]['id'];
 			var promise = addMessages(json, "bottom");
@@ -125,7 +132,7 @@ function getNewMessages() {
 }
 
 function getMessage(id) {
-	return $.ajax({url: getFormattedDataURL(["action=getMessage", "id="+id]), dataType: "json"}).done(function(json){
+	return postData("getMessage", { id }).done(function(json){
 		addMessage(json, false);
 	});	
 }
@@ -257,56 +264,39 @@ function addDateLine(message, bottom=true){
 		return true;
 	}
 }
-function setTopic(value){
-	$.ajax({url: getFormattedDataURL(["action=setTopic", "topic="+htmlEncode(value)]), dataType: "json", success: function(result){
-	}});
+function setTopic(topic){
+	postData("setTopic", { topic });
 }
 
-function shareFile(id){
-	$.ajax({url: getFormattedDataURL(["action=shareUploadedFile", "fileId="+id]), dataType: "json", success: function(result){
-	}});
+function shareFile(fileId){
+	postData("shareUploadedFile", { fileId });
 }
 
-function setChatName(value){
-	$.ajax({url: getFormattedDataURL(["action=setChatName", "chatName="+htmlEncode(value)]), dataType: "json", success: function(result){
-	}});
+function setChatName(chatName){
+	postData("setChatName", { chatName });
 }
 
 
-function postMessage(content, userId) {
-	$.ajax({url: getFormattedDataURL(["action=postMessage", "content="+htmlEncode(content), "user="+userId, "timestamp="+getCurrentTimestamp()]), dataType: "json", success: function(result){
-	}});
+function postMessage(content, user) {
+	postData("postMessage", { content, user });
 }
 
 function sendIsTyping(isTyping) {
-	$.ajax({url: getFormattedDataURL(["action=setIsTyping", "isTyping="+htmlEncode(isTyping)]), dataType: "json", success: function(result){
-	}});
+	postData("setIsTyping", { isTyping });
 }
 
-function sendStatus(myStatus) {
-	$.ajax({url: getFormattedDataURL(["action=setStatus", "status="+myStatus]), dataType: "json", success: function(result){
-	}});
+function sendStatus(status) {
+	postData("setStatus", { status });
 }
 
 function sendActivity() {
-	$.ajax({url: getFormattedDataURL(["action=checkUserActivity"]), dataType: "json", success: function(result){
-	}});
+	getData("checkUserActivity");
 }
 
 function performSearch(searchstring, caseSensitive, userId) {
-	$.ajax({url: getFormattedDataURL(["action=searchMessages", "string="+searchstring, "caseSensitive="+caseSensitive, "userId="+userId]), dataType: "json", success: function(result){
+	postData("searchMessages", { "string": searchstring, caseSensitive, userId }).done(function(json){
 		displaySearchResults(result);
-	}});
-}
-function setPassword(newPassword, oldPassword, userId) {
-	$.ajax({url: getFormattedDataURL(["action=setPassword", "user="+userId, "newPassword="+newPassword, "oldPassword="+oldPassword]), dataType: "json", success: function(result){
-		if (Object.keys(json).length ==0){
-			//Insert code herefor empty result(success)
-		}
-		else {
-			//Insert code here for errormessage
-		}
-	}});
+	});
 }
 
 function loadLanguage(newlanguage) {
@@ -316,24 +306,21 @@ function loadLanguage(newlanguage) {
 }
 
 function pingServer(){
-	$.ajax({url: getFormattedDataURL(["action=pingServer"]), dataType: "json", success: function(result){
+	getData("pingServer").done(function(result){
 		if (result.running != true){
 			lostConnection();
 		}
-	}});	
+	});
 }
 
-function setStatusMessage(newStatusMessage){
-	$.ajax({url: getFormattedDataURL(["action=setStatusMessage", "statusMessage="+htmlEncode(newStatusMessage)]), dataType: "json", success: function(result){
-	}});
+function setStatusMessage(statusMessage){
+	postData("setStatusMessage", { statusMessage });
 }
 
-function setDisplayName(newDisplayName){
-	$.ajax({url: getFormattedDataURL(["action=setDisplayName", "displayName="+htmlEncode(newDisplayName)]), dataType: "json", success: function(result){
-	}});
+function setDisplayName(displayName){
+	postData("setDisplayName", { displayName });
 }
 
-function editMessage(newMessage, messageId){
-	$.ajax({url: getFormattedDataURL(["action=editMessage", "message="+messageId, "content="+htmlEncode(newMessage)]), dataType: "json", success: function(result){
-	}});
+function editMessage(content, messageId){
+	postData("editMessage", { "message": messageId, content });
 }

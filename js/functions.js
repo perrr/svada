@@ -111,10 +111,6 @@ function timestampToTextualDateAndTime(timestamp) {
 			
 }
 
-function getFormattedDataURL(parameters) {
-	return "data.php?" + parameters.join("&");
-}
-
 function getEmoticonHTML(emoticon, insert){
 	var path = emoticon["path"];
 	var name = emoticon["name"];
@@ -353,10 +349,6 @@ function toggleMenu() {
 
 function hideMenu(){
 	$('#chat-menu').hide();
-}
-
-function htmlEncode(html) {
-	return encodeURIComponent(html);
 }
 
 function htmlDecode(html) {
