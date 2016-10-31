@@ -217,7 +217,13 @@ function setTopic($topic, $userId) {
 	$topic = htmlentities($topic, null, null, false);
 	setQuery("UPDATE chat
 		SET topic = '$topic'");
-	$content='{username|'.$userId.'} {lang|'."changedtopic".'} <span class="message-strong">' . $topic .'.</span>'; 
+	$content = "";
+	if($topic === ""){
+		$content='{username|'.$userId.'} {lang|'."removedTopic".'}<span class="message-strong">' .'.</span>'; 
+	}
+	else{ 
+		$content='{username|'.$userId.'} {lang|'."changedtopic".'} <span class="message-strong">' . $topic .'.</span>'; 
+	}
 	postMessage($content, 0);
 }
 
