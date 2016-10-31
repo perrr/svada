@@ -270,6 +270,14 @@ a, a:active, a:focus {
     padding: 5px; 
 }
 
+.image-preview {
+	height: auto;
+	width: auto;
+	max-width: 300px;
+	max-height: 150px;
+	display: block;
+}
+
 /* Top bar */
 
 #top-left{

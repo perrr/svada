@@ -165,24 +165,22 @@ function propagateUserArrayChanges(changes) {
 		$('#whoistyping').html(getWhoIsTypingAsText(changes[1]));
 	}
 	var aChange =false;
-	if(user["status"]!=3){
-		for (var i in changes[0]){
-			if (Object.keys(changes[0][i]).length!=0){
-				aChange =true;
-			}
-			if ("oldStatus" in changes[0][i]){
-				if(i == user.id) continue;
-				if (changes[0][i]["oldStatus"]==0) {
-					if (user["mute_sounds"]==0){
-						playSound("user.mp3");
-					}
-					browserNotification("", getUserImage(userArray[i]["image"]) ,userArray[i]["display_name"]+" " +language["loggedon"]);
+	for (var i in changes[0]){
+		if (Object.keys(changes[0][i]).length!=0){
+			aChange =true;
+		}
+		if ("oldStatus" in changes[0][i]){
+			if(i == user.id) continue;
+			if (changes[0][i]["oldStatus"]==0 && user["status"] != 3) {
+				if (user["mute_sounds"]==0){
+					playSound("user.mp3");
 				}
+				browserNotification("", getUserImage(userArray[i]["image"]) ,userArray[i]["display_name"]+" " +language["loggedon"]);
 			}
 		}
-		if (aChange==true){
-			generateUserBar(isFullsize());
-		}
+	}
+	if (aChange==true){
+		generateUserBar(isFullsize());
 	}
 }
 
