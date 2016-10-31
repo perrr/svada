@@ -37,24 +37,50 @@ function getUserActivity() {
 }
 
 function getDailyActivity() {
-	$messagesSql = getQuery("SELECT timestamp FROM message");
+	$usersSql = getQuery("SELECT id FROM user");
+	$users = array();
+	while ($user = mysqli_fetch_assoc($usersSql)) {
+		$users[] = $user["id"];
+	}
+
 	$timestamps = array();
+
+	foreach ($users as $user) {
+		$userName = mysqli_fetch_assoc(getQuery("SELECT display_name FROM user WHERE id = ".$user))["display_name"];
+		$userTimestamps = array();
+		$messagesSql = getQuery("SELECT timestamp FROM message WHERE author = ".$user);
+		while ($message = mysqli_fetch_assoc($messagesSql)) {
+			$timestamp = getMinute($message["timestamp"]);
+			if (array_key_exists($timestamp, $timestamps))
+				$userTimestamps[$timestamp]++;
+			else
+				$userTimestamps[$timestamp] = 1;
+		}
+		$timestamps[$userName] = $userTimestamps;
+	}
+
+	$timestamps['Total'] = array();
+	$messagesSql = getQuery("SELECT timestamp FROM message");
 	while ($message = mysqli_fetch_assoc($messagesSql)) {
 		$timestamp = getMinute($message["timestamp"]);
-		if (array_key_exists($timestamp, $timestamps))
-			$timestamps[$timestamp]++;
+		if (array_key_exists($timestamp, $timestamps['Total']))
+			$timestamps['Total'][$timestamp]++;
 		else
-			$timestamps[$timestamp] = 1;
+			$timestamps['Total'][$timestamp] = 1;
 	}
+
 	global $stats;
 	$dailyActivity = array();
-	for ($h = 0; $h < 24; $h++) {
-		for ($m = 0; $m < 60; $m++) {
-			$timestamp = ($h < 10 ? '0'.$h : $h).':'.($m < 10 ? '0'.$m : $m);
-			if (array_key_exists($timestamp, $timestamps))
-				$dailyActivity[$timestamp] = $timestamps[$timestamp];
-			else
-				$dailyActivity[$timestamp] = 0;
+	foreach (array_keys($timestamps) as $user) {
+		$dailyActivity[$user] = array();
+		for ($h = 0; $h < 24; $h++) {
+			for ($m = 0; $m < 60; $m++) {
+				$timestamp = ($h < 10 ? '0'.$h : $h).':'.($m < 10 ? '0'.$m : $m);
+				if (array_key_exists($timestamp, $timestamps[$user]))
+					$dailyActivity[$user][$timestamp] = $timestamps[$user][$timestamp];
+				else
+					$dailyActivity[$user][$timestamp] = 0;
+			}
 		}
 	}
 	$stats["dailyActivity"] = $dailyActivity;
