@@ -74,7 +74,7 @@ if(isset($_POST['username'])){
 					<form action="" method="post">
 						<div class="form-group">
 							<label for="username"><?php echo getString("username");?></label>
-							<input type="text" name="username" class="form-control" id="username">
+							<input type="text" name="username" class="form-control" id="username" autofocus>
 						</div>
 						<div class="form-group">
 							<label for="password"><?php echo getString("password"); ?></label>

@@ -115,7 +115,7 @@ if (isset($_POST["ip"])) {
 			  `id` int(11) NOT NULL AUTO_INCREMENT,
 			  `password` varchar(255) NOT NULL,
 			  `online` int(11) NOT NULL DEFAULT '0',
-			  `status` int(11) NOT NULL DEFAULT '0',
+			  `status` int(11) NOT NULL DEFAULT '1',
 			  `status_message` varchar(100) NOT NULL,
 			  `image` int(11) DEFAULT NULL,
 			  `is_typing` int(11) NOT NULL DEFAULT '0',
