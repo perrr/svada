@@ -9,7 +9,7 @@ require('util.php');
 //MESSAGES
 function postMessage($content, $author) {
 	$timestamp = time();
-	if(notSpam($author, $timestamp-5) && verifyQuotes($content)){
+	if(notSpam($author, $timestamp-5) && verifyQuotes($content) && verifyEmotes($content)){
 	setQuery("INSERT INTO message (content, author, timestamp)
 	VALUES ('$content', '$author', '$timestamp')");
 }
@@ -114,7 +114,7 @@ function getAllUsers() {
 
 function getUser() {
 	$user = $_SESSION['user']['id'];
-	$userData = getQuery("SELECT u.id, username, display_name, status, status_message, image, is_typing, l.name AS language, mute_sounds FROM user AS u, language AS l WHERE u.id = '$user' AND u.language = l.id");
+	$userData = getQuery("SELECT u.id, username, display_name, status, status_message, image, is_typing, l.name AS language, mute_sounds, online FROM user AS u, language AS l WHERE u.id = '$user' AND u.language = l.id");
 	$userData = $userData->fetch_assoc();
 	printJson(json_encode($userData, JSON_NUMERIC_CHECK));
 
@@ -344,25 +344,26 @@ function shareAlreadyUploadedFile($id, $user){
 
 //Escape all input
 $_GET = escapeArray($_GET);
+$_POST = escapeArray($_POST);
 
 //Handle actions
 if($_GET['action'] == 'postMessage') {
-	postMessage($_GET['content'], $_SESSION['user']['id']);
+	postMessage($_POST['content'], $_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'getMessage') {
-	getMessage($_GET['id']);
+	getMessage($_POST['id']);
 }
 elseif($_GET['action'] == 'getMessages') {
-	getMessages($_GET['lastReceivedId']);
+	getMessages($_POST['lastReceivedId']);
 }
 elseif($_GET['action'] == 'getRecentMessages') {
 	getRecentMessages();
 }
 elseif($_GET['action'] == 'getNextMessages') {
-	getNextMessages($_GET['lastTimestamp']);
+	getNextMessages($_POST['lastTimestamp']);
 }
 elseif($_GET['action'] == 'setStatus') {
-	setStatus($_SESSION['user']['id'], $_GET['status']);
+	setStatus($_SESSION['user']['id'], $_POST['status']);
 }
 elseif($_GET['action'] == 'logOn') {
 	logOn($_SESSION['user']['id']);
@@ -371,7 +372,7 @@ elseif($_GET['action'] == 'getAllUsers') {
 	getAllUsers();
 }
 elseif($_GET['action'] == 'editMessage') {
-	editMessage($_SESSION['user']['id'],$_GET['message'], $_GET['content']);
+	editMessage($_SESSION['user']['id'],$_POST['message'], $_POST['content']);
 }
 elseif($_GET['action'] == 'getAllEmoticons') {
 	getAllEmoticons();
@@ -386,31 +387,31 @@ elseif($_GET['action'] == 'getOnlineUsers') {
 	getOnlineUsers();
 }
 elseif($_GET['action'] == 'setProfilePicture') {
-	setUserImage($_SESSION['user']['id'], $_GET['image']);
+	setUserImage($_SESSION['user']['id'], $_POST['image']);
 }
 elseif($_GET['action'] == 'setStatusMessage') {
-	setStatusMessage($_SESSION['user']['id'], $_GET['statusMessage']);
+	setStatusMessage($_SESSION['user']['id'], $_POST['statusMessage']);
 }
 elseif($_GET['action'] == 'setDisplayName') {
-	setDisplayName($_SESSION['user']['id'], $_GET['displayName']);
+	setDisplayName($_SESSION['user']['id'], $_POST['displayName']);
 }
 elseif($_GET['action'] == 'setHighPriorityUserInformation') {
-	setHighPriorityUserInformation($_SESSION['user']['id'], $_GET['status'], $_GET['isTyping']);
+	setHighPriorityUserInformation($_SESSION['user']['id'], $_POST['status'], $_POST['isTyping']);
 }
 elseif($_GET['action'] == 'setLowPriorityUserInformation') {
-	setLowPriorityUserInformation($_SESSION['user']['id'], $_GET['statusMessage'], $_GET['imageId']);
+	setLowPriorityUserInformation($_SESSION['user']['id'], $_POST['statusMessage'], $_POST['imageId']);
 }
 elseif($_GET['action'] == 'searchMessages') {
-	searchMessages($_GET['string'], $_GET['caseSensitive'], (int) $_GET['userId']);
+	searchMessages($_POST['string'], $_POST['caseSensitive'], (int) $_POST['userId']);
 }
 elseif($_GET['action'] == 'setTopic') {
-	setTopic($_GET['topic'], $_SESSION['user']['id']);
+	setTopic($_POST['topic'], $_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'setChatName') {
-	setChatName($_GET['chatName'], $_SESSION['user']['id']);
+	setChatName($_POST['chatName'], $_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'setChatImage') {
-	setChatImage($_GET['image'], $_SESSION['user']['id']);
+	setChatImage($_POST['image'], $_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'getChatImage') {
 	getChatImage();
@@ -419,10 +420,10 @@ elseif($_GET['action'] == 'getChatInformation') {
 	getChatInformation();
 }
 elseif($_GET['action'] == 'setLanguage') {
-	setLanguage($_SESSION['user']['id'], $_GET['language']);
+	setLanguage($_SESSION['user']['id'], $_POST['language']);
 }
 elseif($_GET['action'] == 'setIsTyping') {
-	setIsTyping($_SESSION['user']['id'], $_GET['isTyping']);
+	setIsTyping($_SESSION['user']['id'], $_POST['isTyping']);
 }
 elseif($_GET['action'] == 'checkUserActivity') {
 	checkUserActivity($_SESSION['user']['id']);
@@ -437,7 +438,7 @@ elseif($_GET['action'] == 'pingServer') {
 	printJson('{"running": true}');
 }
 elseif($_GET['action'] == 'shareUploadedFile'){
-	shareAlreadyUploadedFile($_GET['fileId'], $_SESSION['user']['id']);
+	shareAlreadyUploadedFile($_POST['fileId'], $_SESSION['user']['id']);
 }
 elseif($_GET['action'] == 'getRecentlyEditedMessages'){
 	getRecentlyEditedMessages();

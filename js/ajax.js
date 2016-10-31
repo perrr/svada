@@ -1,5 +1,13 @@
+function postData(action, data) {
+	return $.post("data.php?action=" + action, data);
+}
+
+function getData(action) {
+	return $.get("data.php?action=" + action);
+}
+
 function getUserArray() {
-	return $.ajax({url: getFormattedDataURL(["action=getAllUsers"]), dataType: "json"}).done(function(json){
+	return getData("getAllUsers").done(function(json){
 		//Copy the old userArray
 		//Update the userArray
 		for(var i = 0; i < Object.keys(json).length; i++) {
@@ -20,18 +28,17 @@ function getUserArray() {
 }
 
 function getUser() {
-	return $.ajax({url: getFormattedDataURL(["action=getUser"]), dataType: "json"}).done(function(json){
+	return getData("getUser").done(function(json){
 		user = json;
 	});
 }
 
 function logOn() {
-	return $.ajax({url: getFormattedDataURL(["action=logOn"]), dataType: "json"}).done(function(json){
-	});
+	return getData("logOn");
 }
 
 function getEmoticonArray() {
-	return $.ajax({url: getFormattedDataURL(["action=getAllEmoticons"]), dataType: "json"}).done(function(json){
+	return getData("getAllEmoticons").done(function(json){
 		for(var i = 0; i<json.length; i++) {
 			var allShortcuts = json[i]["shortcut"].split(" ");
 			for(var d = 0; d<allShortcuts.length; d++){
@@ -42,7 +49,7 @@ function getEmoticonArray() {
 }
 
 function getImageArray() {
-	return $.ajax({url: getFormattedDataURL(["action=getAllImages"]), dataType: "json"}).done(function(json){
+	return getData("getAllImages").done(function(json){
 		for(var i = 0; i < Object.keys(json).length; i++) {
 			imgArray[json[i].id] = { path: json[i].path, name: json[i].name, type: json[i].mime_type };
 		}
@@ -50,7 +57,7 @@ function getImageArray() {
 }
 
 function getChatInformation() {
-	return $.ajax({url: getFormattedDataURL(["action=getChatInformation"]), dataType: "json"}).done(function(json){
+	return getData("getChatInformation").done(function(json){
 		chatInformation = {topic:json[0]["topic"], chatImage:json[0]["image"], name:json[0]["name"]};
 	});
 }
@@ -58,32 +65,31 @@ function getChatInformation() {
 function getRecentMessagesOnLogin() {
 	var doneLoading = jQuery.Deferred();
 	
-	$.ajax({url: getFormattedDataURL(["action=getRecentMessages"]), dataType: "json"}).done(function(json){
+	getData("getRecentMessages").done(function(json){
 		if (json.length == 0) {
 			doneLoading.resolve();
 			return;
 		}
 		lastReceivedId = json[json.length-1]['id'];
-		addMessages(json, "bottom");
-		
-		var numberOfMessages = 0;
-		function loadMessagesUntilScrollbar() {
-			if (chatHasScrollbar() || numberOfMessages == messages.length) {
-				doneLoading.resolve();
-				return;
-			}
-			numberOfMessages = messages.length;
-			
-			var promise = getNextMessages();
-			$.when(promise).then(function() {
+		var promise = addMessages(json, "bottom");
+		$.when(promise).then(function() {
+			function loadMessagesUntilScrollbar() {
+				if (chatHasScrollbar() || messages[1] != undefined) {
+					doneLoading.resolve();
+					return;
+				}
+				
+				var promise = getNextMessages();
+				$.when(promise).then(function() {
+					loadMessagesUntilScrollbar();
+				});
+			};
+			if (messages.length > 0) {
 				loadMessagesUntilScrollbar();
-			});
-		};
-		if (messages.length > 0) {
-			loadMessagesUntilScrollbar();
-		}
-		else
-			doneLoading.resolve();
+			}
+			else
+				doneLoading.resolve();
+		});
 		
     });
 	
@@ -91,46 +97,61 @@ function getRecentMessagesOnLogin() {
 }
 
 function getNextMessages() {
+	var getNextMessagesPromise = jQuery.Deferred();
 	var first = messageIdStringToInt($(".message-content").first().attr("id"));
 	if (messages[first] != "undefined"){
 		var lastTimestamp = messages[first]['timestamp'];
-		return $.ajax({url: getFormattedDataURL(["action=getNextMessages", "lastTimestamp="+lastTimestamp]), dataType: "json"}).done(function(json){
+		postData("getNextMessages", { lastTimestamp }).done(function(json){
 			if (json.length > 0){
-				addMessages(json.reverse(), "top");
-				$("#messages").mCustomScrollbar("scrollTo", $("#message" + first).parent(), { scrollInertia: 0 });
-				addDateLine(json[0],false);
+				var promise = addMessages(json.slice(0).reverse(), "top");
+				$.when(promise).then(function() {
+					$("#messages").mCustomScrollbar("scrollTo", $("#message" + first).parent(), { scrollInertia: 0 });
+					addDateLine(json[0],false);
+					getNextMessagesPromise.resolve();
+				});
 			}
 		});
 	}
+	return getNextMessagesPromise;
 }
 
 function getNewMessages() {
-	return $.ajax({url: getFormattedDataURL(["action=getMessages", "lastReceivedId="+lastReceivedId]), dataType: "json"}).done(function(json){
+	return postData("getMessages", { lastReceivedId }).done(function(json){
 		if (json.length > 0) {
 			lastReceivedId = json[json.length-1]['id'];
-			addMessages(json, "bottom");
+			var promise = addMessages(json, "bottom");
 
-			scrollToBottom("#messages");
-			if(!isActive){
-				alertNewMessages();
-			}
+			$.when(promise).then(function() {
+				scrollToBottom("#messages");
+				if(!isActive){
+					alertNewMessages();
+				}
+			});
 		}
     });
 }
 
 function getMessage(id) {
-	return $.ajax({url: getFormattedDataURL(["action=getMessage", "id="+id]), dataType: "json"}).done(function(json){
+	return postData("getMessage", { id }).done(function(json){
 		addMessage(json, false);
 	});	
 }
 
 function addMessages(messages, displayAt) {
-	if (messages.length == 0)
+	var addMessagesPromise = jQuery.Deferred();
+	addMessagesRecursive(messages, displayAt, addMessagesPromise);
+	return addMessagesPromise;
+}
+
+function addMessagesRecursive(messages, displayAt, addMessagesPromise) {
+	if (messages.length == 0) {
+		addMessagesPromise.resolve();
 		return
+	}
 	var promise = addMessage(messages[0], displayAt);
 	$.when(promise).then(function() {
 		var remainingMessages = messages.slice(1);
-		addMessages(remainingMessages, displayAt);
+		addMessagesRecursive(remainingMessages, displayAt, addMessagesPromise);
 	});
 }
 
@@ -224,9 +245,9 @@ function newAuthor(message, bottom=true){
 
 function addDateLine(message, bottom=true){
 	var dateDivider = '<div class="date-divider"><span>'+timestampToDate(message.timestamp) +'</span></div>';
-	if (messages.length>2 && typeof messages[messages.length-2] !== 'undefined'){
+	if (typeof messages[messages.length-2] !== 'undefined'){
 		var dateDivider = '<div class="date-divider"><span>'+timestampToDate(message.timestamp) +'</span></div>';
-		var thatDay = new Date((messages[messages.length-2].timestamp)*1000);
+		var thatDay = new Date((messages[messages.length-1].timestamp)*1000);
 		var thisDay = new Date(message.timestamp*1000);
 		var difference = (thisDay.getFullYear()-thatDay.getFullYear())*100 + (thisDay.getMonth()-thatDay.getMonth())*10 + thisDay.getDate()-thatDay.getDate();
 		if (difference != 0){
@@ -243,56 +264,39 @@ function addDateLine(message, bottom=true){
 		return true;
 	}
 }
-function setTopic(value){
-	$.ajax({url: getFormattedDataURL(["action=setTopic", "topic="+htmlEncode(value)]), dataType: "json", success: function(result){
-	}});
+function setTopic(topic){
+	postData("setTopic", { topic });
 }
 
-function shareFile(id){
-	$.ajax({url: getFormattedDataURL(["action=shareUploadedFile", "fileId="+id]), dataType: "json", success: function(result){
-	}});
+function shareFile(fileId){
+	postData("shareUploadedFile", { fileId });
 }
 
-function setChatName(value){
-	$.ajax({url: getFormattedDataURL(["action=setChatName", "chatName="+htmlEncode(value)]), dataType: "json", success: function(result){
-	}});
+function setChatName(chatName){
+	postData("setChatName", { chatName });
 }
 
 
-function postMessage(content, userId) {
-	$.ajax({url: getFormattedDataURL(["action=postMessage", "content="+htmlEncode(content), "user="+userId, "timestamp="+getCurrentTimestamp()]), dataType: "json", success: function(result){
-	}});
+function postMessage(content, user) {
+	postData("postMessage", { content, user });
 }
 
 function sendIsTyping(isTyping) {
-	$.ajax({url: getFormattedDataURL(["action=setIsTyping", "isTyping="+htmlEncode(isTyping)]), dataType: "json", success: function(result){
-	}});
+	postData("setIsTyping", { isTyping });
 }
 
-function sendStatus(myStatus) {
-	$.ajax({url: getFormattedDataURL(["action=setStatus", "status="+myStatus]), dataType: "json", success: function(result){
-	}});
+function sendStatus(status) {
+	postData("setStatus", { status });
 }
 
 function sendActivity() {
-	$.ajax({url: getFormattedDataURL(["action=checkUserActivity"]), dataType: "json", success: function(result){
-	}});
+	getData("checkUserActivity");
 }
 
 function performSearch(searchstring, caseSensitive, userId) {
-	$.ajax({url: getFormattedDataURL(["action=searchMessages", "string="+searchstring, "caseSensitive="+caseSensitive, "userId="+userId]), dataType: "json", success: function(result){
+	postData("searchMessages", { "string": searchstring, caseSensitive, userId }).done(function(json){
 		displaySearchResults(result);
-	}});
-}
-function setPassword(newPassword, oldPassword, userId) {
-	$.ajax({url: getFormattedDataURL(["action=setPassword", "user="+userId, "newPassword="+newPassword, "oldPassword="+oldPassword]), dataType: "json", success: function(result){
-		if (Object.keys(json).length ==0){
-			//Insert code herefor empty result(success)
-		}
-		else {
-			//Insert code here for errormessage
-		}
-	}});
+	});
 }
 
 function loadLanguage(newlanguage) {
@@ -302,24 +306,21 @@ function loadLanguage(newlanguage) {
 }
 
 function pingServer(){
-	$.ajax({url: getFormattedDataURL(["action=pingServer"]), dataType: "json", success: function(result){
+	getData("pingServer").done(function(result){
 		if (result.running != true){
 			lostConnection();
 		}
-	}});	
+	});
 }
 
-function setStatusMessage(newStatusMessage){
-	$.ajax({url: getFormattedDataURL(["action=setStatusMessage", "statusMessage="+htmlEncode(newStatusMessage)]), dataType: "json", success: function(result){
-	}});
+function setStatusMessage(statusMessage){
+	postData("setStatusMessage", { statusMessage });
 }
 
-function setDisplayName(newDisplayName){
-	$.ajax({url: getFormattedDataURL(["action=setDisplayName", "displayName="+htmlEncode(newDisplayName)]), dataType: "json", success: function(result){
-	}});
+function setDisplayName(displayName){
+	postData("setDisplayName", { displayName });
 }
 
-function editMessage(newMessage, messageId){
-	$.ajax({url: getFormattedDataURL(["action=editMessage", "message="+messageId, "content="+htmlEncode(newMessage)]), dataType: "json", success: function(result){
-	}});
+function editMessage(content, messageId){
+	postData("editMessage", { "message": messageId, content });
 }
