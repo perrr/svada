@@ -20,6 +20,7 @@ function fetchNewsRegularly() {
 			//Propagate changes
 			var userChanges = getUserChanges(oldUserArray, userArray);
 			var chatChanges = getChatInformationChanges(oldChatInformation, chatInformation);
+			getEditedMessages();
 			propagateUserArrayChanges(userChanges);
 			propagateChatInformationChanges(chatChanges);
 		});

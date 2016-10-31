@@ -324,3 +324,11 @@ function setDisplayName(displayName){
 function editMessage(content, messageId){
 	postData("editMessage", { "message": messageId, content });
 }
+
+function getEditedMessages(){
+	getData("getRecentlyEditedMessages").done(function(result){
+		for (var i=0; i<result.length; i++){
+			$("#message"+result[i].message).html(result[i].content);
+		} 
+	});
+}

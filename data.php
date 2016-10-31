@@ -135,9 +135,8 @@ function editMessage($user, $messageId, $content) {
 
 function getRecentlyEditedMessages(){
 	$twoMinutesAgo = time() - 120;
-	$editedMessagesQuery = getQuery("SELECT message FROM edited_message WHERE timestamp > '$twoMinutesAgo'");
-	$editedMessages = $editedMessagesQuery -> fetch_assoc();
-	printJson(json_encode($editedMessages, JSON_NUMERIC_CHECK));
+	$editedMessagesQuery = getQuery("SELECT message, content FROM edited_message, message WHERE edited_message.timestamp > '$twoMinutesAgo' AND edited_message.message=message.id");
+	printJson(sqlToJsonArray($editedMessagesQuery));
 }
 
 function setHighPriorityUserInformation($userId, $status, $isTyping) {
