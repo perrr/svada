@@ -88,5 +88,6 @@
 	"activityThroughDay": "Aktivitet gjennom dagen",
 	"inMsgPerMin":  "i totalt antall meldinger per minutt",
 	"removedTopic": "fjernet samtaletemaet",
-	"total": "Totalt"
+	"total": "Totalt",
+	"locale": "nb_no"
 }
