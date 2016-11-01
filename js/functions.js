@@ -60,8 +60,8 @@ function isUrl(string) {
 	return string.match(regex);
 }
 
-function parseMessage(messageId) {
-	var message = messages[messageId].content;
+function parseMessage(originalMessage) {
+	var message = originalMessage.content;
 	var quotePromises = [];
 	var mainPromise = jQuery.Deferred();
 	
@@ -150,7 +150,7 @@ function parseMessage(messageId) {
 			}
 		}
 		
-		messages[messageId].parsedContent = newmessage;
+		originalMessage.parsedContent = newmessage;
 		mainPromise.resolve();
 	});
 	
