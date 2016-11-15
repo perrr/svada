@@ -216,7 +216,7 @@ function getNumbers() {
 			$stats['Key numbers']['Average message length per user'][$user]['Total'] = round($userLength, 2);
 		}
 
-		
+
 		/*
 		list($mostUsedWords, $mostUsedEmoticons, $numWordsTotal, $numEmoticonsTotal) = mostUsedWordsAndEmoticons(null, $shortcuts);
 		$numWordsUnique = sizeof($mostUsedWords);
@@ -268,12 +268,12 @@ echo mysqli_fetch_assoc(getQuery("SELECT stats FROM chat"))["stats"];
 
 // This should probably be done in a thread or similar
 $lastStats = mysqli_fetch_assoc(getQuery("SELECT stats_timestamp FROM chat"))["stats_timestamp"];
-//if (time() - 24 * 60 * 60 > $lastStats) {
+if (time() - 24 * 60 * 60 > $lastStats) {
 	getNumbers();
 	getUserActivity();
 	getDailyActivity();
 	$json = json_encode($stats, JSON_NUMERIC_CHECK);
 	$time = time();
 	setQuery("UPDATE chat SET stats = '$json', stats_timestamp = '$time'");
-//}
+}
 ?>

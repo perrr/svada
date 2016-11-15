@@ -1,6 +1,6 @@
 google.charts.load('current', {'packages':['line']}); // Update packages if new chart types are added
 
-google.charts.setOnLoadCallback(loadStats);
+
 
 function drawUserActivity(activity) {
   var data = new google.visualization.DataTable();

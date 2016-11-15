@@ -12,6 +12,7 @@ function initializeChatPhaseOne() {
 function initializeChatPhaseTwo() {
 	var promise = loadLanguage(user.language);
 	$.when(promise).then(function() {
+		google.charts.setOnLoadCallback(loadStats);
 		updateLoadingBar(2, 4);
 		moment.locale(language['locale']);
 		initializeChatPhaseThree();
