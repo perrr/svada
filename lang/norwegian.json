@@ -88,5 +88,10 @@
 	"activityThroughDay": "Aktivitet gjennom dagen",
 	"inMsgPerMin":  "i totalt antall meldinger per minutt",
 	"removedTopic": "fjernet samtaletemaet",
+	"listOfFiles": "Filliste",
+	"selectUploaders": "Velg opplastere",
+	"filename": "Filnavn",
+	"startDate": "Startdato",
+	"endDate": "Sluttdato",
 	"total": "Totalt"
 }
