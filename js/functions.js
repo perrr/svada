@@ -18,63 +18,19 @@ function getCurrentTimestamp(){
 }
 
 function timestampToTimeOfDay(timestamp) {
-	var a = new Date(timestamp*1000);
-	var hour = a.getHours();
-	if(hour<10){
-		hour= '0'+hour;
-	}
-	var min = a.getMinutes();
-	if(min<10){
-		min= '0'+min;
-	}
-	var time =  hour + ':' + min;
-	return time;
+	return moment(timestamp*1000).format('LT');
 }
 
 function timestampToPreciseTimeOfDay(timestamp) {
-	var a = new Date(timestamp*1000);
-	var sec = a.getSeconds();
-	if(sec < 10) {
-		sec='0' + sec;
-	}
-	var min = a.getMinutes();
-	if(min < 10){
-		min = '0' + min;
-	}
-	var hour = a.getHours();
-	if(hour < 10){
-		hour = '0' + hour;
-	}
-	var time =  hour + ':' + min + ':' + sec;
-	return time;
+	return moment(timestamp*1000).format('LTS');
 }
 
 function timestampToDate(timestamp){
-	var a = new Date(timestamp*1000);
-	var day = a.getDate();
-	var month = a.getMonth();
-	var year = a.getFullYear();
-	var months = [language["january"], language["february"], language["march"], language["april"], language["may"], language["june"], language["july"], language["august"], language["september"], language["october"], language["november"], language["december"]];
-	var time =  day + '. ' + months[month] + ' ' + year;
-	return time;
+	return moment(timestamp*1000).format('LL');
 }
 
 function timestampToDateAndTime(timestamp) {
-	var a = new Date(timestamp*1000);
-	var sec = a.getSeconds();
-	if(sec < 10) {
-		sec='0' + sec;
-	}
-	var min = a.getMinutes();
-	if(min < 10){
-		min = '0' + min;
-	}
-	var hour = a.getHours();
-	if(hour < 10){
-		hour = '0' + hour;
-	}
-	var time = timestampToDate(timestamp) + ', ' + hour + ':' + min + ':' + sec;
-	return time;
+	return moment(timestamp*1000).format('LLL');
 }
 
 function timestampToTextualDateAndTime(timestamp) {
@@ -85,31 +41,10 @@ function timestampToTextualDateAndTime(timestamp) {
 		return timestampToDateAndTime(timestamp);
 	}
 	else{
-		var sec = thatDay.getSeconds();
-		if(sec < 10) {
-			sec='0' + sec;
-		}
-		var min = thatDay.getMinutes();
-		if(min < 10){
-			min = '0' + min;
-		}
-		var hour = thatDay.getHours();
-		if(hour < 10){
-			hour = '0' + hour;
-		}
-		
-		var beginning = "";
-		if (difference ==1){
-			beginning = language["yesterday"];
-		}
-		else{
-			beginning = language["today"];
-		}
-		var time = beginning + " " + hour + ':' + min + ':' + sec;
-		return time;
+		return moment(timestamp*1000).calendar();
 	}
-			
 }
+			
 
 function getEmoticonHTML(emoticon, insert){
 	var path = emoticon["path"];
@@ -125,8 +60,8 @@ function isUrl(string) {
 	return string.match(regex);
 }
 
-function parseMessage(messageId) {
-	var message = messages[messageId].content;
+function parseMessage(originalMessage) {
+	var message = originalMessage.content;
 	var quotePromises = [];
 	var mainPromise = jQuery.Deferred();
 	
@@ -215,7 +150,7 @@ function parseMessage(messageId) {
 			}
 		}
 		
-		messages[messageId].parsedContent = newmessage;
+		originalMessage.parsedContent = newmessage;
 		mainPromise.resolve();
 	});
 	

@@ -158,7 +158,7 @@ function addMessagesRecursive(messages, displayAt, addMessagesPromise) {
 function addMessage(message, displayAt) {
 	var id = message.id;
 	messages[id] = message;
-	var promise = parseMessage(id);
+	var promise = parseMessage(message);
 	
 	return $.when(promise).then(function() {
 		if (displayAt == "top")
@@ -194,7 +194,7 @@ function displayMessageBottom(message){
 	}
 }
 
-function displayMessage(message) {
+function displayMessage(message, idPrefix="") {
 		return '<div class="message">\
 			<div class="message-image">\
 				<img class="img-rounded" src="' + getUserImage(userArray[message["author"]].image) + '">\
@@ -202,16 +202,16 @@ function displayMessage(message) {
 			<div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>\
 			<div class="message-text">\
 				<div class="message-author">'+ userArray[message["author"]].display_name + '</div>\
-				<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
+				<pre id="' + idPrefix + 'message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
 			</div>\
 		</div>';	
 }
 
-function displaySystemMessage(message) {
+function displaySystemMessage(message, idPrefix="") {
 	return '<div class="message">\
 		<div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>\
 		<div class="message-text">\
-			<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
+			<pre id="' + idPrefix + 'message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
 		</div>\
 	</div>';	
 }
@@ -323,4 +323,12 @@ function setDisplayName(displayName){
 
 function editMessage(content, messageId){
 	postData("editMessage", { "message": messageId, content });
+}
+
+function getEditedMessages(){
+	getData("getRecentlyEditedMessages").done(function(result){
+		for (var i=0; i<result.length; i++){
+			$("#message"+result[i].message).html(result[i].content);
+		} 
+	});
 }

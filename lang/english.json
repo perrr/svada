@@ -1,4 +1,5 @@
 {
+	"locale": "en:us",
     "language": "Language",
     "incorrectOldPassword": "Incorrect password",
     "changedtopic": "changed the chat topic to",
@@ -94,5 +95,9 @@
 	"filename": "Filename",
 	"startDate": "Start date",
 	"endDate": "End date",
-	"total": "Total"
+	"total": "Total",
+	"locale": "en:us",
+	"searchresults": "Search results for",
+	"result": "result",
+	"results": "results"
 }

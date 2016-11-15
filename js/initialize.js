@@ -13,6 +13,7 @@ function initializeChatPhaseTwo() {
 	var promise = loadLanguage(user.language);
 	$.when(promise).then(function() {
 		updateLoadingBar(2, 4);
+		moment.locale(language['locale']);
 		initializeChatPhaseThree();
 	});
 }

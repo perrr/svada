@@ -650,6 +650,10 @@ a, a:active, a:focus {
 	max-width: 600px;
 }
 
+#search-results{
+	max-width: 780px;
+}
+
 /* Splashscreen */
 
 #splashscreen {

@@ -1,4 +1,5 @@
 {
+	"locale": "nb_no",
     "language": "Språk",
     "incorrectOldPassword": "Feil passord",
     "changedtopic": "endret samtaletema til",
@@ -93,5 +94,9 @@
 	"filename": "Filnavn",
 	"startDate": "Startdato",
 	"endDate": "Sluttdato",
-	"total": "Totalt"
+	"total": "Totalt",
+	"locale": "nb_no",
+	"searchresults": "Søkeresultater for",
+	"result": "resultat",
+	"results": "resultater"
 }

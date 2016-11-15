@@ -40,14 +40,20 @@ function drawUserActivity(activity) {
 function drawDailyActivity(activity) {
   var data = new google.visualization.DataTable();
   data.addColumn('string', language['time']);
-  data.addColumn('number', language['messages']);
+  for (var user in activity) {
+    if (user == 'Total')
+      user = language['total'];
+    data.addColumn('number', user);
+  }
 
   var rows = new Array();
   var i = 0;
-  for (time in activity) {
+  for (time in activity['Total']) {
     rows.push([]);
     rows[i].push(time);
-    rows[i].push(activity[time]);
+    for (user in activity) {
+      rows[i].push(activity[user][rows[i][0]]);
+    }
     i++;
   }
 
