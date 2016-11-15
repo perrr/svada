@@ -44,17 +44,17 @@ $user = $_SESSION['user'];
 					<div id="notifications"></div>
 					<div id="tabs">
 						<div class="tab active-tab" id="tab-chat">
-							<form id="uploadform" method="post" action="" name="file" enctype="multipart/form-data">
-								<div id="search">
-									<div id="search-wrapper">
-										<div id="search-group" class="input-group">
-											<input type="text" class="form-control" placeholder="<?php echo getString('search'); ?>" name="srch-term" id="search-field">
-											<div class="input-group-btn">
-												<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-											</div>
+							<div id="search">
+								<div id="search-wrapper">
+									<div id="search-group" class="input-group">
+										<input type="text" class="form-control" placeholder="<?php echo getString('search'); ?>" name="srch-term" id="search-field">
+										<div class="input-group-btn">
+											<a href="#" class="btn btn-default" role="button" onclick="doSearch()"><i class="glyphicon glyphicon-search"></i></a>
 										</div>
 									</div>
 								</div>
+							</div>
+							<form id="uploadform" method="post" action="" name="file" enctype="multipart/form-data">
 								<div class="tab-content">
 									<div id="messages">
 										<div id="message-container"></div>
@@ -93,6 +93,12 @@ $user = $_SESSION['user'];
 								<?php include('pages/files.php'); ?>
 							</div>
 						</div>
+						<div class="tab" id="tab-search">
+							<div class="tab-back" onclick="changeTab('chat', false)"><span class="glyphicon glyphicon-arrow-left"></span> <?php echo getString('back'); ?></div>
+							<div class="tab-content">
+								<?php include('pages/searchresults.php'); ?>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -115,5 +121,6 @@ $user = $_SESSION['user'];
 		<script src="js/tabs.js"></script>
 		<script src="js/initialize.js"></script>
 		<script src="js/charts.js"></script>
+		<script src="js/search.js"></script>
 	</body>
 </html>

@@ -1,4 +1,5 @@
 {
+	"locale": "nb_no",
     "language": "Språk",
     "incorrectOldPassword": "Feil passord",
     "changedtopic": "endret samtaletema til",
@@ -90,4 +91,7 @@
 	"removedTopic": "fjernet samtaletemaet",
 	"total": "Totalt",
 	"locale": "nb_no"
+	"searchresults": "Søkeresultater for",
+	"result": "resultat",
+	"results": "resultater"
 }

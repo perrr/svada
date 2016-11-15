@@ -56,7 +56,7 @@ if (isset($_POST["ip"])) {
 			  `topic` text NOT NULL,
 			  `image` int(11) DEFAULT NULL,
 			  `maximum_file_size` int(11) DEFAULT 200,
-			  `stats` longblob NOT NULL,
+			  `stats` longtext NOT NULL,
   			  `stats_timestamp` int(11) NOT NULL DEFAULT '0'
 			) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 			setQuery('INSERT INTO `chat` (`name`, `topic`, `stats`) VALUES

@@ -1,4 +1,5 @@
 {
+	"locale": "en:us",
     "language": "Language",
     "incorrectOldPassword": "Incorrect password",
     "changedtopic": "changed the chat topic to",
@@ -91,4 +92,7 @@
 	"removedTopic": "removed the chat topic",
 	"total": "Total",
 	"locale": "en:us"
+	"searchresults": "Search results for",
+	"result": "result",
+	"results": "results"
 }
