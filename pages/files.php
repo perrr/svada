@@ -122,6 +122,7 @@ if (isset($_POST['search'])) {
       <button type="search" class="btn button" name="search"><?php echo getString('search'); ?></button>
     </div>
     </div>
+	</div>
 </form>
 <h1 class="tab-header col-sm-12"><?php echo getString('listOfFiles'); ?></h1>
 <?php echo listOfFiles(); ?>
