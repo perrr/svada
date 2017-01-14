@@ -1,6 +1,7 @@
 function doSearch() {
 	var searchTerm = $("#search-field").val();
 	changeTab('search', true);
+	$("#search").hide();
 	$("#search-header").html(language["searchresults"] + " " + language["leftQuote"] + searchTerm + language["rightQuote"]);
 	displayResults(searchTerm, 0, 0);
 }
