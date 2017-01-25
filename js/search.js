@@ -32,7 +32,7 @@ function displayResults(string, caseSensitive, userId) {
 		for (var i = 0; i < promises.length; i++) {
 			
 			$.when(promises[i]).then(function() {
-				var re = new RegExp("("+string+")");
+				var re = new RegExp("("+string+")", "i");
 				$("#search-message" + json[i].id).html(json[i].parsedContent.replace(re,'<b>$1</b>'));
 			});
 			
