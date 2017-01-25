@@ -60,13 +60,60 @@ function isUrl(string) {
 	return string.match(regex);
 }
 
+function parseWord(word) {
+	var shortcuts = Object.keys(emoticonArray);
+	filePattern = /(.*)\{file\|(.*)\}(.*)/;
+	langPattern = /(.*)\{lang\|(.*)\}(.*)/;
+	//Make URL's clickable with HTML
+	if (isUrl(word)){
+		//Checks if the link do or do not start with http, https or ftp
+		var pattern = /^((http|https|ftp):\/\/)/;
+		if(!pattern.test(word)) {
+			//if not then add // to href to not link locally
+			return '<a href="//' + word + '" target="_blank">' + word + '</a>';
+		}
+		else{
+			return '<a href="' + word + '" target="_blank">' + word + '</a>';
+		}
+		
+	}
+	//file parsing
+	else if(filePattern.test(word)){
+		var match = filePattern.exec(word);
+		var id = parseInt(match[2]);
+		if (imgArray[id].type.substr(0,6)=="image/"){
+			return match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + match[3] + '</a><a href="download.php?id=' + id + '" target="_blank"><img src="download.php?id=' + id + '" class="image-preview" /></a>'; 
+		}
+		else{
+			return match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + '</a>' + match[3];
+		}
+	}
+	//Replace emoticon shortcuts with HTML image
+	else if (shortcuts.indexOf(word) != -1){
+		return getEmoticonHTML(emoticonArray[word]);
+	}
+	else if(langPattern.test(word)){
+		var match = langPattern.exec(word);
+		return match[1] + language[match[2]] + match[3];
+	}
+	else if(word.substr(0,10)=="{username|"){
+		for (var aUser in userArray){
+			if (userArray[aUser]["id"] ==parseInt(word.slice(10,-1))){
+				return userArray[aUser]["display_name"];
+			}
+		}
+	}
+	else{
+		return word;
+	}
+}
+
 function parseMessage(originalMessage) {
 	var message = originalMessage.content;
 	var quotePromises = [];
 	var mainPromise = jQuery.Deferred();
 	
 	var newmessage = "";
-	var shortcuts = Object.keys(emoticonArray);
 	
 	//Parse quotes
 	var content = $('<div>' + message + '</div>');
@@ -99,50 +146,13 @@ function parseMessage(originalMessage) {
 		else{
 			for (var wordindex in allWords){
 				var word = allWords[wordindex];
-				filePattern = /(.*)\{file\|(.*)\}(.*)/;
-				langPattern = /(.*)\{lang\|(.*)\}(.*)/;
-				//Make URL's clickable with HTML
-				if (isUrl(word)){
-					//Checks if the link do or do not start with http, https or ftp
-					var pattern = /^((http|https|ftp):\/\/)/;
-					if(!pattern.test(word)) {
-						//if not then add // to href to not link locally
-						newmessage = newmessage + " " + '<a href="//' + word + '" target="_blank">' + word + '</a>';
-					}
-					else{
-						newmessage = newmessage + " " + '<a href="' + word + '" target="_blank">' + word + '</a>';
-					}
-					
+				
+				if (word.indexOf("<br>") !== -1) {
+					var twoWords = word.split("<br>");
+					newmessage = newmessage + " " + parseWord(twoWords[0]) + "<br>" + parseWord(twoWords[1]);
 				}
-				//file parsing
-				else if(filePattern.test(word)){
-					var match = filePattern.exec(word);
-					var id = parseInt(match[2]);
-					if (imgArray[id].type.substr(0,6)=="image/"){
-						newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + match[3] + '</a><a href="download.php?id=' + id + '" target="_blank"><img src="download.php?id=' + id + '" class="image-preview" /></a>'; 
-					}
-					else{
-						newmessage += " " + match[1] +  '<a href="download.php?id=' + id + '" target="_blank">' + imgArray[id].name + '</a>' + match[3];
-					}
-				}
-				//Replace emoticon shortcuts with HTML image
-				else if (shortcuts.indexOf(word) != -1){
-					newmessage = newmessage + " " + getEmoticonHTML(emoticonArray[word]);
-				}
-				else if(langPattern.test(word)){
-					var match = langPattern.exec(word);
-					newmessage += " " + match[1] +  language[match[2]] + match[3];
-				}
-				else if(word.substr(0,10)=="{username|"){
-					for (var aUser in userArray){
-						if (userArray[aUser]["id"] ==parseInt(word.slice(10,-1))){
-							newmessage = newmessage + " " + userArray[aUser]["display_name"];
-							break;
-						}
-					}
-				}
-				else{
-					newmessage = newmessage + " " + word;
+				else {
+					newmessage = newmessage + " " + parseWord(word);
 				}
 			}
 			if(newmessage.charAt(0)==" "){
