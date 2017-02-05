@@ -178,9 +178,16 @@ a, a:active, a:focus {
 	padding-left: 10px;
 }
 
+.message-info{
+	float: right;	
+}
+
 .message-timestamp{
-	float: right;
 	color: #ADADAD;
+}
+
+.message-edited{
+	text-align: right;
 }
 
 .message-image{

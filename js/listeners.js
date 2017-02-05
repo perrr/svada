@@ -518,6 +518,10 @@ function getCurrentContainer() {
    return (node.nodeType == 3 ? node.parentNode : node);
 }
 
+function getEditSymbol(messageId, timestamp){
+	return '<span class="glyphicon glyphicon-pencil" title="' + language['edited'] + ' ' + timestampToTimeOfDay(timestamp) + '"></span>';
+}
+
 (function( $ ){
    $.fn.isQuote = function() {
 	   return $(this).hasClass('quote');
@@ -547,8 +551,10 @@ messageTextField.keydown(function(e) {
 				postMessage(processMessage(), user.id);
 			}
 			else {
-				editMessage(processMessage(),editMessageId);
+				var editDate = Math.floor(Date.now() / 1000);
+				editMessage(processMessage(),editMessageId, editDate);
 				$("#message"+editMessageId).removeClass("editing-message");
+				$("#message-edit-" + editMessageId).html(getEditSymbol(editMessageId, editDate));
 				editMessageId = -1
 			}
 		}

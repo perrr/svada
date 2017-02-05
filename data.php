@@ -120,13 +120,13 @@ function getUser() {
 
 }
 
-function editMessage($user, $messageId, $content) {
+function editMessage($user, $messageId, $content, $timestamp) {
 	//5*60=300 is the maximum amount of time ou can wait before editing a message
 	global $connection;
 	$timestamp = time() -300;
 	$currentTimestamp = time();
 	setQuery("UPDATE message
-		SET content='$content', edit=1
+		SET content='$content', edit=$timestamp
 		WHERE id='$messageId' AND author = '$user' AND timestamp>'$timestamp'");
 	if(($connection->affected_rows)>0){
 		setQuery("INSERT INTO edited_message (message,  timestamp) VALUES ('$messageId', '$currentTimestamp')");
@@ -377,7 +377,7 @@ elseif($_GET['action'] == 'getAllUsers') {
 	getAllUsers();
 }
 elseif($_GET['action'] == 'editMessage') {
-	editMessage($_SESSION['user']['id'],$_POST['message'], $_POST['content']);
+	editMessage($_SESSION['user']['id'],$_POST['message'], $_POST['content'], $_POST['timestamp']);
 }
 elseif($_GET['action'] == 'getAllEmoticons') {
 	getAllEmoticons();

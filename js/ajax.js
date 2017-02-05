@@ -190,8 +190,13 @@ function displayMessageBottom(message){
 		else{
 			var messageHTML = displayMessage(message);
 		}
-		$("#message-container").append(messageHTML);		
+		$("#message-container").append(messageHTML);
+		setEditedFieldHeight(message.id);
 	}
+}
+
+function setEditedFieldHeight(messageId) {
+	$('#message-edit-'+messageId).height($('#message' + messageId).height());	
 }
 
 function displayMessage(message, idPrefix="") {
@@ -199,7 +204,10 @@ function displayMessage(message, idPrefix="") {
 			<div class="message-image">\
 				<img class="img-rounded" src="' + getUserImage(userArray[message["author"]].image) + '">\
 			</div>\
-			<div class="message-timestamp" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>\
+			<div class="message-info">\
+				<div class="" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>\
+				<div id="message-edit-' + message.id + '" class="message-edited">' + (message.edit > 0 ? getEditSymbol(message.id, message.edit) : "") + '</div>\
+			</div>\
 			<div class="message-text">\
 				<div class="message-author">'+ userArray[message["author"]].display_name + '</div>\
 				<pre id="' + idPrefix + 'message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
@@ -220,8 +228,9 @@ function newAuthor(message, bottom=true){
 	if (bottom) {
 		if (messages.length>2 && typeof messages[messages.length-2] !== 'undefined'){
 			if (message["author"]==messages[messages.length-2].author && message["timestamp"]-messages[messages.length-2].timestamp < 300){
-				$('#message'+messages[messages.length-2].id).after('<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>\
-				');
+				$('#message'+messages[messages.length-2].id).after('<pre id="message' + message.id + '" class="message-content">'+ message.parsedContent + '</pre>');
+				$('#message-edit-'+messages[messages.length-2].id).after('<div id="message-edit-' + message.id + '" class="message-edited">' + (message.edit > 0 ? getEditSymbol(message.id, message.edit) : "") + '</div>');
+				setEditedFieldHeight(message.id);
 				return false;
 			}
 			else {return true;}
@@ -276,7 +285,6 @@ function setChatName(chatName){
 	postData("setChatName", { chatName });
 }
 
-
 function postMessage(content, user) {
 	postData("postMessage", { content, user });
 }
@@ -321,14 +329,15 @@ function setDisplayName(displayName){
 	postData("setDisplayName", { displayName });
 }
 
-function editMessage(content, messageId){
-	postData("editMessage", { "message": messageId, content });
+function editMessage(content, messageId, timestamp){
+	postData("editMessage", { "message": messageId, content, timestamp });
 }
 
 function getEditedMessages(){
 	getData("getRecentlyEditedMessages").done(function(result){
 		for (var i=0; i<result.length; i++){
 			$("#message"+result[i].message).html(result[i].content);
-		} 
+			setEditedFieldHeight(result[i].message);
+		}
 	});
 }
