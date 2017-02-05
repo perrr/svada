@@ -247,7 +247,7 @@ function addDateLine(message, bottom=true){
 	var dateDivider = '<div class="date-divider"><span>'+timestampToDate(message.timestamp) +'</span></div>';
 	if (typeof messages[messages.length-2] !== 'undefined'){
 		var dateDivider = '<div class="date-divider"><span>'+timestampToDate(message.timestamp) +'</span></div>';
-		var thatDay = new Date((messages[messages.length-1].timestamp)*1000);
+		var thatDay = new Date((messages[messages.length-2].timestamp)*1000);
 		var thisDay = new Date(message.timestamp*1000);
 		var difference = (thisDay.getFullYear()-thatDay.getFullYear())*100 + (thisDay.getMonth()-thatDay.getMonth())*10 + thisDay.getDate()-thatDay.getDate();
 		if (difference != 0){
