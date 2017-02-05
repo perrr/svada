@@ -522,6 +522,11 @@ function getEditSymbol(messageId, timestamp){
 	return '<span class="glyphicon glyphicon-pencil" title="' + language['edited'] + ' ' + timestampToTimeOfDay(timestamp) + '"></span>';
 }
 
+function quitEditing() {
+	$("#message"+editMessageId).removeClass("editing-message");
+	editMessageId = -1
+}
+
 (function( $ ){
    $.fn.isQuote = function() {
 	   return $(this).hasClass('quote');
@@ -529,6 +534,7 @@ function getEditSymbol(messageId, timestamp){
 })( jQuery );
 
 var isSendingFile = false;
+
 messageTextField.keydown(function(e) {
 	
 	if($(':focus').attr('id') != "message-text-field"){
@@ -553,9 +559,8 @@ messageTextField.keydown(function(e) {
 			else {
 				var editDate = Math.floor(Date.now() / 1000);
 				editMessage(processMessage(),editMessageId, editDate);
-				$("#message"+editMessageId).removeClass("editing-message");
 				$("#message-edit-" + editMessageId).html(getEditSymbol(editMessageId, editDate));
-				editMessageId = -1
+				quitEditing();
 			}
 		}
 		else {
@@ -621,6 +626,15 @@ messageTextField.keydown(function(e) {
 				currentContainer.prev().removeQuote();
 			}
 		}
+	}
+	
+
+});
+
+messageTextField.keyup(function(e) {
+	//Quit editing if textfield is emptied
+	if($.trim(messageTextField.text()) == "" && editMessageId != -1) {
+		quitEditing();
 	}
 });
 
