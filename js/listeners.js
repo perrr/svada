@@ -545,10 +545,7 @@ messageTextField.keydown(function(e) {
 	if (isSendingFile && e.keyCode !== 13 && e.keyCode !== 37 && e.keyCode !== 39 && e.keyCode !== 8) {
 		e.preventDefault();
 	}
-	//arrow up to edit previous message
-	else if (e.keyCode ===38){
-		activateEditing();
-	}
+
 	else if (e.keyCode === 13 && $.trim(messageTextField.html()) != "" && !e.shiftKey) {
 		e.preventDefault();
 		
@@ -632,6 +629,12 @@ messageTextField.keydown(function(e) {
 });
 
 messageTextField.keyup(function(e) {
+
+	//Edit message when pressing arrow up
+	if (e.keyCode ===38){
+		activateEditing();
+	}
+	
 	//Quit editing if textfield is emptied
 	if($.trim(messageTextField.text()) == "" && editMessageId != -1) {
 		quitEditing();
@@ -672,6 +675,7 @@ function activateEditing(){
 				editMessageId=messages[i].id;
 				messageTextField.html(messages[i].content);
 				$("#message"+editMessageId).addClass("editing-message");
+				messageTextField.placeCaretAtEnd();
 				break;
 			}
 		}
