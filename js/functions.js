@@ -478,29 +478,23 @@ function handleDirectFieldEdit(field, value) {
 	}
 	else if (field == "userDisplayName"){
 		if (value != null && value != ""){
-			if (value != user.display_name){
-				user.display_name = value;
+			if (value != userArray[user.id].display_name){
+				userArray[user.id].display_name = value;
 				setDisplayName(value);
-				propagateUserChanges();
 				return true;
 			}
 		}
 	}
 	else if (field == "userStatusMessage"){
 		if (value != null){
-			if (value != user.display_name){
-				user.status_message = value;
+			if (value != userArray[user.id].display_name){
+				userArray[user.id].status_message = value;
 				setStatusMessage(value);
-				propagateUserChanges();
 				return true;
 			}
 		}
 	}
 	return false;
-}
-
-function propagateUserChanges(){
-	userArray[user.id] = user;
 }
 
 function lostConnection(){
@@ -513,8 +507,7 @@ function loadMoreMessages() {
 
 function setStatus(id) {
 	sendStatus(id);
-	user.status = id;
-	propagateUserChanges();
+	userArray[user.id].status = id;
 	generateUserBar(isFullsize());
 }
 
