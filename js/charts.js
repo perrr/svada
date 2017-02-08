@@ -27,14 +27,15 @@ function drawUserActivity(activity) {
   var options = {
     chart: {
       title: language['activityOverTime'],
-      subtitle: language['inMsgPerMonth']
+      //subtitle: language['inMsgPerMonth'],
+	  chartArea: {  width: "50%", height: "70%" }
     },
-    width: 700,
+    width: 800,
     height: 400
   };
 
   var chart = new google.charts.Line(document.getElementById('user_activity_graph'));
-  chart.draw(data, options);
+  chart.draw(data, google.charts.Line.convertOptions(options));
 }
 
 function drawDailyActivity(activity) {
@@ -62,14 +63,16 @@ function drawDailyActivity(activity) {
   var options = {
     chart: {
       title: language['activityThroughDay'],
-      subtitle: language['inMsgPerMin']
+      //subtitle: language['inMsgPerMin'],
+	  chartArea: {  width: "50%", height: "70%" }
     },
-    width: 700,
+    width: 800,
     height: 400
   };
 
   var chart = new google.charts.Line(document.getElementById('daily_activity_graph'));
-  chart.draw(data, options);
+  chart.draw(data, google.charts.Line.convertOptions(options));
+  chart.update
 }
 
 function loadStats() {
