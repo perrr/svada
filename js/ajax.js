@@ -336,8 +336,13 @@ function editMessage(content, messageId, timestamp){
 function getEditedMessages(){
 	getData("getRecentlyEditedMessages").done(function(result){
 		for (var i=0; i<result.length; i++){
-			$("#message"+result[i].message).html(result[i].content);
-			setEditedFieldHeight(result[i].message);
+			var promise = parseMessage(result[i]);
+			$.when(promise).then(function() {
+				$("#message"+result[i].message).html(result[i].parsedContent);
+				setEditedFieldHeight(result[i].message);
+				messages[result[i].message].content = result[i].content;
+				messages[result[i].message].parsedContent = result[i].parsedContent;
+			});
 		}
 	});
 }
