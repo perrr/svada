@@ -194,13 +194,14 @@ function propagateChatInformationChanges(changes) {
 
 //Store quote on copy
 var blockNextCopy = false;
-$(document).on( "copy", ".message-content, .quote-content", function() {
+$(document).on( "copy", ".message-content, .quote-content, .message-author, .message-info, .message-image", function() {
 	if(blockNextCopy) {
 		blockNextCopy = false;
 		return;
 	}
 	
-	var selection = window.getSelection().toString();
+	var selection = window.getSelection();
+	var selectionText = selection.toString()
 	var processedMessage = $(this).clone();
 	
 	if($(this).attr('class') == "message-content") {
@@ -209,21 +210,64 @@ $(document).on( "copy", ".message-content, .quote-content", function() {
 		});
 	}
 
-	var decoded = decodeEntities(processedMessage.html());
-	if(decoded.indexOf(selection.replace(/(?:\r\n|\r|\n)/g, '<br>')) == -1) {
+	if($(this).attr('class') != "quote-content") {
+		var firstContainer = getFirstContainer(window.getSelection());
+		var lastContainer = getLastContainer(window.getSelection());
+		var firstId = messageIdStringToInt(firstContainer.node.get(0).getAttribute('id'));
+		var lastId = messageIdStringToInt(lastContainer.node.get(0).getAttribute('id'));
+	}
+	else {
+		currentQuote.content = selectionText;
+		currentQuote.id = $(this).parent().data('messageid');
+		blockNextCopy = true;
 		return;
 	}
 	
-	if($(this).attr('class') == "message-content") {
-		currentQuote.content = selection;
-		currentQuote.id = messageIdStringToInt($(this).attr('id'));
+	if (firstContainer.node.closest(".message").attr("id") !== lastContainer.node.closest(".message").attr("id") || 
+		($(selection.focusNode).parent().is(".message-author, .message-date, .message") && $(selection.anchorNode).parent().is(".message-author, .message-date, .message"))) {
+		return;
+	}
+	
+	if (firstId < lastId) {
+		currentQuote.firstContainer = document.getElementById("message" + firstId);
+		currentQuote.lastContainer = document.getElementById("message" + lastId);
+		currentQuote.firstOffset = firstContainer.offset;
+		currentQuote.lastOffset = lastContainer.offset;
 	}
 	else {
-		currentQuote.content = selection;
-		currentQuote.id = $(this).parent().data('messageid');
-		blockNextCopy = true;
+		currentQuote.firstContainer = document.getElementById("message" + lastId);
+		currentQuote.lastContainer = document.getElementById("message" + firstId);
+		currentQuote.firstOffset = lastContainer.offset;
+		currentQuote.lastOffset = firstContainer.offset;
 	}
+	
+	currentQuote.content = selectionText;
+	currentQuote.id = firstId;
 });
+
+function getLastContainer(selection) {
+	var initialNode = $(selection.anchorNode);
+	var messageNode = initialNode.closest(".message-content");
+	var offset = selection.anchorOffset;
+	
+	if (!messageNode.length) {
+		messageNode = initialNode.closest(".message").find(".message-content");
+		offset = 0;
+	}
+	return { node: messageNode, offset: offset };
+}
+
+function getFirstContainer(selection) {
+	var initialNode = $(selection.focusNode);
+	var messageNode = initialNode.closest(".message-content");
+	var offset = selection.focusOffset;
+	
+	if (!messageNode.length) {
+		messageNode = initialNode.closest(".message").find(".message-content");
+		offset = 0;
+	}
+	return { node: messageNode, offset: offset };
+}
 
 quoteId = 0;
 
@@ -235,8 +279,7 @@ $("#message-text-field").bind('paste', function(e) {
 		e.preventDefault();
 		
 		//Check if clipboard contains a quote
-		if(plaintext.replace(/(?:\r\n|\r|\n)/g, '<br>') == currentQuote.content.replace(/(?:\r\n|\r|\n)/g, '<br>')){
-			
+		if(plaintext.replace(/\s/g,'') == currentQuote.content.replace(/\s/g,'')){
 			insertToMessageField('<div id="ind"></div>');
 			var before = "";
 			var after = "";
@@ -254,8 +297,26 @@ $("#message-text-field").bind('paste', function(e) {
 					$(this).remove();
 				}
 			});
+			
+			//Determine quote content
+			var firstNum = messageIdStringToInt(currentQuote.firstContainer.getAttribute('id'));
+			var lastNum = messageIdStringToInt(currentQuote.lastContainer.getAttribute('id'));
+			
+			var firstLine = $(currentQuote.firstContainer).html();
+			var quoteContent = addQuoteLineTags(firstNum == lastNum ? processQuoteContent(firstLine, currentQuote.firstOffset, currentQuote.lastOffset) : processQuoteContent(firstLine, currentQuote.firstOffset, -1));
+			if (firstNum != lastNum) {
+				for (var i = firstNum+1; i < lastNum; i++) {
+					quoteContent += addQuoteLineTags($("#message" + i).html());
+				}
+				quoteContent += addQuoteLineTags(processQuoteContent($(currentQuote.lastContainer).html(), 0, currentQuote.lastOffset));
+			}
+			
+			var quoteTitle = "";
+			for (var i = firstNum; i <= lastNum; i++) {
+				quoteTitle += getQuoteTitle(i) + "\n";
+			}
 				
-			var content = getBeforeQuoteContainer(quoteId) + '<div title="' + getQuoteTitle(currentQuote.id) + '" class="quote unselectable" id="q' + quoteId + '" data-id="' + currentQuote.id + '" contenteditable="false"><div class="quote-content unselectable">' + escapeHtml(currentQuote.content).replace(/(?:\r\n|\r|\n)/g, '<br>') + '</div><div class="quote-signature unselectable">' + getQuoteSignature(currentQuote.id) + '</div></div>';
+			var content = getBeforeQuoteContainer(quoteId) + '<div title="' + quoteTitle + '" class="quote unselectable" id="q' + quoteId + '" data-firstOffset="" data-lastOffset="" data-id="' + currentQuote.id + '" contenteditable="false"><div class="quote-content unselectable">' + quoteContent + '</div><div class="quote-signature unselectable">' + getQuoteSignature(currentQuote.id) + '</div></div>';
 			
 			if($('#ind').parent().attr("id") == "message-text-field") {
 				$('#message-text-field').html(content);
@@ -315,6 +376,17 @@ $("#message-text-field").bind('paste', function(e) {
 	}
 });
 
+function processQuoteContent(content, offset1, offset2) {
+	if (offset2 == -1)
+		return htmlEncode(htmlDecode(content).substring(offset1));
+	else
+		return htmlEncode(htmlDecode(content).substring(offset1, offset2));
+}
+
+function addQuoteLineTags(content) {
+	return '<div>' + content + '</div>';
+}
+
 (function($){
   $.event.special.destroyed = {
     remove: function(o) {
@@ -335,7 +407,6 @@ function getQuoteSignature(id) {
 
 function getQuoteTitle(id) {
 	var title = "";
-	
 	$('<div>' + messages[id].parsedContent + '</div>').contents().each(function() {
 		if($(this).attr('class') == "quote") {
 			title += $(this).find('.quote-content').prepend(language['leftQuote']).append(language['rightQuote']).html();

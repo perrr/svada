@@ -200,12 +200,12 @@ function setEditedFieldHeight(messageId) {
 }
 
 function displayMessage(message, idPrefix="") {
-		return '<div class="message">\
+		return '<div class="message" id="message-wrapper-' + message.id + '">\
 			<div class="message-image">\
 				<img class="img-rounded" src="' + getUserImage(userArray[message["author"]].image) + '">\
 			</div>\
 			<div class="message-info">\
-				<div class="" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>\
+				<div class="message-date" title="' + timestampToDateAndTime(message["timestamp"]) + '">' + timestampToTimeOfDay(message["timestamp"]) + '</div>\
 				<div id="message-edit-' + message.id + '" class="message-edited">' + (message.edit > 0 ? getEditSymbol(message.id, message.edit) : "") + '</div>\
 			</div>\
 			<div class="message-text">\

@@ -140,7 +140,7 @@ function parseMessage(originalMessage) {
 		
 		//Apply syntax highlighting if requested
 		else if (message.substring(0,2)=="!!"){
-			newmessage = '<code>' + hljs.highlightAuto(htmlDecode(message.substr(2).replace(/<br\s*[\/]?>/gi, "\n"))).value + '</code>';
+			newmessage = '<code>' + hljs.highlightAuto(htmlDecodeTextarea(message.substr(2).replace(/<br\s*[\/]?>/gi, "\n"))).value + '</code>';
 		}
 		//if no syntax requested then check for links and emoticons
 		else{
@@ -296,10 +296,18 @@ function hideMenu(){
 	$('#chat-menu').hide();
 }
 
-function htmlDecode(html) {
+function htmlDecodeTextarea(html) {
 	var txt = document.createElement("textarea");
 	txt.innerHTML = html;
 	return txt.value;
+}
+
+function htmlEncode(value){
+  return $('<div/>').text(value).html();
+}
+
+function htmlDecode(value){
+  return $('<div/>').html(value).text();
 }
 
 function escapeHtml(unsafe) {
