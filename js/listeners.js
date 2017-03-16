@@ -135,19 +135,19 @@ function isTyping() {
 	var message = $('#message-text-field').html();
 	function loop(){
 	setTimeout(function () {
-        checkTyping(message);
+        message= checkTyping(message);
 		
 		if (true){
 			loop();
 		}
 	//Can change to increase and decrease how often you check if you are typing
-    }, 635);
+    }, 2635);
 	}
 	loop();
 }
 
 function checkTyping(message) {
-        if (message ==($('#message-text-field').html()) && lastStatus ==1){
+        if (message ==($('#message-text-field').html())){
 			sendIsTyping(0);
 			lastStatus=0;
 		}
@@ -158,6 +158,7 @@ function checkTyping(message) {
 				lastStatus=1;
 			}
 		}
+		return $('#message-text-field').html();
 }
 
 //Update chat based on changes in userArray
@@ -540,7 +541,7 @@ messageTextField.keydown(function(e) {
 	if($(':focus').attr('id') != "message-text-field"){
 		messageTextField.focus();
 	}
-	
+	checkTyping("umulig stuff hehehehehehheh");
 	//Post message if Enter is pressed
 	if (isSendingFile && e.keyCode !== 13 && e.keyCode !== 37 && e.keyCode !== 39 && e.keyCode !== 8) {
 		e.preventDefault();

@@ -186,7 +186,7 @@ function checkUserActivity($user) {
 		WHERE id ='$user'");
 	$fiveMinutesAgo = time()-300;
 	setQuery("UPDATE user
-		SET online = '0' 
+		SET online = '0',  is_typing = '0'
 		WHERE last_activity<'$fiveMinutesAgo'");
 }
 
