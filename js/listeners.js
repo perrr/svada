@@ -696,6 +696,11 @@ messageTextField.keydown(function(e) {
 		}
 	}
 	
+	//Select all quotes when pressing ctrl + a
+	else if(e.keyCode == 65 && e.ctrlKey) {
+		$("#message-text-field > .quote").addClass('quote-selected');
+	}
+	
 
 });
 
